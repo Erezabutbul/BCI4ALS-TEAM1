@@ -21,7 +21,8 @@ def main():
     start_time = time.time()
     totalTimeOfTrail = 1 #3.5*60
 
-    file_name = "EEG"
+    date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
+    file_name = f"EEG {date}"
     index = 0
     try:
         while True:
