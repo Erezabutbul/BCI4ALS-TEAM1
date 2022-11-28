@@ -145,7 +145,7 @@ Contributions are what make the open source community such an amazing place to b
 
 Erez abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
 
-Nadav Dvir - [noamsi@post.bgu.ac.il](mailto:noamsi@post.bgu.ac.il)
+Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
 Nofar yarimi - [adinis@post.bgu.ac.il](mailto:adinis@post.bgu.ac.il)
 
@@ -166,7 +166,7 @@ Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/Erezabutbul/BCI4ALS-TEAM1.svg?style=for-the-badge
-[contributors-url]: https://github.com/evyatarluv/BCI-4-ALS/graphs/contributors
+[contributors-url]: https://github.com/Erezabutbul/BCI4ALS-TEAM1/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Erezabutbul/BCI4ALS-TEAM1.svg?style=for-the-badge
 [forks-url]: https://github.com/Erezabutbul/BCI4ALS-TEAM1/network/members
 [stars-shield]: https://img.shields.io/github/stars/Erezabutbul/BCI4ALS-TEAM1.svg?style=for-the-badge
