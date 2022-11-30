@@ -5,20 +5,22 @@ import numpy as np
 from matplotlib.pyplot import figure
 %matplotlib auto
 
+from runExperiment import generated_experiment 
+
 #0 - baseline
 #1- target
 #2 - distractor
 
-interTime = 0.5
-StimOnset = 1
+interTime = 0.2
+StimOnset = 0.7
  
 circle = mpimg.imread("circle.jpg")
 triangle = mpimg.imread("triangle.jpg")
 rectangle = mpimg.imread("rectangle.jpg")
 
-baseline = 
-target = 
-distractor = 
+baseline = rectangle
+target = circle
+distractor = triangle
 
 figure(figsize=(8, 6), dpi=80)
 figManager = plt.get_current_fig_manager()
@@ -29,27 +31,33 @@ plt.axis('off')
 plt.pause(2)
 plt.clf()
 
-
-pos = np.array([2,2,1,2,0,2,1])
-for i in pos:
-    if i == 0:
-        plt.axis('off')
-        plt.imshow(baseline)
-        plt.show()
-        plt.pause(StimOnset)
-        plt.clf()
-        plt.pause(interTime)
-    elif i == 1:
-        plt.axis('off')
-        plt.imshow(target)
-        plt.show()
-        plt.pause(StimOnset)
-        plt.clf()
-        plt.pause(interTime)
-    elif i == 2:
-        plt.axis('off')
-        plt.imshow(distractor)
-        plt.show()
-        plt.pause(StimOnset)
-        plt.clf()
-        plt.pause(interTime)
+targets = ['Circle','Triangle','Circle','Triangle','Circle','Triangle','Circle','Triangle']
+n_blocks = np.size(generated_experiment)
+for n_block in list(range(0, n_blocks)):
+    pos = generated_experiment[n_block]
+    plt.text(0.5,0.5,"Please focus on the {}".format(targets[n_block]),fontsize=50,horizontalalignment='center')
+    plt.axis('off')
+    plt.pause(2)
+    plt.clf()
+    for i in pos:
+        if i == 0:
+            plt.axis('off')
+            plt.imshow(baseline)
+            plt.show()
+            plt.pause(StimOnset)
+            plt.clf()
+            plt.pause(interTime)
+        elif i == 1:
+            plt.axis('off')
+            plt.imshow(target)
+            plt.show()
+            plt.pause(StimOnset)
+            plt.clf()
+            plt.pause(interTime)
+        elif i == 2:
+            plt.axis('off')
+            plt.imshow(distractor)
+            plt.show()
+            plt.pause(StimOnset)
+            plt.clf()
+            plt.pause(interTime)
