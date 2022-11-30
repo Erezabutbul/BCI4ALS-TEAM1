@@ -1,9 +1,10 @@
 """Example program to show how to read a multi-channel time series from LSL."""
 
-from pylsl import StreamInlet, resolve_stream
+from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
 from datetime import datetime
 import time
 import pandas as pd
+import parameters as p
 
 def main():
     # first resolve an EEG stream on the lab network
@@ -24,6 +25,17 @@ def main():
     date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
     file_name = f"EEG {date}"
     index = 0
+
+    # time stamp writing
+    # https://github.com/labstreaminglayer/liblsl-Python/blob/master/pylsl/examples/SendStringMarkers.py
+    shape = "T R C"
+    info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'string', shape)
+    # next make an outlet
+    outlet = StreamOutlet(info)
+    p.stimulusType
+    outlet.push_sample(shape)
+
+
     try:
         while True:
             if time.time() - start_time > totalTimeOfTrail:
