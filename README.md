@@ -147,7 +147,7 @@ Erez abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
 
 Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
-Nofar yarimi - [adinis@post.bgu.ac.il](mailto:adinis@post.bgu.ac.il)
+Nofar yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
 
 Eden or - [edenzo@post.bgu.ac.il](edenzo@post.bgu.ac.il)
 
