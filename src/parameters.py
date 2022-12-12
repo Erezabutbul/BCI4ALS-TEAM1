@@ -1,17 +1,17 @@
 import matplotlib.pyplot as plt
 import numpy as np
 # Experiment parameters
-StimOnset = 1  # (time to present the stimulus)
-interTime = 1  # (time between stimulus)
+StimOnset = 0.7  # (time to present the stimulus)
+interTime = 0.2  # (time between stimulus)
 targets_N = 2  # (number of target stimulus)
 stimulusType = ["square", "triangle",
                 "circle"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
 baseline = stimulusType[0]
-targetAppearances = 20 # (how many time each target will show)
+targetAppearances = 1 # (how many time each target will show)
 target_ratio = 7  # (percentage of the oddball onsets)
 trials_N = targetAppearances * target_ratio  # (number of trials per block)
 
-blocks_N = 8  # (number of blocks)
+blocks_N = 1  # (number of blocks)
 
 # trial_len = int(1 / target_ratio)
 target_image_path = "..\images\logo.png"

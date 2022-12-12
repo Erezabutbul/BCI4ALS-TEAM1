@@ -44,6 +44,8 @@ def generated_trial(target_ratio,targets_N):
 #     print("________________________________________")
 #     print("________________________________________")
 generated_experiment = generateExperiment(p.blocks_N,p.trials_N,p.target_ratio,p.targets_N)
-for i in range(0,len(generated_experiment)):
-    print(generated_experiment[i])
-    print("_________ next block _____________")
+
+
+# for i in range(0,len(generated_experiment)):
+#     print(generated_experiment[i])
+#     print("_________ next block _____________")
