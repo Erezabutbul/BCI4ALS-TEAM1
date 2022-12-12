@@ -145,7 +145,7 @@ Contributions are what make the open source community such an amazing place to b
 
 Erez abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
 
-Nadav Dvir' - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
+Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
 Nofar yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
 
