@@ -10,24 +10,15 @@ import parameters as p
 import time
 import pandas as pd
 import pylsl
-#
+import random
 # from psychoPY
 
-#0 - baseline
-#1- target
-#2 - distractor
-
-
 def showExperiment():
-    interTime = p.interTime # take from parameters
+    interTime = p.interTime  # take from parameters
     StimOnset = p.StimOnset
-    circle = mpimg.imread("circle.jpg")
-    triangle = mpimg.imread("triangle.jpg")
-    rectangle = mpimg.imread("rectangle.jpg")
 
-    baseline = rectangle  # take from parameters
-    target = circle
-    distractor = triangle
+    shapes = p.shapes
+    shapeStrings = p.stimulusType
 
     figure(figsize=(8, 6), dpi=80)
     figManager = plt.get_current_fig_manager()
@@ -37,60 +28,67 @@ def showExperiment():
     plt.axis('off')
     plt.pause(2)
     plt.clf()
+    plt.ion()  # added for correctness
 
-    plt.ion()
+    # will save the time stamps and the shape according to the order of appearance
+    timeStampAndShapes = list()
 
-    targets = ['Circle', 'Triangle', 'Circle', 'Triangle', 'Circle', 'Triangle', 'Circle', 'Triangle']
-    n_blocks = np.size(generated_experiment)
-    for n_block in list(range(0, n_blocks)):
-        pos = generated_experiment[n_block]
-        plt.text(0.5, 0.5, "Please focus on the {}".format(targets[n_block]), fontsize=50, horizontalalignment='center')
+    for indexOfBlock in range(0, p.blocks_N):
+        # get current block
+        currentBlock = generated_experiment[indexOfBlock]
+
+        # generating new order for target,non target,distractor
+        baseline, target, distractor = random.sample(range(0, 3), 3)
+
+        # plot to audience
+        plt.text(0.5, 0.5, "Please focus on the {}".format(shapeStrings[target]), fontsize=50,
+                 horizontalalignment='center')
         plt.axis('off')
         plt.pause(2)
         plt.clf()
 
-        timeStampAndShapes = list()
-        for i in pos:
-            if i == 0:
+        print("___________ starting new block _________________")
+        print("the length of this block is " + str(len(currentBlock)))
+
+        # go through current block
+        for i in currentBlock:
+            curr_data = dict()
+            if i == baseline:
                 plt.axis('off')
-                plt.imshow(baseline)
+                plt.imshow(shapes[baseline])
                 plt.show()
                 # write the timestamp of baseline
-                # timeStampAndShapes.append([time.time(), 0])
-                timeStampAndShapes.append([pylsl.local_clock(), 0])
-                # time.sleep(StimOnset)
+                print("writing baseline and the baseline is " + shapeStrings[baseline])
+                curr_data["time stamp"] = pylsl.local_clock()
+                curr_data["shape"] = shapeStrings[baseline]
+                curr_data["type of stimulus"] = "base line"
                 plt.pause(StimOnset)
                 plt.clf()
-                # time.sleep(interTime)
                 plt.pause(interTime)
-            elif i == 1:
+            elif i == target:
                 plt.axis('off')
-                plt.imshow(target)
+                plt.imshow(shapes[target])
                 plt.show()
-                # write the timestamp of target
-                # timeStampAndShapes.append([time.time(), 1])
-                timeStampAndShapes.append([pylsl.local_clock(), 1])
-                # time.sleep(StimOnset)
+                print("writing target and the target is " + shapeStrings[target])
+                curr_data["time stamp"] = pylsl.local_clock()
+                curr_data["shape"] = shapeStrings[target]
+                curr_data["type of stimulus"] = "target"
                 plt.pause(StimOnset)
                 plt.clf()
-                # time.sleep(interTime)
                 plt.pause(interTime)
-            elif i == 2:
+            elif i == distractor:
                 plt.axis('off')
-                plt.imshow(distractor)
+                plt.imshow(shapes[distractor])
                 plt.show()
                 # write the timestamp of distractor
-                # timeStampAndShapes.append([time.time(), 2])
-                timeStampAndShapes.append([pylsl.local_clock(), 2])
-                # time.sleep(StimOnset)
+                print("writing distractor and the distractor is " + shapeStrings[distractor])
+                curr_data["time stamp"] = pylsl.local_clock()
+                curr_data["shape"] = shapeStrings[distractor]
+                curr_data["type of stimulus"] = "distractor"
                 plt.pause(StimOnset)
                 plt.clf()
-                # time.sleep(interTime)
                 plt.pause(interTime)
-        file = pd.DataFrame(timeStampAndShapes)
-        file.to_csv("listOfMarkers.csv")
+            timeStampAndShapes.append(curr_data)
 
-
-
-
-
+    file = pd.DataFrame(timeStampAndShapes)
+    file.to_csv(p.markers_file_name)
