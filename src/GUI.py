@@ -11,6 +11,7 @@ import time
 import pandas as pd
 import pylsl
 import random
+import keyboard
 
 
 # from psychoPY
@@ -49,9 +50,13 @@ def showExperiment():
         plt.axis('off')
         plt.pause(2)
         plt.clf()
-
+        # keyboard.wait(' ')
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
+        curr_data = dict()
+        curr_data["time stamp"] = pylsl.local_clock()
+        curr_data["description"] = "start of Block number " + str(indexOfBlock)
+        timeStampAndShapes.append(curr_data)
 
         # go through current block
         for i in currentBlock:
@@ -63,8 +68,7 @@ def showExperiment():
                 # write the timestamp of baseline
                 print("writing baseline and the baseline is " + shapeStrings[baseline])
                 curr_data["time stamp"] = pylsl.local_clock()
-                curr_data["shape"] = shapeStrings[baseline]
-                curr_data["type of stimulus"] = "base line"
+                curr_data["description"] = "base line"
                 plt.pause(StimOnset)
                 plt.clf()
                 plt.pause(interTime)
@@ -74,8 +78,7 @@ def showExperiment():
                 plt.show()
                 print("writing target and the target is " + shapeStrings[target])
                 curr_data["time stamp"] = pylsl.local_clock()
-                curr_data["shape"] = shapeStrings[target]
-                curr_data["type of stimulus"] = "target"
+                curr_data["description"] = "target"
                 plt.pause(StimOnset)
                 plt.clf()
                 plt.pause(interTime)
@@ -86,8 +89,7 @@ def showExperiment():
                 # write the timestamp of distractor
                 print("writing distractor and the distractor is " + shapeStrings[distractor])
                 curr_data["time stamp"] = pylsl.local_clock()
-                curr_data["shape"] = shapeStrings[distractor]
-                curr_data["type of stimulus"] = "distractor"
+                curr_data["description"] = "distractor"
                 plt.pause(StimOnset)
                 plt.clf()
                 plt.pause(interTime)
