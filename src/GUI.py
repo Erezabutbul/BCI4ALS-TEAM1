@@ -11,7 +11,10 @@ import time
 import pandas as pd
 import pylsl
 import random
+
+
 # from psychoPY
+
 
 def showExperiment():
     interTime = p.interTime  # take from parameters
@@ -53,7 +56,7 @@ def showExperiment():
         # go through current block
         for i in currentBlock:
             curr_data = dict()
-            if i == baseline:
+            if i == 0:
                 plt.axis('off')
                 plt.imshow(shapes[baseline])
                 plt.show()
@@ -65,7 +68,7 @@ def showExperiment():
                 plt.pause(StimOnset)
                 plt.clf()
                 plt.pause(interTime)
-            elif i == target:
+            elif i == 1:
                 plt.axis('off')
                 plt.imshow(shapes[target])
                 plt.show()
@@ -76,7 +79,7 @@ def showExperiment():
                 plt.pause(StimOnset)
                 plt.clf()
                 plt.pause(interTime)
-            elif i == distractor:
+            elif i == 2:
                 plt.axis('off')
                 plt.imshow(shapes[distractor])
                 plt.show()
@@ -92,3 +95,5 @@ def showExperiment():
 
     file = pd.DataFrame(timeStampAndShapes)
     file.to_csv(p.markers_file_name)
+    plt.close()
+    p.keepRunning = False

@@ -1,10 +1,9 @@
 """Example program to show how to read a multi-channel time series from LSL."""
 import pylsl
-from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
-from datetime import datetime
-import time
+from pylsl import StreamInlet, resolve_stream
 import pandas as pd
 import parameters as p
+
 
 def main():
     # first resolve an EEG stream on the lab network
@@ -17,65 +16,14 @@ def main():
     # create a dict inorder to save the data
     list_res = list()
 
-    # change totalTimeOfTrail to get different time duration of the trail
-    # can always interrupt using ctrl+c
-    start_time = time.time()
-    totalTimeOfExperiment = 4440  # 3.5*60
-
-
     index = 0
 
-    # time stamp writing
-    # https://github.com/labstreaminglayer/liblsl-Python/blob/master/pylsl/examples/SendStringMarkers.py
-    # shape = "T R C"
-    # info = StreamInfo('MyMarkerStream', 'Markers', 1, 0, 'string', shape)
-    # # next make an outlet
-    # outlet = StreamOutlet(info)
-    # p.stimulusType
-    # outlet.push_sample(shape)
-
-    # try:
-    #     while True:
-    #         if time.time() - start_time > totalTimeOfTrail:
-    #             break
-    #         # get a new sample (you can also omit the timestamp part if you're not
-    #         # interested in it)
-    #         data = dict()
-    #         sample, timestamp = inlet.pull_sample()
-    #         t = pylsl.local_clock()
-    #         data["timeStamp"] = t
-    #         # data["timeStamp"] = timestamp
-    #         data["channel 1"] = sample[0]
-    #         data["channel 2"] = sample[1]
-    #         data["channel 3"] = sample[2]
-    #         data["channel 4"] = sample[3]
-    #         data["channel 5"] = sample[4]
-    #         data["channel 6"] = sample[5]
-    #         data["channel 7"] = sample[6]
-    #         data["channel 8"] = sample[7]
-    #         data["channel 9"] = sample[8]
-    #         data["channel 10"] = sample[9]
-    #         data["channel 11"] = sample[10]
-    #         data["channel 12"] = sample[11]
-    #         data["channel 13"] = sample[12]
-    #         data["channel 14"] = sample[13]
-    #         data["channel 15"] = sample[14]
-    #         data["channel 16"] = sample[15]
-    #         index += 1
-    #         list_res.append(data)
-    #
-    #         # print(timestamp, sample)
-    #         # print(timestamp, sample)
-    # except KeyboardInterrupt:
-    #     pass
-
-    while time.time() - start_time <= totalTimeOfExperiment:
+    while p.keepRunning:
         # get a new sample (you can also omit the timestamp part if you're not
         # interested in it)
         data = dict()
         sample, timestamp = inlet.pull_sample()
-        data["timeStamp"] = timestamp
-        # data["timeStamp"] = pylsl.local_clock()
+        data["timeStamp"] = pylsl.local_clock()
         data["channel 1"] = sample[0]
         data["channel 2"] = sample[1]
         data["channel 3"] = sample[2]
@@ -101,3 +49,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
