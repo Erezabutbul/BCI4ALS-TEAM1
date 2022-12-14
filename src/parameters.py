@@ -14,11 +14,10 @@ triangle = mpimg.imread("../images/triangle.jpg")
 square = mpimg.imread("../images/rectangle.jpg")
 shapes = [square, triangle, circle]
 
-targetAppearances = 1 # (how many time each target will show)
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = targetAppearances * target_ratio  # (number of trials per block)
-
-blocks_N = 4  # (number of blocks)
+trials_N = 200 # (number of trials per block)
+blocks_N = 5  # (number of blocks)
+targetAppearances = trials_N/target_ratio # (how many times each target will show)
 
 date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 # EEG_file_name = "output_files/EEG_Recordings/" + f"EEG {date}.csv"
