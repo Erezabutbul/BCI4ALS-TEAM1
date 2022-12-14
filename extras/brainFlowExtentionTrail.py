@@ -26,6 +26,6 @@ data = board.get_board_data()  # get all data and remove it from internal buffer
 board.stop_stream()
 board.release_session()
 # df = pd.DataFrame(EEGData)
-# df.to_csv("generated_data")
+# df.to_csv("generated_data",index=True, index_label="index", encoding="utf_8_sig")
 print(data)
 print()

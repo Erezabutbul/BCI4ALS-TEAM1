@@ -96,6 +96,6 @@ def showExperiment():
             timeStampAndShapes.append(curr_data)
 
     file = pd.DataFrame(timeStampAndShapes)
-    file.to_csv(p.markers_file_name)
+    file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
     plt.close()
     p.keepRunning = False

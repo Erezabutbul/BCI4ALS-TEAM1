@@ -22,8 +22,8 @@ def cut(ms, markers_path, eeg_path, type):
         if curr_type == type:
             start_time = marker[1]
             end_time = start_time + ms
-            while eeg["timeStamp"][eeg_index] < start_time:
-                eeg_index += 1
+            # while eeg["timeStamp"][eeg_index] < start_time:
+            #     eeg_index += 1
             for j, e in eeg.iterrows():
                 if e[1] > end_time:
                     break
@@ -55,7 +55,7 @@ def main():
     # markers_path = "output_files/Marker_Recordings/listOfMarkers 14_12_2022 at 12_30_26_PM"
     # eeg_path = "output_files/EEG_Recordings/EEG 14_12_2022 at 12_30_26_PM"
     markers_path = markers_file_name
-    eeg_path = EEG_file_name
+    eeg_path = Filtered_EEG_file_name
     ms = 0.4
     type = ["baseLine", "target", "distractor"]
     allTrialsBaseLine = cut(ms, markers_path, eeg_path, type[0])
@@ -63,13 +63,13 @@ def main():
     allTrialsDistractor = cut(ms, markers_path, eeg_path, type[2])
 
     file = pd.DataFrame(allTrialsBaseLine)
-    file.to_csv(allTrialsBaseLine_file_name)
+    file.to_csv(allTrialsBaseLine_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
     file = pd.DataFrame(allTrialsTarget)
-    file.to_csv(allTrialsTarget_file_name)
+    file.to_csv(allTrialsTarget_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
     file = pd.DataFrame(allTrialsDistractor)
-    file.to_csv(allTrialsDistractor_file_name)
+    file.to_csv(allTrialsDistractor_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
 
 
