@@ -54,8 +54,8 @@ def showExperiment():
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
         curr_data = dict()
-        curr_data["time stamp"] = pylsl.local_clock()
-        curr_data["description"] = "start of Block number " + str(indexOfBlock)
+        curr_data["timeStamp"] = pylsl.local_clock()
+        curr_data["description"] = "start_of_Block_number " + str(indexOfBlock)
         timeStampAndShapes.append(curr_data)
 
         # go through current block
@@ -67,8 +67,8 @@ def showExperiment():
                 plt.show()
                 # write the timestamp of baseline
                 print("writing baseline and the baseline is " + shapeStrings[baseline])
-                curr_data["time stamp"] = pylsl.local_clock()
-                curr_data["description"] = "base line"
+                curr_data["timeStamp"] = pylsl.local_clock()
+                curr_data["description"] = "baseLine"
                 plt.pause(StimOnset)
                 plt.clf()
                 plt.pause(interTime)
@@ -77,7 +77,7 @@ def showExperiment():
                 plt.imshow(shapes[target])
                 plt.show()
                 print("writing target and the target is " + shapeStrings[target])
-                curr_data["time stamp"] = pylsl.local_clock()
+                curr_data["timeStamp"] = pylsl.local_clock()
                 curr_data["description"] = "target"
                 plt.pause(StimOnset)
                 plt.clf()
@@ -88,7 +88,7 @@ def showExperiment():
                 plt.show()
                 # write the timestamp of distractor
                 print("writing distractor and the distractor is " + shapeStrings[distractor])
-                curr_data["time stamp"] = pylsl.local_clock()
+                curr_data["timeStamp"] = pylsl.local_clock()
                 curr_data["description"] = "distractor"
                 plt.pause(StimOnset)
                 plt.clf()
