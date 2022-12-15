@@ -19,6 +19,7 @@ def main():
     index = 0
 
     while p.keepRunning:
+        # print(p.keepRunning)
         # get a new sample (you can also omit the timestamp part if you're not
         # interested in it)
         data = dict()
@@ -44,7 +45,7 @@ def main():
         list_res.append(data)
 
     file = pd.DataFrame(list_res)
-    file.to_csv(p.EEG_file_name)
+    file.to_csv(p.EEG_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
 
 if __name__ == '__main__':
