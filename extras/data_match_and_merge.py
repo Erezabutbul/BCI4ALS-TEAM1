@@ -7,10 +7,9 @@ from parameters import *
 # this raw has all the data according to this occurrence
 # number of raws is the number of occurrences of "type"
 
-def cut(ms, markers_path, eeg_path, type):
+def cut(durationBeforeStimuli,durationAfterStimuli, markers_path, eeg_path, type):
     markers = pd.read_csv(markers_path)
     eeg = pd.read_csv(eeg_path)
-    eeg_index = 0
     allTrials = list()
 
     for index, marker in markers.iterrows():
@@ -20,10 +19,11 @@ def cut(ms, markers_path, eeg_path, type):
         # marker[2] - the type of the marker
         curr_type = marker[2]
         if curr_type == type:
-            start_time = marker[1]
-            end_time = start_time + ms
-            # while eeg["timeStamp"][eeg_index] < start_time:
-            #     eeg_index += 1
+            if marker[1] - durationBeforeStimuli >= 0:
+                start_time = marker[1] - durationBeforeStimuli
+            else:
+                start_time = 0
+            end_time = marker[1] + durationAfterStimuli
             for j, e in eeg.iterrows():
                 if e[1] > end_time:
                     break
@@ -56,11 +56,12 @@ def main():
     # eeg_path = "output_files/EEG_Recordings/EEG 14_12_2022 at 12_30_26_PM"
     markers_path = markers_file_name
     eeg_path = Filtered_EEG_file_name
-    ms = 0.4
+    durationAfterStimuli = 0.4
+    durationBeforeStimuli = 0.2
     type = ["baseLine", "target", "distractor"]
-    allTrialsBaseLine = cut(ms, markers_path, eeg_path, type[0])
-    allTrialsTarget = cut(ms, markers_path, eeg_path, type[1])
-    allTrialsDistractor = cut(ms, markers_path, eeg_path, type[2])
+    allTrialsBaseLine = cut(durationBeforeStimuli,durationAfterStimuli, markers_path, eeg_path, type[0])
+    allTrialsTarget = cut(durationBeforeStimuli,durationAfterStimuli, markers_path, eeg_path, type[1])
+    allTrialsDistractor = cut(durationBeforeStimuli,durationAfterStimuli, markers_path, eeg_path, type[2])
 
     file = pd.DataFrame(allTrialsBaseLine)
     file.to_csv(allTrialsBaseLine_file_name, index=True, index_label="index", encoding="utf_8_sig")

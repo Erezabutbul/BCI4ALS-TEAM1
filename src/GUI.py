@@ -1,9 +1,6 @@
-from matplotlib import pyplot as plt
-from matplotlib import image as mpimg
+from psychopy import visual, core
 import numpy as np
 import pylsl
-from matplotlib.pyplot import figure
-# %matplotlib auto
 import lsl_Record_data
 from runExperiment import generated_experiment
 import parameters as p
@@ -14,7 +11,7 @@ import random
 import keyboard
 
 
-# from psychoPY
+
 
 
 def showExperiment():
@@ -24,15 +21,12 @@ def showExperiment():
     shapes = p.shapes
     shapeStrings = p.stimulusType
 
-    figure(figsize=(8, 6), dpi=80)
-    figManager = plt.get_current_fig_manager()
-    figManager.window.showMaximized()
-
-    plt.text(0.5, 0.5, "Welcome", fontsize=50, horizontalalignment='center')
-    plt.axis('off')
-    plt.pause(2)
-    plt.clf()
-    plt.ion()  # added for correctness
+    win = visual.Window(fullscr=True)
+    # win = visual.Window([400,400]) in case we want a window of given size
+    message = visual.TextStim(win, text='Welcome')
+    message.draw()
+    win.flip()
+    core.wait(2.0)
 
     # will save the time stamps and the shape according to the order of appearance
     timeStampAndShapes = list()
@@ -45,11 +39,10 @@ def showExperiment():
         baseline, target, distractor = random.sample(range(0, 3), 3)
 
         # plot to audience
-        plt.text(0.5, 0.5, "Please focus on the {}".format(shapeStrings[target]), fontsize=50,
-                 horizontalalignment='center')
-        plt.axis('off')
-        plt.pause(2)
-        plt.clf()
+        message.text = "Please focus on the {}".format(shapeStrings[target])  # Change properties of existing stim
+        message.draw()
+        win.flip()
+        core.wait(2.0)
         # keyboard.wait(' ')
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
@@ -62,40 +55,43 @@ def showExperiment():
         for i in currentBlock:
             curr_data = dict()
             if i == 0:
-                plt.axis('off')
-                plt.imshow(shapes[baseline])
-                plt.show()
+                shape_image = visual.ImageStim(win, image=shapes[baseline])
+                shape_image.draw()
+                win.flip()
                 # write the timestamp of baseline
                 print("writing baseline and the baseline is " + shapeStrings[baseline])
                 curr_data["timeStamp"] = pylsl.local_clock()
                 curr_data["description"] = "baseLine"
-                plt.pause(StimOnset)
-                plt.clf()
-                plt.pause(interTime)
+                core.wait(StimOnset)
+                message.text = " "
+                win.flip()
+                core.wait(StimOnset)
             elif i == 1:
-                plt.axis('off')
-                plt.imshow(shapes[target])
-                plt.show()
+                shape_image = visual.ImageStim(win, image=shapes[target])
+                shape_image.draw()
+                win.flip()
+                # write the timestamp of target
                 print("writing target and the target is " + shapeStrings[target])
                 curr_data["timeStamp"] = pylsl.local_clock()
                 curr_data["description"] = "target"
-                plt.pause(StimOnset)
-                plt.clf()
-                plt.pause(interTime)
+                core.wait(StimOnset)
+                message.text = " "
+                win.flip()
+                core.wait(StimOnset)
             elif i == 2:
-                plt.axis('off')
-                plt.imshow(shapes[distractor])
-                plt.show()
+                shape_image = visual.ImageStim(win, image=shapes[distractor])
+                shape_image.draw()
+                win.flip()
                 # write the timestamp of distractor
                 print("writing distractor and the distractor is " + shapeStrings[distractor])
                 curr_data["timeStamp"] = pylsl.local_clock()
                 curr_data["description"] = "distractor"
-                plt.pause(StimOnset)
-                plt.clf()
-                plt.pause(interTime)
+                core.wait(StimOnset)
+                message.text = " "
+                win.flip()
+                core.wait(StimOnset)
             timeStampAndShapes.append(curr_data)
 
     file = pd.DataFrame(timeStampAndShapes)
     file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
-    plt.close()
     p.keepRunning = False

@@ -1,8 +1,6 @@
-import time
-
 import lsl_Record_data
 import GUI
-import data_match_and_merge
+from extras import data_match_and_merge
 from threading import Thread
 
 

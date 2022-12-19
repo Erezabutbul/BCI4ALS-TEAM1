@@ -9,14 +9,16 @@ targets_N = 2  # (number of target stimulus)
 # Define stimulus types and load data
 stimulusType = ["square", "triangle",
                 "circle"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
-circle = mpimg.imread("../images/circle.jpg")
-triangle = mpimg.imread("../images/triangle.jpg")
-square = mpimg.imread("../images/rectangle.jpg")
-shapes = [square, triangle, circle]
+
+path_to_image_circle = "../images/circle.jpg"
+path_to_image_triangle = "../images/triangle.jpg"
+path_to_image_rectangle = "../images/rectangle.jpg"
+shapes = [path_to_image_circle, path_to_image_triangle, path_to_image_rectangle]
+
 
 target_ratio = 7  # (percentage of the oddball onsets)
 trials_N = 200  # (number of trials per block)
-blocks_N = 5  # (number of blocks)
+blocks_N = 1  # (number of blocks)
 targetAppearances = trials_N/target_ratio # (number of times target appear per block)
 
 
@@ -32,9 +34,9 @@ Filtered_EEG_file_name = "output_files/filtered_EEG_Recordings/" + f"Filtered_EE
 # allTrialsBaseLine_file_name = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_{date}.csv"
 # allTrialsTarget_file_name = "output_files/cut_data_by_class/target/" + f"classTarget_{date}.csv"
 # allTrialsDistractor_file_name = "output_files/cut_data_by_class/distractor/" + f"classDistractor_{date}.csv"
-allTrialsBaseLine_file_name = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_test.csv"
-allTrialsTarget_file_name = "output_files/cut_data_by_class/target/" + f"classTarget_test.csv"
-allTrialsDistractor_file_name = "output_files/cut_data_by_class/distractor/" + f"classDistractor_test.csv"
+allTrialsBaseLine_file_name = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_testGPT.csv"
+allTrialsTarget_file_name = "output_files/cut_data_by_class/target/" + f"classTarget_test1GPT.csv"
+allTrialsDistractor_file_name = "output_files/cut_data_by_class/distractor/" + f"classDistractor_test1GPT.csv"
 
 global keepRunning
 keepRunning = True
