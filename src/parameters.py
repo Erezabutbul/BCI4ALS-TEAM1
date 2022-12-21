@@ -1,5 +1,5 @@
-from matplotlib import image as mpimg
 from datetime import datetime
+
 
 # Experiment parameters
 StimOnset = 0.7  # (time to present the stimulus)
@@ -9,10 +9,11 @@ targets_N = 2  # (number of target stimulus)
 # Define stimulus types and load data
 stimulusType = ["square", "triangle",
                 "circle"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
-circle = mpimg.imread("../images/circle.jpg")
-triangle = mpimg.imread("../images/triangle.jpg")
-square = mpimg.imread("../images/rectangle.jpg")
-shapes = [square, triangle, circle]
+
+path_to_image_circle = "../images/circle.jpg"
+path_to_image_triangle = "../images/triangle.jpg"
+path_to_image_rectangle = "../images/rectangle.jpg"
+shapes = [path_to_image_circle, path_to_image_triangle, path_to_image_rectangle]
 
 targetAppearances = 1 # (how many time each target will show)
 target_ratio = 7  # (percentage of the oddball onsets)
