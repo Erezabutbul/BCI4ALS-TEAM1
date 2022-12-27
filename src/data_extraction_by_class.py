@@ -1,10 +1,12 @@
 import pandas as pd
 from parameters import *
+import os
+from datetime import datetime
 
 
-def cut(durationBeforeStimuli, durationAfterStimuli, markers_path, eeg_path, marker_type):
-    markers = pd.read_csv(markers_path)
-    eeg = pd.read_csv(eeg_path)
+def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile, marker_type):
+    markers = pd.read_csv(currentMarkerFile)
+    eeg = pd.read_csv(currentEEGFile)
     allTrial = list()
     for index, marker in markers.iterrows():
         curr_type = marker[2]
@@ -21,22 +23,24 @@ def cut(durationBeforeStimuli, durationAfterStimuli, markers_path, eeg_path, mar
                 (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
                 ["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]
             ].to_dict("records")
+            # if len(trial_data) == numOfsamplesToCut:
             allTrial.append(trial_data)
     return allTrial
 
 
 def main():
-    markers_path = markers_file_name
+    # currentMarkerFile = markers_folder_path + getTheMostUpdatedFile(markers_folder_path)
     # TODO - make sure you change to filtered after all the BALAGAN
-    eeg_path = EEG_file_name
-    durationAfterStimuli = 0.4
-    durationBeforeStimuli = 0.2
-    marker_types = ["baseLine", "target", "distractor"]
+    # currentEEGFile = EEG_folder_path + getTheMostUpdatedFile(EEG_folder_path)
+
+    currentMarkerFile = markers_file_name_FORTEST
+    currentEEGFile = EEG_file_name_FORTEST
 
     for marker_type in marker_types:
-        allTrialOfType = cut(durationBeforeStimuli, durationAfterStimuli, markers_path, eeg_path, marker_type)
+        allTrialOfType = cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile,
+                             marker_type)
         df = pd.DataFrame(allTrialOfType)
-        df.to_csv(f"output_files/cut_data_by_class/{marker_type}/" + f"class_{marker_type}_after_tests.csv", index=True,
+        df.to_csv(f"output_files/cut_data_by_class/{marker_type}/" + f"class_{marker_type}_{date}.csv", index=True,
                   index_label="index", encoding="utf_8_sig")
 
 

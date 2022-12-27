@@ -6,6 +6,8 @@ from parameters import *
 # the format is : each raw represents a specific occurrence of "type"
 # this raw has all the data according to this occurrence
 # number of raws is the number of occurrences of "type"
+from src.parameters import markers_file_name
+
 
 def cut(durationBeforeStimuli,durationAfterStimuli, markers_path, eeg_path, type):
     markers = pd.read_csv(markers_path)

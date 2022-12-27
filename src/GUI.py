@@ -1,35 +1,44 @@
-from psychopy import visual, core
-import numpy as np
-import pylsl
-import lsl_Record_data
+import sys
+
+from psychopy import logging, core, visual
 from runExperiment import generated_experiment
 import parameters as p
-import time
-import pandas as pd
 import pylsl
 import random
 import keyboard
+from shutil import move
 
 
-
+class Timer:
+    def getTime(self):
+        return pylsl.local_clock()
 
 
 def showExperiment():
+    # fileName = p.markers_file_name_psychopy
+
     interTime = p.interTime  # take from parameters
     StimOnset = p.StimOnset
 
     shapes = p.shapes
     shapeStrings = p.stimulusType
 
-    win = visual.Window(fullscr=True)
-    # win = visual.Window([400,400]) in case we want a window of given size
-    message = visual.TextStim(win, text='Welcome')
+    win = visual.Window(fullscr=True, autoLog=False)
+
+    # Set up the logger
+    fileName = p.markers_psycho_file_name
+    logfile = open(fileName, 'w')
+    log = logging.LogFile(fileName, level=logging.EXP, filemode='w')
+    studyClock = Timer()
+    logging.setDefaultClock(studyClock)  # this is the logger
+
+    win.logOnFlip(level=logging.EXP, msg="START")
+    win.flip()
+    # win = visual.Window([400, 400], autoLog=False)  # in case we want a window of given size
+    message = visual.TextStim(win, text='Welcome', autoLog=False)
     message.draw()
     win.flip()
-    core.wait(2.0)
-
-    # will save the time stamps and the shape according to the order of appearance
-    timeStampAndShapes = list()
+    core.wait(interTime)
 
     for indexOfBlock in range(0, p.blocks_N):
         # get current block
@@ -42,56 +51,60 @@ def showExperiment():
         message.text = "Please focus on the {}".format(shapeStrings[target])  # Change properties of existing stim
         message.draw()
         win.flip()
-        core.wait(2.0)
-        # keyboard.wait(' ')
+        core.wait(interTime)
+        keyboard.wait(' ')
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
-        curr_data = dict()
-        curr_data["timeStamp"] = pylsl.local_clock()
-        curr_data["description"] = "start_of_Block_number " + str(indexOfBlock)
-        timeStampAndShapes.append(curr_data)
 
+        win.logOnFlip(level=logging.EXP, msg="startBlock")  # here we are logging the time
+        win.flip()
         # go through current block
         for i in currentBlock:
-            curr_data = dict()
             if i == 0:
-                shape_image = visual.ImageStim(win, image=shapes[baseline])
+                shape_image = visual.ImageStim(win, image=shapes[baseline], autoLog=False)
                 shape_image.draw()
+                win.logOnFlip(level=logging.EXP, msg="baseLine")  # here we are logging the time
                 win.flip()
                 # write the timestamp of baseline
                 print("writing baseline and the baseline is " + shapeStrings[baseline])
-                curr_data["timeStamp"] = pylsl.local_clock()
-                curr_data["description"] = "baseLine"
                 core.wait(StimOnset)
-                message.text = " "
                 win.flip()
                 core.wait(StimOnset)
             elif i == 1:
-                shape_image = visual.ImageStim(win, image=shapes[target])
+                shape_image = visual.ImageStim(win, image=shapes[target], autoLog=False)
                 shape_image.draw()
+                win.logOnFlip(level=logging.EXP, msg="target")  # here we are logging the time
                 win.flip()
                 # write the timestamp of target
                 print("writing target and the target is " + shapeStrings[target])
-                curr_data["timeStamp"] = pylsl.local_clock()
-                curr_data["description"] = "target"
                 core.wait(StimOnset)
-                message.text = " "
                 win.flip()
                 core.wait(StimOnset)
             elif i == 2:
-                shape_image = visual.ImageStim(win, image=shapes[distractor])
+                shape_image = visual.ImageStim(win, image=shapes[distractor], autoLog=False)
                 shape_image.draw()
+                win.logOnFlip(level=logging.EXP, msg="distractor")  # here we are logging the time
                 win.flip()
                 # write the timestamp of distractor
                 print("writing distractor and the distractor is " + shapeStrings[distractor])
-                curr_data["timeStamp"] = pylsl.local_clock()
-                curr_data["description"] = "distractor"
                 core.wait(StimOnset)
-                message.text = " "
                 win.flip()
                 core.wait(StimOnset)
-            timeStampAndShapes.append(curr_data)
 
-    file = pd.DataFrame(timeStampAndShapes)
-    file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
+    logging.flush()
+    logfile.close()
+    outDir = p.markers_psycho_folder_path
+    # core.wait(2)
+    win.close()
+    core.quit()
+
+
+
+    move(fileName, outDir + '/' + fileName)
     p.keepRunning = False
+    # file = pd.DataFrame(timeStampAndShapes)
+    # file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
+
+
+# if __name__ == '__main__':
+showExperiment()
