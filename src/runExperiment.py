@@ -32,12 +32,13 @@ def generateBlock():
 
     for i in range(trials_N):
         r = random.randint(1,trials_N)
-        if 1<=r<=targets_N:
+        if 1<=r<=targetAppearances:
             block.append(1)
-        elif targets_N<r<=2*targets_N:
+            t=t+1
+        elif targetAppearances<r<=2*targetAppearances:
             block.append(2)
         else:
-            block.append(0)
+            block.append(0) 
     return block
 
 
@@ -58,7 +59,7 @@ def generated_trial():
 #     print("________________________________________")
 generated_experiment = generateExperiment()
 
-# for i in range(0,len(generated_experiment)):
-#     print(generated_experiment[i])
-#     print("_________ next block _____________")
+for i in range(0,len(generated_experiment)):
+    print(generated_experiment[i])
+    print("_________ next block _____________")
 

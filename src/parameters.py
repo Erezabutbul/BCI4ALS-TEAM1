@@ -1,9 +1,10 @@
 from matplotlib import image as mpimg
 from datetime import datetime
-
+import os
+import time
 # Experiment parameters
 StimOnset = 0.7  # (time to present the stimulus)
-interTime = 0.2  # (time between stimulus)
+interTime = 0.35  # (time between stimulus)
 targets_N = 2  # (number of target stimulus)
 
 # Define stimulus types and load data
@@ -15,8 +16,8 @@ square = mpimg.imread("../images/rectangle.jpg")
 shapes = [square, triangle, circle]
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 200  # (number of trials per block)
-blocks_N = 5  # (number of blocks)
+trials_N = 70  # (number of trials per block)
+blocks_N = 3  # (number of blocks)
 targetAppearances = trials_N/target_ratio # (number of times target appear per block)
 
 
@@ -35,6 +36,7 @@ Filtered_EEG_file_name = "output_files/filtered_EEG_Recordings/" + f"Filtered_EE
 allTrialsBaseLine_file_name = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_test.csv"
 allTrialsTarget_file_name = "output_files/cut_data_by_class/target/" + f"classTarget_test.csv"
 allTrialsDistractor_file_name = "output_files/cut_data_by_class/distractor/" + f"classDistractor_test.csv"
+allArrangedMarkers_file_name = "output_files/ArrangedMarkersPsycho/" + f"Markers_Arranged_test.csv"
 
 global keepRunning
 keepRunning = True

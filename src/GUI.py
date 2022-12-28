@@ -12,6 +12,7 @@ import pandas as pd
 import pylsl
 import random
 import keyboard
+import tkinter
 
 
 # from psychoPY
@@ -26,7 +27,7 @@ def showExperiment():
 
     figure(figsize=(8, 6), dpi=80)
     figManager = plt.get_current_fig_manager()
-    figManager.window.showMaximized()
+    # figManager.window.showMaximized()
 
     plt.text(0.5, 0.5, "Welcome", fontsize=50, horizontalalignment='center')
     plt.axis('off')
