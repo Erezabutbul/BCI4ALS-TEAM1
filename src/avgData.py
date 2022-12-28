@@ -2,7 +2,10 @@ import pandas as pd
 import ast
 from parameters import *
 import os
+<<<<<<< HEAD
 from convertSample import main as convert_blocks_main
+=======
+>>>>>>> 5af68f5 (erez's version)
 
 # ORIGINAL
 # def meanCol(df, colNum, numOfRows):
@@ -21,6 +24,7 @@ from convertSample import main as convert_blocks_main
 #     for key in meanDict:
 #         meanDict[key] = meanDict[key] / numOfRows
 #     return meanDict
+<<<<<<< HEAD
 def meanAll(df, colNum, numOfRows):
     numOfRows = len(df)
     meanDict = {}
@@ -33,6 +37,8 @@ def meanAll(df, colNum, numOfRows):
         meanDict[key] = meanDict[key] / numOfRows
     return meanDict
 
+=======
+>>>>>>> 5af68f5 (erez's version)
 
 def meanCol(df, colNum, startRow, endRow):
     numOfRows = len(df)
@@ -78,6 +84,7 @@ def meanByBlock(df):
     return listOfBlock
 
 
+<<<<<<< HEAD
 def main(exp_path):
     for marker_type in marker_types:
         if marker_type == "distractor":
@@ -122,6 +129,29 @@ def main(exp_path):
 
 
 
+=======
+def main():
+    for marker_type in marker_types:
+        if marker_type == "distractor":
+            df = pd.read_csv(
+                "output_files/cut_data_by_class/distractor/" + "class_distractor_28_12_2022 at 12_59_52_PM.csv")
+        elif marker_type == "target":
+            df = pd.read_csv("output_files/cut_data_by_class/target/" + "class_target_28_12_2022 at 12_59_52_PM.csv")
+        else:
+            df = pd.read_csv(
+                "output_files/cut_data_by_class/baseLine/" + "class_baseLine_28_12_2022 at 12_59_52_PM.csv")
+        # removing indexes
+        # cut the index column, and
+        # according to the number of samples that supposed to see in the current sampling rate
+        df = df.iloc[:, 1:(numOfsamplesToCut + 1)]
+
+        outputDf = pd.DataFrame(meanByBlock(df))
+
+        outputDf.to_csv(
+            f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}/" + f"{marker_type}_AVG_by_blocks.csv",
+            index=True, index_label="index", encoding="utf_8_sig")
+
+>>>>>>> 5af68f5 (erez's version)
 
 # print(meanCol(df, 1))
 #         outDir = os.path.abspath(f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}/")

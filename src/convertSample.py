@@ -5,6 +5,10 @@ from parameters import *
 
 
 def getCol(curDf, colNum, row):
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5af68f5 (erez's version)
     currDict = curDf.loc[row][colNum]
     # this condition blocks the 'nan' value in the df,
     # for some reason they show up as type 'float'
@@ -13,6 +17,7 @@ def getCol(curDf, colNum, row):
         currDict = ast.literal_eval(currDict)
     return currDict
 
+<<<<<<< HEAD
 # input: load recording file of the experiment
 # output: create file for each block in the experiment,
 #         in the format that can be sampled to feature extraction ect
@@ -44,3 +49,28 @@ def main(exp_path):
 
 if __name__ == '__main__':
     main()
+=======
+# read file
+df = pd.read_csv(
+    "output_files/cut_data_by_class/baseLine/" + "Mean_EEG_Signal_baseLinebaseLine_AVG_by_blocks.csv")
+df = df.iloc[:, 1:]
+numOfCol = df.shape[1]
+numOfRows = df.shape[0]
+# Select the block you want to see
+# the block is represented as a row in the mean signal file file
+block = 1
+
+# Create a output dataframe
+outputDf = pd.DataFrame()
+
+
+for col in range(numOfCol):
+    outputDf[col] = getCol(df, col, block)
+
+# remove the index and the timestamps
+# because we mean it would be the same value for all
+outputDf = outputDf.iloc[2:, :]
+
+# save the file / show it
+outputDf.to_csv("output_files/cut_data_by_class/baseLine/" + f"AVG_block_num_{block}.csv")
+>>>>>>> 5af68f5 (erez's version)

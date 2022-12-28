@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import os
+=======
+"""Example program to show how to read a multi-channel time series from LSL."""
+import time
+
+>>>>>>> 5af68f5 (erez's version)
 import pylsl
 from pylsl import StreamInlet, resolve_stream, resolve_bypred
 import pandas as pd
@@ -16,6 +22,7 @@ def main(exp_path, keepRunning):
     list_res = list()
 
     index = 0
+<<<<<<< HEAD
 
     while keepRunning.value:
 
@@ -42,6 +49,35 @@ def main(exp_path, keepRunning):
         data["channel_16"] = sample[15]
         index += 1
         list_res.append(data)
+=======
+    try:
+        while p.keepRunning:
+            # get a new sample (you can also omit the timestamp part if you're not
+            # interested in it)
+            data = dict()
+            sample, timestamp = inlet.pull_sample()
+            data["timeStamp"] = pylsl.local_clock()
+            data["channel_1"] = sample[0]
+            data["channel_2"] = sample[1]
+            data["channel_3"] = sample[2]
+            data["channel_4"] = sample[3]
+            data["channel_5"] = sample[4]
+            data["channel_6"] = sample[5]
+            data["channel_7"] = sample[6]
+            data["channel_8"] = sample[7]
+            data["channel_9"] = sample[8]
+            data["channel_10"] = sample[9]
+            data["channel_11"] = sample[10]
+            data["channel_12"] = sample[11]
+            data["channel_13"] = sample[12]
+            data["channel_14"] = sample[13]
+            data["channel_15"] = sample[14]
+            data["channel_16"] = sample[15]
+            index += 1
+            list_res.append(data)
+    except KeyboardInterrupt:
+        p.keepRunning = False
+>>>>>>> 5af68f5 (erez's version)
 
 
     ###########################################################
