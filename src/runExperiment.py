@@ -28,17 +28,17 @@ def generateExperiment():
 ####### ****NEW**** Generate Block
 # does not provide baseline after target or distractor
 def generateBlock():
-    block=list()
+    block = list()
 
     for i in range(trials_N):
-        r = random.randint(1,trials_N)
-        if 1<=r<=targetAppearances:
+        r = random.randint(1, trials_N)
+        if 1 <= r <= targetAppearances:
             block.append(1)
-            t=t+1
-        elif targetAppearances<r<=2*targetAppearances:
+            t = t + 1
+        elif targetAppearances < r <= 2 * targetAppearances:
             block.append(2)
         else:
-            block.append(0) 
+            block.append(0)
     return block
 
 
@@ -59,7 +59,6 @@ def generated_trial():
 #     print("________________________________________")
 generated_experiment = generateExperiment()
 
-for i in range(0,len(generated_experiment)):
-    print(generated_experiment[i])
-    print("_________ next block _____________")
-
+# for i in range(0,len(generated_experiment)):
+#     print(generated_experiment[i])
+#     print("_________ next block _____________")
