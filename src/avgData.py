@@ -1,35 +1,35 @@
 import pandas as pd
-import numpy as np
 import ast
-
-from numpy import float_
-
 from parameters import *
+import os
 
-
-# my function
-# def meanCol(df, colNum):
-#     listOfsamples = list()
+# ORIGINAL
+# def meanCol(df, colNum, numOfRows):
 #     numOfRows = len(df)
-#     meanDict = ast.literal_eval(df.iloc[0, colNum])
-#     for i in range(1, numOfRows):
-#         currDict = ast.literal_eval(df.iloc[i, colNum])
-#         for key in meanDict:
-#             meanDict[key] = meanDict[key] + currDict[key]
+#     meanDict = {}
+#     for i in range(numOfRows):
+#         currDict = df.loc[i][colNum]
+#         # this condition blocks the 'nan' value in the df,
+#         # for some reason they show up as type 'float'
+#         # and later give problems to "ast.literal_eval"
+#         if type(currDict) != float and currDict not in (None, 'nan') and type(currDict) != float_:
+#             currDict = ast.literal_eval(currDict)
+#             for key, value in currDict.items():
+#                 meanDict[key] = meanDict.get(key, 0) + value
+#
 #     for key in meanDict:
 #         meanDict[key] = meanDict[key] / numOfRows
 #     return meanDict
 
-# chat gtp function
-def meanCol(df, colNum):
+def meanCol(df, colNum, startRow, endRow):
     numOfRows = len(df)
     meanDict = {}
-    for i in range(numOfRows):
+    for i in range(startRow, endRow):
         currDict = df.loc[i][colNum]
         # this condition blocks the 'nan' value in the df,
         # for some reason they show up as type 'float'
         # and later give problems to "ast.literal_eval"
-        if type(currDict) != float and currDict not in (None, 'nan') and type(currDict) != float_:
+        if type(currDict) != float and currDict not in (None, 'nan'):
             currDict = ast.literal_eval(currDict)
             for key, value in currDict.items():
                 meanDict[key] = meanDict.get(key, 0) + value
@@ -39,45 +39,60 @@ def meanCol(df, colNum):
     return meanDict
 
 
+def meanByBlock(df):
+    # Find the indices of the rows containing the startBlock markers
+    start_block_indices = df.index[df['0'] == 'startBlock'].tolist()
+    # List that will contain the mean values per block
+    listOfBlock = list()
+    # Iterate over the list of start block indices
+    for i in range(len(start_block_indices)):
+        listOfCols = list()
+        # Slice the dataframe from the current start block index to the next start block index
+        if i < len(start_block_indices) - 1:
+            startRow = start_block_indices[i] + 1
+            endRow = start_block_indices[i + 1]
+        else:
+            startRow = start_block_indices[len(start_block_indices) - 1] + 1
+            endRow = df.shape[0]
 
+        sliced_df = df.iloc[startRow:endRow, :]
+        if not sliced_df.empty:
+            for col in range(sliced_df.shape[1]):
+                col_means = meanCol(sliced_df, col, startRow, endRow)
+                listOfCols.append(col_means)
+            listOfBlock.append(listOfCols)
 
-
+    return listOfBlock
 
 
 def main():
     for marker_type in marker_types:
-        # df = pd.read_csv(getTheMostUpdatedFile(f"output_files/cut_data_by_class/{marker_type}/"))
-        # if marker_type == "distractor":
-        #     df = pd.read_csv("output_files/cut_data_by_class/distractor/" +"class_distractor_21_12_2022 at 06_50_22_PM______DATAFROMNADAV.csv")
-        # elif marker_type == "target":
-        #     df = pd.read_csv("output_files/cut_data_by_class/target/" +"class_target_21_12_2022 at 06_50_22_PM______DATAFROMNADAV.csv")
-        # else:
-        #     df = pd.read_csv("output_files/cut_data_by_class/baseLine/" +"class_baseLine_21_12_2022 at 06_50_22_PM______DATAFROMNADAV.csv")
-            # removing indexes
-        df = pd.read_csv(
-        "output_files/cut_data_by_class/target/" + "class_target_27_12_2022 at 01_03_32_PM_ErezFirstRecord.csv")
+        if marker_type == "distractor":
+            df = pd.read_csv(
+                "output_files/cut_data_by_class/distractor/" + "class_distractor_28_12_2022 at 12_59_52_PM.csv")
+        elif marker_type == "target":
+            df = pd.read_csv("output_files/cut_data_by_class/target/" + "class_target_28_12_2022 at 12_59_52_PM.csv")
+        else:
+            df = pd.read_csv(
+                "output_files/cut_data_by_class/baseLine/" + "class_baseLine_28_12_2022 at 12_59_52_PM.csv")
+        # removing indexes
         # cut the index column, and
         # according to the number of samples that supposed to see in the current sampling rate
         df = df.iloc[:, 1:(numOfsamplesToCut + 1)]
-        numOfCol = df.shape[1]
-        outputDf = pd.DataFrame()
-        # print(numOfCol)
-        for col in range(numOfCol):
-            # Convert the dictionary to a Pandas series
-            # print(meanCol(df, col))
-            # print(meanCol(df, col)['channel_5'] - meanCol(df, col+1)['channel_5'])
-            # print("_____________________________ new mean col ______________________________________________")
-            # series = pd.Series(meanCol(df, col))
-            # outputDf[col] = series
-            outputDf[col] = meanCol(df, col)
-            # pd.concat(outputDf[col], meanCol(df, col))
 
-        # remove the index and timeStamp on the current dataframe
-        outputDf.to_csv(f"output_files/cut_data_by_class/target/Mean_EEG_Signal_" + f"class_target_27_12_2022 at 01_03_32_PM_ErezFirstRecordMEANED.csv.csv",index=True,index_label="index", encoding="utf_8_sig")
-        # outputDf.to_csv(f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}{mean_EEG_file_name}" + f"{marker_type}.csv",index=True,index_label="index", encoding="utf_8_sig")
+        outputDf = pd.DataFrame(meanByBlock(df))
 
-    # print(meanCol(df, 1))
+        outputDf.to_csv(
+            f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}/" + f"{marker_type}_AVG_by_blocks.csv",
+            index=True, index_label="index", encoding="utf_8_sig")
 
+
+# print(meanCol(df, 1))
+#         outDir = os.path.abspath(f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}/")
+#
+#         # Save the DataFrame to a CSV file in the output directory
+#         outputDf.to_csv(outDir + f"{marker_type}_AVG_by_blocks.csv", index=True,
+#                         index_label="index", encoding="utf_8_sig")
 
 if __name__ == '__main__':
     main()
@@ -88,6 +103,8 @@ if __name__ == '__main__':
 # import ast
 #
 #
+# for col in range(numOfCol):
+#     outputDf[col] = meanCol(df, col)
 #
 # # go through all the conditions
 #

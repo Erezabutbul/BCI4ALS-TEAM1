@@ -26,4 +26,4 @@ markers_Arranged = {
 }
 
 file = pd.DataFrame(markers_Arranged)
-file.to_csv(markers_folder_path + "listOfMarkers_26_12_2022 at 05_28_33_PM_ErezFirstRecord_FIXED.csv", index=True, index_label="index", encoding="utf_8_sig")
+file.to_csv(markers_psycho_folder_path + f"{date}_Fixed.csv", index=True, index_label="index", encoding="utf_8_sig")

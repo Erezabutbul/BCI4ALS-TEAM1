@@ -10,6 +10,7 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
     allTrial = list()
     for index, marker in markers.iterrows():
         curr_type = marker[2]
+
         if curr_type in marker_type:
             # setting time for beginning of sample
             if marker[1] - durationBeforeStimuli >= 0:
@@ -23,8 +24,10 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
                 (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
                 ["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]
             ].to_dict("records")
-            # if len(trial_data) == numOfsamplesToCut:
             allTrial.append(trial_data)
+
+        elif curr_type == 'startBlock':
+            allTrial.append(["startBlock"])
     return allTrial
 
 
@@ -33,7 +36,7 @@ def main():
     # TODO - make sure you change to filtered after all the BALAGAN
     # currentEEGFile = EEG_folder_path + getTheMostUpdatedFile(EEG_folder_path)
 
-    currentMarkerFile = markers_file_name_FORTEST
+    currentMarkerFile = markers_psycho_file_name_FORTEST
     currentEEGFile = EEG_file_name_FORTEST
 
     for marker_type in marker_types:

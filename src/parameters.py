@@ -58,12 +58,17 @@ mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
 # markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_test.csv"
 
 EEG_file_name_FORTEST = "output_files/EEG_Recordings/" + f"EEG_26_12_2022 at 05_34_52_PM_ErezFirstRecord.csv"
-markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_26_12_2022 at 05_28_33_PM_ErezFirstRecord_FIXED.csv"
+markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_26_12_2022 at 05_28_33_PM_ErezFirstRecord.csv"
+markers_psycho_file_name_FORTEST = "output_files/markerPsycho/" + f"28_12_2022 at 12_57_24_PM_Fixed.csv"
 
-# Filtered_EEG_file_name = "output_files/filtered_EEG_Recordings/" + f"Filtered_EEG_test.csv"
+
 allTrialsBaseLine_file_name_FORTEST = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_test1.csv"
 allTrialsTarget_file_name_FORTEST = "output_files/cut_data_by_class/target/" + f"classTarget_test1.csv"
 allTrialsDistractor_file_name_FORTEST = "output_files/cut_data_by_class/distractor/" + f"classDistractor_test1.csv"
+
+allTrialsBaseLine_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/baseLine/" + f"Mean_EEG_Signal_baseLinebaseLine_AVG_by_blocks.csv"
+allTrialsTarget_file_MEAN_name_FORTEST = "output_files/cut_data_by_class/target/" + f"Mean_EEG_Signal_targettarget_AVG_by_blocks.csv"
+allTrialsDistractor_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/distractor/" + f"Mean_EEG_Signal_distractordistractor_AVG_by_blocks.csv"
 
 
 # useful functions
