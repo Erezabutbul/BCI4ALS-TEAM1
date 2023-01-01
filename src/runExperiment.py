@@ -34,7 +34,6 @@ def generateBlock():
         r = random.randint(1, trials_N)
         if 1 <= r <= targetAppearances:
             block.append(1)
-            t = t + 1
         elif targetAppearances < r <= 2 * targetAppearances:
             block.append(2)
         else:

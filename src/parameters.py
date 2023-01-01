@@ -24,7 +24,7 @@ shapes = [path_to_image_rectangle, path_to_image_triangle, path_to_image_circle]
 # shapes = [square, triangle, circle]
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 1  # (number of trials per block) -  at least 200
+trials_N = 2  # (number of trials per block) -  at least 200
 blocks_N = 2  # (number of blocks)
 targetAppearances = trials_N / target_ratio  # (number of times target appear per block)
 marker_types = ["baseLine", "target", "distractor"]
@@ -37,11 +37,15 @@ numOfsamplesToCut = int(samplingRate * (durationBeforeStimuli+durationAfterStimu
 date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
 # file parameters
+EEG_file_name = "EEG_Recording_unprocessed.csv"
+markers_psycho_file_name = f"listOfMarkers_before_parse.csv"
+
 EEG_folder_path = "output_files/EEG_Recordings/"
-EEG_file_name = "output_files/EEG_Recordings/" + f"EEG_{date}.csv"
+filtered_EEG_folder_path = "output_files/filtered_EEG_Recordings/"
+Filtered_EEG_file_name = "output_files/filtered_EEG_Recordings/" + f"EEG_FILTERED_{date}.csv"
 markers_folder_path = "output_files/Marker_Recordings/"
 markers_psycho_folder_path = "output_files/markerPsycho/"
-markers_psycho_file_name = "output_files/markerPsycho/" + f"listOfMarkers_{date}.csv"
+# markers_psycho_file_name = "output_files/markerPsycho/" + f"listOfMarkers_{date}.csv" # with path
 markers_file_name = "output_files/Marker_Recordings/" + f"listOfMarkers_{date}.csv"
 # markers_file_name_psychopy = "output_files/Marker_Recordings/" + f"listOfMarkers_{date}.psycholog"
 allTrialsBaseLine_file_name = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_{date}.csv"
@@ -57,9 +61,9 @@ mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
 # EEG_file_name_FORTEST = "output_files/EEG_Recordings/" + f"EEG_test.csv"
 # markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_test.csv"
 
-EEG_file_name_FORTEST = "output_files/EEG_Recordings/" + f"EEG_26_12_2022 at 05_34_52_PM_ErezFirstRecord.csv"
+EEG_file_name_FORTEST = "output_files/EEG_Recordings/" + f"EEG_28_12_2022 at 06_31_04_PM_NADAVSECOUNDS.csv"
 markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_26_12_2022 at 05_28_33_PM_ErezFirstRecord.csv"
-markers_psycho_file_name_FORTEST = "output_files/markerPsycho/" + f"28_12_2022 at 12_57_24_PM_Fixed.csv"
+markers_psycho_file_name_FORTEST = "output_files/markerPsycho/" + f"28_12_2022 at 07_59_39_PM_Fixed_NADAVSECOUNDS.csv"
 
 
 allTrialsBaseLine_file_name_FORTEST = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_test1.csv"
@@ -95,3 +99,4 @@ def extract_date(file_name):
 
 global keepRunning
 keepRunning = True
+

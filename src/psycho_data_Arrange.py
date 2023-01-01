@@ -3,9 +3,9 @@ from parameters import *
 import os
 
 
-ex = pd.read_csv(markers_file_name_FORTEST)
+ex = pd.read_csv(markers_psycho_file_name_FORTEST)
 col_names = ex.columns
-markers = pd.read_csv(markers_file_name_FORTEST, usecols=[col_names[0]])
+markers = pd.read_csv(markers_psycho_file_name_FORTEST, usecols=[col_names[0]])
 markers_cols = markers.columns
 
 timeStamps = []

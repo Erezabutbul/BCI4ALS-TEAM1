@@ -1,40 +1,45 @@
 import multiprocessing
-import lsl_Record_data
-import time
-if __name__ == '__main__':
-    multiprocessing.freeze_support()
+import os
+from datetime import datetime
 
-
+from lsl_Record_data import main as lsl_main
+from GUI import showExperiment
 
 
 import data_extraction_by_class
-from threading import Thread
 
 
 
+def main():
+
+    # Create the "EXP_{date}" directory
+    exp_path = createFile()
+
+    # Create the processes
+    p1 = multiprocessing.Process(target=lsl_main, args=[exp_path])
+    p2 = multiprocessing.Process(target=showExperiment, args=[exp_path])
+
+    # Start the processes
+    p1.start()
+    p2.start()
+
+    # Wait for the processes to finish
+    # p2.join()
+    p1.join()
+    print("All processes finished")
 
 
+def createFile():
+    # date & time
+    date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
-# multiprocessing.freeze_support()
-# multiprocessing.set_start_method('fork')
+    # Create the "EXP_{date}" directory
+    exp_dir = f"output_files/EXP_{date}/"
+    os.makedirs(exp_dir, exist_ok=True)
+    return exp_dir
 
-
-# Create the processes
-p1 = multiprocessing.Process(target=lsl_Record_data.main)
-p1.start()
-time.sleep(10)
-import GUI
-p2 = multiprocessing.Process(target=GUI.showExperiment)
-#
-# Start the processes
-
-p2.start()
-# GUI.showExperiment()
-# Wait for the processes to finish
-p2.join()
-p1.join()
-print("All processes finished")
-
+if __name__ == '__main__':
+    main()
 # t1 = Thread(target=lsl_Record_data.main, args=[])
 # t1.start()
 # lsl_Record_data.main()

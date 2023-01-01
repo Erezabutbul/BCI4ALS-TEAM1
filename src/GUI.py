@@ -1,5 +1,4 @@
-import sys
-
+import os
 from psychopy import logging, core, visual
 from runExperiment import generated_experiment
 import parameters as p
@@ -14,7 +13,7 @@ class Timer:
         return pylsl.local_clock()
 
 
-def showExperiment():
+def showExperiment(exp_path):
     # fileName = p.markers_file_name_psychopy
 
     interTime = p.interTime  # take from parameters
@@ -26,7 +25,14 @@ def showExperiment():
     win = visual.Window(fullscr=True, autoLog=False)
 
     # Set up the logger
-    fileName = p.markers_psycho_file_name
+    ###########################################################
+    # save to "EXP_{date}" directory
+    markers_dir = exp_path + "markerPsycho"
+    os.makedirs(markers_dir, exist_ok=True)
+    ###########################################################
+
+    fileName = markers_dir + "/" + p.markers_psycho_file_name
+    # fileName = p.markers_psycho_file_name
     logfile = open(fileName, 'w')
     log = logging.LogFile(fileName, level=logging.EXP, filemode='w')
     studyClock = Timer()
@@ -98,13 +104,19 @@ def showExperiment():
     win.close()
     core.quit()
 
+    ###########################################################
+    # save to "EXP_{date}" directory
+    # markers_dir = p.exp_dir + "markerPsycho"
+    # os.makedirs(markers_dir, exist_ok=True)
+    ###########################################################
+    # move(fileName, markers_dir + '/' + fileName)
+    # move(fileName, markers_dir )
 
 
-    move(fileName, outDir + '/' + fileName)
     p.keepRunning = False
     # file = pd.DataFrame(timeStampAndShapes)
     # file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
 
 # if __name__ == '__main__':
-showExperiment()
+# showExperiment()

@@ -16,7 +16,7 @@ def getCol(curDf, colNum, row):
 
 # read file
 df = pd.read_csv(
-    "output_files/cut_data_by_class/baseLine/" + "Mean_EEG_Signal_baseLinebaseLine_AVG_by_blocks.csv")
+    "output_files/cut_data_by_class/baseLine/Mean_EEG_Signal_baseLine/" + "baseLine_AVG_by_blocks.csv")
 df = df.iloc[:, 1:]
 numOfCol = df.shape[1]
 numOfRows = df.shape[0]
@@ -37,3 +37,5 @@ outputDf = outputDf.iloc[2:, :]
 
 # save the file / show it
 outputDf.to_csv("output_files/cut_data_by_class/baseLine/" + f"AVG_block_num_{block}.csv")
+
+# Nofar wants one for each block!!
