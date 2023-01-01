@@ -4,6 +4,11 @@ from pylsl import StreamInlet, resolve_stream, resolve_bypred
 import pandas as pd
 import parameters as p
 
+def checkIfRunning(path):
+    if not os.path.exists(path):
+        return True
+    else:
+        return False
 
 def main(exp_path):
     # first resolve an EEG stream on the lab network
@@ -17,7 +22,8 @@ def main(exp_path):
 
     index = 0
     try:
-        while p.keepRunning:
+        while checkIfRunning(exp_path + "DONE"):
+            # print(checkIfRunning(exp_path + "DONE"))
             # get a new sample (you can also omit the timestamp part if you're not
             # interested in it)
             data = dict()

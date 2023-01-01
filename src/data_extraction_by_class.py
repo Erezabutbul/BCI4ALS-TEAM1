@@ -45,21 +45,29 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
     return allTrial
 
 
-def main():
-    # currentMarkerFile = markers_folder_path + getTheMostUpdatedFile(markers_folder_path)
-    # TODO - make sure you change to filtered after all the BALAGAN
-    # currentEEGFile = EEG_folder_path + getTheMostUpdatedFile(EEG_folder_path)
-    currentEEGFile = EEG_file_name_FORTEST
+def main(exp_path):
 
-    currentMarkerFile = markers_psycho_file_name_FORTEST
-    # currentEEGFile = EEG_file_name_FORTEST
+    # load the filtered data and split it into classes
+    currentEEGFile = exp_path + filtered_EEG_folder_path + Filtered_EEG_file_name
+
+    currentMarkerFile = exp_path + markers_arranged_folder_path + markers_arranged_file_name
+
+    ###########################################################
+    # save to "EXP_{date}" directory
+    classPath = exp_path + allClasses
+    os.makedirs(classPath, exist_ok=True)
+    #########################################################
 
     for marker_type in marker_types:
         allTrialOfType = cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile,
                              marker_type)
-        df = pd.DataFrame(allTrialOfType)
-        df.to_csv(f"output_files/cut_data_by_class/{marker_type}/" + f"class_{marker_type}_{date}.csv", index=True,
-                  index_label="index", encoding="utf_8_sig")
+
+        classTypePath = exp_path + f"cut_data_by_class/{marker_type}/"
+        os.makedirs(classTypePath, exist_ok=True)
+
+        file = pd.DataFrame(allTrialOfType)
+        file.to_csv(classTypePath + f"class{marker_type}.csv", index=True, index_label="index", encoding="utf_8_sig")
+
 
 
 if __name__ == '__main__':

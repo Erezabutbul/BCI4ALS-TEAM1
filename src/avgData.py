@@ -2,7 +2,7 @@ import pandas as pd
 import ast
 from parameters import *
 import os
-
+from convertSample import main as convert_blocks_main
 
 # ORIGINAL
 # def meanCol(df, colNum, numOfRows):
@@ -32,6 +32,7 @@ def meanAll(df, colNum, numOfRows):
     for key in meanDict:
         meanDict[key] = meanDict[key] / numOfRows
     return meanDict
+
 
 def meanCol(df, colNum, startRow, endRow):
     numOfRows = len(df)
@@ -77,16 +78,15 @@ def meanByBlock(df):
     return listOfBlock
 
 
-def main():
+def main(exp_path):
     for marker_type in marker_types:
         if marker_type == "distractor":
             df = pd.read_csv(
-                "output_files/cut_data_by_class/distractor/" + "class_distractor_28_12_2022 at 08_02_19_PM.csv")
+                exp_path + allTrialsDistractor_folder_path + allTrialsDistractor_file_name)
         elif marker_type == "target":
-            df = pd.read_csv("output_files/cut_data_by_class/target/" + "class_target_28_12_2022 at 08_02_19_PM.csv")
+            df = pd.read_csv(exp_path + allTrialsTarget_folder_path + allTrialsTarget_file_name)
         else:
-            df = pd.read_csv(
-                "output_files/cut_data_by_class/baseLine/" + "class_baseLine_28_12_2022 at 08_02_19_PM.csv")
+            df = pd.read_csv(exp_path + allTrialsBaseLine_folder_path + allTrialsBaseLine_file_name)
         # removing indexes
         # cut the index column, and
         # according to the number of samples that supposed to see in the current sampling rate
@@ -94,19 +94,33 @@ def main():
 
         outputDf = pd.DataFrame(meanByBlock(df))
 
+        ###########################################################
+        # save to "EXP_{date}" directory
+        meanedData = exp_path + allClasses + marker_type + f"/Mean_EEG_Signal_{marker_type}/"
+        os.makedirs(meanedData, exist_ok=True)
+        #########################################################
+
         # save AVG by block
         outputDf.to_csv(
-            f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}/" + f"{marker_type}_AVG_by_blocks_NADAVSECOUNDS.csv",
+            meanedData + f"{marker_type}_AVG_by_blocks.csv",
             index=True, index_label="index", encoding="utf_8_sig")
 
         # AVG all the EXP
         avgAllDf = pd.DataFrame()
         for col in range(outputDf.shape[1]):
             avgAllDf[col] = meanAll(outputDf, col, outputDf.shape[0])
-
+        # save AVG by all EXP
         avgAllDf.to_csv(
-            f"output_files/cut_data_by_class/{marker_type}/Mean_EEG_Signal_{marker_type}/" + f"{marker_type}_AVG_all_the_EXP_NADAVSECOUNDS.csv",
+            meanedData + f"{marker_type}_AVG_all_the_EXP.csv",
             index=True, index_label="index", encoding="utf_8_sig")
+
+    # make an avg for each block and save it
+    convert_blocks_main(exp_path)
+
+
+
+
+
 
 
 # print(meanCol(df, 1))

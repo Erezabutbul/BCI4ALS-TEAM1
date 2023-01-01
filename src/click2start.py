@@ -1,17 +1,27 @@
 import multiprocessing
 import os
 from datetime import datetime
-
 from lsl_Record_data import main as lsl_main
 from GUI import showExperiment
-
+from preProcessing import main as preProcessing_main
+from data_extraction_by_class import main as data_spliting_main
+from psycho_data_Arrange import main as arrange_markers_main
+from avgData import main as avgData_main
 
 import data_extraction_by_class
 
 
+def createFile():
+    # date & time
+    date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
+
+    # Create the "EXP_{date}" directory
+    exp_dir = f"output_files/EXP_{date}/"
+    os.makedirs(exp_dir, exist_ok=True)
+    return exp_dir
+
 
 def main():
-
     # Create the "EXP_{date}" directory
     exp_path = createFile()
 
@@ -24,64 +34,31 @@ def main():
     p2.start()
 
     # Wait for the processes to finish
-    # p2.join()
+    p2.join()
     p1.join()
     print("All processes finished")
 
+    # pre processing
+    preProcessing_main(exp_path)
 
-def createFile():
-    # date & time
-    date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
+    # Arrange the data by psychopy
+    arrange_markers_main(exp_path)
 
-    # Create the "EXP_{date}" directory
-    exp_dir = f"output_files/EXP_{date}/"
-    os.makedirs(exp_dir, exist_ok=True)
-    return exp_dir
+    # extract data by class
+    data_spliting_main(exp_path)
+
+    # avg data
+    avgData_main(exp_path)
+
+    # extract features
+
+    # train model
+
+    # save model
+
+    # another script that evaluates live
+
+    os.removedirs(exp_path+"DONE")
 
 if __name__ == '__main__':
     main()
-# t1 = Thread(target=lsl_Record_data.main, args=[])
-# t1.start()
-# lsl_Record_data.main()
-# GUI.showExperiment()
-# t1.join()
-
-# data_extraction_by_class.main()
-
-#
-# import concurrent.futures
-# import time
-#
-#
-#
-# # Create a ThreadPoolExecutor with 2 threads
-# with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-#     # Submit 2 tasks to the executor
-#     task1 = executor.submit(lsl_Record_data.main, [])
-#     task2 = executor.submit(GUI.showExperiment, [])
-#
-#     # Wait for the tasks to complete
-#     result1 = task1.result()
-#     result2 = task2.result()
-
-
-# lsl_Record_data.main()
-
-
-############### using subprocess
-
-# import subprocess
-# from functools import partial
-#
-# record = partial(lsl_Record_data.main())
-#
-# # Start a process that applies the record function to its input
-# p1 = subprocess.Popen(["python", "-c", "print(record())"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-#
-# show = partial(GUI.showExperiment())
-# # Start a process that prints "Goodbye, World!" every 2 seconds
-# p2 = subprocess.Popen(["python", "-c", "print(show())"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-
-# Wait for both processes to complete
-# p1.wait()
-# p2.wait()

@@ -27,7 +27,7 @@ def showExperiment(exp_path):
     # Set up the logger
     ###########################################################
     # save to "EXP_{date}" directory
-    markers_dir = exp_path + "markerPsycho"
+    markers_dir = exp_path + p.markers_psycho_folder_path
     os.makedirs(markers_dir, exist_ok=True)
     ###########################################################
 
@@ -97,12 +97,11 @@ def showExperiment(exp_path):
                 win.flip()
                 core.wait(StimOnset)
 
+
     logging.flush()
     logfile.close()
-    outDir = p.markers_psycho_folder_path
+    # outDir = p.markers_psycho_folder_path
     # core.wait(2)
-    win.close()
-    core.quit()
 
     ###########################################################
     # save to "EXP_{date}" directory
@@ -112,11 +111,17 @@ def showExperiment(exp_path):
     # move(fileName, markers_dir + '/' + fileName)
     # move(fileName, markers_dir )
 
-
+    print("BEFOREEEEEEEEEEEEEE")
     p.keepRunning = False
+    print("keep running isssssssssssssssssssssssssssssssssssssssssssssssssssssssss "+ str(p.keepRunning))
+    # win.close()
+    # core.quit()
+    print("AFTERRRRRRRRRRRRRRRRRRRRRR")
+    done_dir = exp_path + "DONE"
+    os.makedirs(done_dir, exist_ok=True)
     # file = pd.DataFrame(timeStampAndShapes)
     # file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
 
-# if __name__ == '__main__':
-# showExperiment()
+if __name__ == '__main__':
+    showExperiment()
