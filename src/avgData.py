@@ -90,7 +90,7 @@ def main(exp_path):
         # removing indexes
         # cut the index column, and
         # according to the number of samples that supposed to see in the current sampling rate
-        df = df.iloc[:, 1:(numOfsamplesToCut + 1)]
+        df = df.iloc[:, 1:(numOfSamplesToCut + 1)]
 
         outputDf = pd.DataFrame(meanByBlock(df))
 

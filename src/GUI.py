@@ -13,7 +13,7 @@ class Timer:
         return pylsl.local_clock()
 
 
-def showExperiment(exp_path):
+def showExperiment(exp_path, keepRunning):
     # fileName = p.markers_file_name_psychopy
 
     interTime = p.interTime  # take from parameters
@@ -97,31 +97,12 @@ def showExperiment(exp_path):
                 win.flip()
                 core.wait(StimOnset)
 
-
     logging.flush()
     logfile.close()
-    # outDir = p.markers_psycho_folder_path
-    # core.wait(2)
-
-    ###########################################################
-    # save to "EXP_{date}" directory
-    # markers_dir = p.exp_dir + "markerPsycho"
-    # os.makedirs(markers_dir, exist_ok=True)
-    ###########################################################
-    # move(fileName, markers_dir + '/' + fileName)
-    # move(fileName, markers_dir )
-
-    print("BEFOREEEEEEEEEEEEEE")
-    p.keepRunning = False
-    print("keep running isssssssssssssssssssssssssssssssssssssssssssssssssssssssss "+ str(p.keepRunning))
+    # end the recording
+    keepRunning.value = False
     # win.close()
     # core.quit()
-    print("AFTERRRRRRRRRRRRRRRRRRRRRR")
-    done_dir = exp_path + "DONE"
-    os.makedirs(done_dir, exist_ok=True)
-    # file = pd.DataFrame(timeStampAndShapes)
-    # file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
-
 
 if __name__ == '__main__':
     showExperiment()

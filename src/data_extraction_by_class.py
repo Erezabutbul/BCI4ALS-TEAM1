@@ -29,8 +29,8 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
             # # Get the index of the start_time row
             # start_index = eeg[eeg["timeStamp"] >= start_time].index[0]
             #
-            # # Select the rows from start_index -start_index to start_index + numOfsamplesToCut
-            # trial_data = eeg.iloc[start_index:start_index + numOfsamplesToCut, :]
+            # # Select the rows from start_index -start_index to start_index + numOfSamplesToCut
+            # trial_data = eeg.iloc[start_index:start_index + numOfSamplesToCut, :]
             #
             # # Select the relevant columns
             # trial_data = trial_data[["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]]

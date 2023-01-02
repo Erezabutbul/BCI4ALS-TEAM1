@@ -17,21 +17,27 @@ path_to_image_triangle = "../images/triangle.jpg"
 path_to_image_rectangle = "../images/rectangle.jpg"
 shapes = [path_to_image_rectangle, path_to_image_triangle, path_to_image_circle]
 
-# matplotlib parameters
-# circle = mpimg.imread("../images/colorful_shapes/circle.jpg")
-# triangle = mpimg.imread("../images/colorful_shapes/triangle.jpg")
-# square = mpimg.imread("../images/colorful_shapes/rectangle.jpg")
-# shapes = [square, triangle, circle]
+# # Define stimulus types and load data
+# stimulusType = ["dog", "terrorist",
+#                 "grandmother"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
+#
+# # psychopy parameters
+# path_to_image_dog = "../images/dog.jpg"
+# path_to_image_terrorist = "../images/terrorist.jpg"
+# path_to_image_grandmother = "../images/grandmother.jpg"
+# shapes = [path_to_image_dog, path_to_image_terrorist, path_to_image_grandmother]
+
+
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 20  # (number of trials per block) -  at least 200
+trials_N = 30  # (number of trials per block) -  at least 200
 blocks_N = 5  # (number of blocks)
 targetAppearances = trials_N / target_ratio  # (number of times target appear per block)
 marker_types = ["baseLine", "target", "distractor"]
 durationAfterStimuli = 0.4  # look 4 mil sec after the stimuli was shown
 durationBeforeStimuli = 0.2  # look 2 mil sec before the stimuli was shown
 samplingRate = 125
-numOfsamplesToCut = int(samplingRate * (durationBeforeStimuli+durationAfterStimuli))
+numOfSamplesToCut = int(samplingRate * (durationBeforeStimuli + durationAfterStimuli))
 
 # date & time
 date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
@@ -54,11 +60,12 @@ allTrialsTarget_folder_path = "cut_data_by_class/target/"
 allTrialsDistractor_file_name = "classdistractor.csv"
 allTrialsDistractor_folder_path = "cut_data_by_class/distractor/"
 
-mean_EEG_BaseLine_folder_path = "Mean_EEG_Signal_BaseLine"
-# mean_EEG_Target_folder_path = "Mean_EEG_Signal_Target"
-# mean_EEG_distractor_folder_path = "Mean_EEG_Signal_Distractor"
+mean_EEG_baseLine_folder_path = "Mean_EEG_Signal_baseLine/"
+mean_EEG_target_folder_path = "Mean_EEG_Signal_target/"
+mean_EEG_distractor_folder_path = "Mean_EEG_Signal_distractor/"
 # mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
-
+feature_folder_path = "features/"
+feature_file_name = "featuresMatrix.csv"
 
 # markers_folder_path = "output_files/Marker_Recordings/"
 # markers_psycho_folder_path = "output_files/markerPsycho/"
