@@ -5,6 +5,8 @@ from sklearn.metrics import confusion_matrix
 from Model import svc, DecisionTree
 from DataByFeature import X
 
+# TODO - load trained model
+
 
 # SVC Prediction
 y_pred = svc.predict(X)

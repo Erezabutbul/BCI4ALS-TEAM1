@@ -14,7 +14,7 @@ def saveFeatures(exp_path, Amplitude, Slope, Latency, PeakWidth, y):
     os.makedirs(featuresDir, exist_ok=True)
     featureMatrix.to_csv(featuresDir + feature_file_name)
     # Save the array to a CSV file
-    np.savetxt("labels.csv", y, delimiter=",")
+    np.savetxt(featuresDir + "labels.csv", y, delimiter=",")
 
 # def main(exp_path):
 def main():
@@ -27,6 +27,7 @@ def main():
     df_baseline = pd.read_csv(exp_path + allClasses + "baseLine/" + mean_EEG_baseLine_folder_path + "baseLine_AVG_all_the_EXP.csv")
     df_target = pd.read_csv(exp_path + allClasses + "target/" + mean_EEG_target_folder_path + "target_AVG_all_the_EXP.csv")
     df_distractor = pd.read_csv(exp_path + allClasses + "distractor/" + mean_EEG_distractor_folder_path + "distractor_AVG_all_the_EXP.csv")
+
 
     time = pd.DataFrame(np.linspace(0, numOfSamplesToCut/samplingRate, numOfSamplesToCut))  # 75 samples, fs=125Hz
     # for elec_num in np.arange(1, 14):

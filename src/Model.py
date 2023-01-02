@@ -8,6 +8,8 @@ from sklearn.metrics import confusion_matrix
 from DataByFeature import X
 from FeatureExtraction.main import y
 
+# TODO - load "featuresMatrix.csv" and "labels.csv"
+
 # separate to training and learning sets: X is the data by feature, y is the class vector(target, distractor, baseline)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=100)
 
@@ -39,3 +41,5 @@ print(y_pred)
 print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
 print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
 print("Report : ", classification_report(y_test, y_pred))
+
+# TODO - save trained models
