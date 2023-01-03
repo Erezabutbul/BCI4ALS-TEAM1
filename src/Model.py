@@ -12,6 +12,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import FeatureExtraction
+import pickle
+
 
 X, y = FeatureExtraction.main()
 
@@ -112,3 +114,8 @@ print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
 print("Report:", classification_report(y_test, y_pred))
 
 # TODO - save trained models
+
+# save the model to disk
+# filename = 'finalized_model.sav'
+# pickle.dump(model, open(filename, 'wb'))
+
