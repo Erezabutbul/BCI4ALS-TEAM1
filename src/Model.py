@@ -5,8 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
-from DataByFeature import X
-from FeatureExtraction.main import y
+from FeatureExtraction.main import X, y
 
 # TODO - load "featuresMatrix.csv" and "labels.csv"
 

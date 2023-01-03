@@ -7,8 +7,8 @@ from parameters import *
 
 
 def saveFeatures(exp_path, Amplitude, Slope, Latency, PeakWidth, y):
-    fueatures = {'Amplitude': Amplitude, 'Slope': Slope, 'Latency': Latency, 'Peak width': PeakWidth}
-    featureMatrix = pd.DataFrame(data=fueatures)
+    features = {'Amplitude': Amplitude, 'Slope': Slope, 'Latency': Latency, 'Peak width': PeakWidth}
+    featureMatrix = pd.DataFrame(data=features)
     # save to "EXP_{date}" directory
     featuresDir = exp_path + feature_folder_path
     os.makedirs(featuresDir, exist_ok=True)
@@ -23,7 +23,7 @@ def main():
     # df_target = pd.read_csv(exp_path + allClasses + mean_EEG_target_folder_path + "target_AVG_all_the_EXP.csv")
     # df_distractor = pd.read_csv(exp_path + allClasses + mean_EEG_distractor_folder_path + "distractor_AVG_all_the_EXP.csv")
     # TODO - remove exp_path
-    exp_path = "output_files/EXP_02_01_2023 at 12_22_52_PM/"
+    exp_path = "output_files/EXP_02_01_2023 at 12_12_58_PM/"
     df_baseline = pd.read_csv(exp_path + allClasses + "baseLine/" + mean_EEG_baseLine_folder_path + "baseLine_AVG_all_the_EXP.csv")
     df_target = pd.read_csv(exp_path + allClasses + "target/" + mean_EEG_target_folder_path + "target_AVG_all_the_EXP.csv")
     df_distractor = pd.read_csv(exp_path + allClasses + "distractor/" + mean_EEG_distractor_folder_path + "distractor_AVG_all_the_EXP.csv")
@@ -34,6 +34,7 @@ def main():
     #     plt.subplot(4, 4, elec_num)
     #     plt.plot(time, df_target.iloc[elec_num + 1, 1:]-np.mean(df_target.iloc[elec_num + 1, 1:]))
     #     plt.plot(time, df_distractor.iloc[elec_num + 1, 1:]-np.mean(df_distractor.iloc[elec_num + 1, 1:]))
+    #     plt.plot(time, df_baseline.iloc[elec_num + 1, 1:]-np.mean(df_baseline.iloc[elec_num + 1, 1:]))
     #     plt.title(df_target.iloc[elec_num + 1, 0])
     #     plt.xticks(np.arange(0, 0.7, 0.2))
     # plt.show()
@@ -42,13 +43,15 @@ def main():
     # for elec_num in np.arange(1, 14):
     #     plt.subplot(4, 4, elec_num)
     #     x = df_target.iloc[elec_num + 1, 1:]-np.mean(df_target.iloc[elec_num + 1, 1:])
-    #     peaks, properties = find_peaks(x, width=2)
-    #     print(peaks)
+    #     peaks, properties = find_peaks(x, height=2, width=2)
+    #     # print(peaks/125)
     #     plt.plot(time, x)
     #     plt.plot(peaks/125, x[peaks], "x")
     #     plt.hlines(y=properties["width_heights"], xmin=properties["left_ips"]/125,
     #                xmax=properties["right_ips"]/125, color="C1")
     #     # plt.plot(time, np.zeros_like(x), "--", color="gray")
+    #     plt.axvline(x=0.2, color='r', label='axvline - full height')
+    #     plt.axvline(x=0.5, color='b', label='axvline - full height')
     #     plt.xticks(np.arange(0, 0.7, 0.2))
     # plt.show()
 
@@ -56,8 +59,10 @@ def main():
     height = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_target.iloc[elec_num + 1, 1:]-np.mean(df_target.iloc[elec_num + 1, 1:])
-        peaks, _ = find_peaks(x, height=15)
-        height = np.concatenate((height, [x[peaks[-1]]]))
+        peaks, _ = find_peaks(x, height=2)
+        p = abs((peaks/125)-0.5)
+        ind = np.argmin(p)
+        height = np.concatenate((height, [x[peaks[ind]]]))
     AmplitudeT = height[2:]
 
     # distance
@@ -65,7 +70,13 @@ def main():
     for elec_num in np.arange(1, 14):
         x = df_target.iloc[elec_num + 1, 1:]-np.mean(df_target.iloc[elec_num + 1, 1:])
         peaks, _ = find_peaks(x, distance=12)
-        dydx = (x[peaks[-1]]-x[peaks[0]])/(peaks[-1]/125-peaks[0]/125)
+        p5 = abs((peaks / 125) - 0.5)
+        ind5 = np.argmin(p5)
+        p2 = abs((peaks / 125) - 0.2)
+        ind2 = np.argmin(p2)
+        dydx = (x[peaks[ind5]]-x[peaks[ind2]])/(peaks[ind5]/125-peaks[ind2]/125)
+        if len(peaks) < 2:
+            dydx = 0
         distance = np.concatenate((distance, [dydx]))
     SlopeT = distance[2:]
 
@@ -73,18 +84,22 @@ def main():
     prominence = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_target.iloc[elec_num + 1, 1:]-np.mean(df_target.iloc[elec_num + 1, 1:])
-        peaks, _ = find_peaks(x, prominence=10)
-        prominence = np.concatenate((prominence, [peaks[0]/125]))
+        peaks, _ = find_peaks(x, height=2)
+        p = abs((peaks / 125) - 0.5)
+        ind = np.argmin(p)
+        prominence = np.concatenate((prominence, [peaks[ind]/125]))
     LatencyT = prominence[2:]
 
     # width
     width = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_target.iloc[elec_num + 1, 1:]-np.mean(df_target.iloc[elec_num + 1, 1:])
-        peaks, properties = find_peaks(x, width=2)
+        peaks, properties = find_peaks(x, height=2, width=2)
+        p = abs((peaks / 125) - 0.5)
+        ind = np.argmin(p)
         r = properties["right_ips"]
         l = properties["left_ips"]
-        w = (r[0]-l[0])/125
+        w = (r[ind]-l[ind])/125
         width = np.concatenate((width, [w]))
     PeakWidthT = width[2:]
 
@@ -93,12 +108,14 @@ def main():
     #     plt.subplot(4, 4, elec_num)
     #     x = df_distractor.iloc[elec_num + 1, 1:]-np.mean(df_distractor.iloc[elec_num + 1, 1:])
     #     peaks, properties = find_peaks(x, distance=12)
-    #     print(peaks)
+    #     # print(peaks/125)
     #     plt.plot(time, x)
     #     plt.plot(peaks/125, x[peaks], "x")
     #     # plt.hlines(y=properties["width_heights"], xmin=properties["left_ips"]/125,
     #     #            xmax=properties["right_ips"]/125, color="C1")
     #     # plt.plot(time, np.zeros_like(x), "--", color="gray")
+    #     plt.axvline(x=0.2, color='r', label='axvline - full height')
+    #     plt.axvline(x=0.5, color='b', label='axvline - full height')
     #     plt.xticks(np.arange(0, 0.7, 0.2))
     # plt.show()
 
@@ -106,60 +123,63 @@ def main():
     height = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_distractor.iloc[elec_num + 1, 1:]-np.mean(df_distractor.iloc[elec_num + 1, 1:])
-        peaks, _ = find_peaks(x, height=10)
-        if len(peaks) > 0:
-            height = np.concatenate((height, [x[peaks[-1]]]))
-        else:
-            height = np.concatenate((height, [-500]))
+        peaks, _ = find_peaks(x, distance=12)
+        p = abs((peaks / 125) - 0.5)
+        ind = np.argmin(p)
+        height = np.concatenate((height, [x[peaks[ind]]]))
     AmplitudeD = height[2:]
-    print(AmplitudeD)
 
     # distance
     distance = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_distractor.iloc[elec_num + 1, 1:]-np.mean(df_distractor.iloc[elec_num + 1, 1:])
         peaks, _ = find_peaks(x, distance=12)
-        if len(peaks) > 1:
-            dydx = (x[peaks[-1]]-x[peaks[0]])/(peaks[-1]/125-peaks[0]/125)
-            distance = np.concatenate((distance, [dydx]))
-        else:
-            distance = np.concatenate((distance, [(500-(-500))/(0.6-0.1)]))
+        p5 = abs((peaks / 125) - 0.5)
+        ind5 = np.argmin(p5)
+        p2 = abs((peaks / 125) - 0.2)
+        ind2 = np.argmin(p2)
+        dydx = (x[peaks[ind5]] - x[peaks[ind2]]) / (peaks[ind5] / 125 - peaks[ind2] / 125)
+        if len(peaks) < 2:
+            dydx = 0
+        distance = np.concatenate((distance, [dydx]))
     SlopeD = distance[2:]
-    print(SlopeD)
 
     # prominence
     prominence = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_distractor.iloc[elec_num + 1, 1:]-np.mean(df_distractor.iloc[elec_num + 1, 1:])
-        peaks, _ = find_peaks(x, prominence=5)
-        prominence = np.concatenate((prominence, [peaks[0]/125]))
+        peaks, _ = find_peaks(x, distance=12)
+        p = abs((peaks / 125) - 0.4)
+        ind = np.argmin(p)
+        prominence = np.concatenate((prominence, [peaks[ind] / 125]))
     LatencyD = prominence[2:]
 
     # width
     width = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_distractor.iloc[elec_num + 1, 1:]-np.mean(df_distractor.iloc[elec_num + 1, 1:])
-        peaks, properties = find_peaks(x, width=2)
-        if len(peaks) > 0:
-            r = properties["right_ips"]
-            l = properties["left_ips"]
-            w = (r[0]-l[0])/125
-            width = np.concatenate((width, [w]))
-        else:
-            width = np.concatenate((width, [0.03]))
+        peaks, properties = find_peaks(x, distance=12, width=2)
+        p = abs((peaks / 125) - 0.5)
+        ind = np.argmin(p)
+        r = properties["right_ips"]
+        l = properties["left_ips"]
+        w = (r[ind] - l[ind]) / 125
+        width = np.concatenate((width, [w]))
     PeakWidthD = width[2:]
 
     # baseline features
     # for elec_num in np.arange(1, 14):
     #     plt.subplot(4, 4, elec_num)
     #     x = df_baseline.iloc[elec_num + 1, 1:]-np.mean(df_baseline.iloc[elec_num + 1, 1:])
-    #     peaks, properties = find_peaks(x, width=2)
-    #     print(peaks)
+    #     peaks, properties = find_peaks(x, distance=12)
+    #     # print(peaks)
     #     plt.plot(time, x)
     #     plt.plot(peaks/125, x[peaks], "x")
     #     # plt.hlines(y=properties["width_heights"], xmin=properties["left_ips"]/125,
     #     #            xmax=properties["right_ips"]/125, color="C1")
     #     # plt.plot(time, np.zeros_like(x), "--", color="gray")
+    #     plt.axvline(x=0.2, color='r', label='axvline - full height')
+    #     plt.axvline(x=0.5, color='b', label='axvline - full height')
     #     plt.xticks(np.arange(0, 0.7, 0.2))
     # plt.show()
 
@@ -168,10 +188,9 @@ def main():
     for elec_num in np.arange(1, 14):
         x = df_baseline.iloc[elec_num + 1, 1:]-np.mean(df_baseline.iloc[elec_num + 1, 1:])
         peaks, _ = find_peaks(x, height=0)
-        if len(peaks) > 0:
-            height = np.concatenate((height, [x[peaks[-1]]]))
-        else:
-            height = np.concatenate((height, [max(x)]))
+        p = abs((peaks / 125) - 0.5)
+        ind = np.argmin(p)
+        height = np.concatenate((height, [x[peaks[ind]]]))
     AmplitudeB = height[2:]
 
     # distance
@@ -179,22 +198,24 @@ def main():
     for elec_num in np.arange(1, 14):
         x = df_baseline.iloc[elec_num + 1, 1:]-np.mean(df_baseline.iloc[elec_num + 1, 1:])
         peaks, _ = find_peaks(x, distance=12)
-        if len(peaks) > 1:
-            dydx = (x[peaks[-1]]-x[peaks[0]])/(peaks[-1]/125-peaks[0]/125)
-            distance = np.concatenate((distance, [dydx]))
-        else:
-            distance = np.concatenate((distance, [0]))
+        p5 = abs((peaks / 125) - 0.5)
+        ind5 = np.argmin(p5)
+        p2 = abs((peaks / 125) - 0.2)
+        ind2 = np.argmin(p2)
+        dydx = (x[peaks[ind5]] - x[peaks[ind2]]) / (peaks[ind5] / 125 - peaks[ind2] / 125)
+        if len(peaks) < 2:
+            dydx = 0
+        distance = np.concatenate((distance, [dydx]))
     SlopeB = distance[2:]
 
     # prominence
     prominence = np.array([0, 0])
     for elec_num in np.arange(1, 14):
         x = df_baseline.iloc[elec_num + 1, 1:]-np.mean(df_baseline.iloc[elec_num + 1, 1:])
-        peaks, _ = find_peaks(x, prominence=5)
-        if len(peaks) > 1:
-            prominence = np.concatenate((prominence, [peaks[0]/125]))
-        else:
-            prominence = np.concatenate((prominence, [0.55]))
+        peaks, _ = find_peaks(x, distance=12)
+        p = abs((peaks / 125) - 0.2)
+        ind = np.argmin(p)
+        prominence = np.concatenate((prominence, [peaks[ind] / 125]))
     LatencyB = prominence[2:]
 
     # width
@@ -202,13 +223,12 @@ def main():
     for elec_num in np.arange(1, 14):
         x = df_baseline.iloc[elec_num + 1, 1:]-np.mean(df_baseline.iloc[elec_num + 1, 1:])
         peaks, properties = find_peaks(x, width=2)
-        if len(peaks) > 0:
-            r = properties["right_ips"]
-            l = properties["left_ips"]
-            w = (r[0]-l[0])/125
-            width = np.concatenate((width, [w]))
-        else:
-            width = np.concatenate((width, [0.03]))
+        p = abs((peaks / 125) - 0.5)
+        ind = np.argmin(p)
+        r = properties["right_ips"]
+        l = properties["left_ips"]
+        w = (r[ind] - l[ind]) / 125
+        width = np.concatenate((width, [w]))
     PeakWidthB = width[2:]
 
     # concat all classes
@@ -216,6 +236,8 @@ def main():
     Slope = np.concatenate((SlopeT, SlopeD, SlopeB))
     Latency = np.concatenate((LatencyT, LatencyD, LatencyB))
     PeakWidth = np.concatenate((PeakWidthT, PeakWidthD, PeakWidthB))
+    features = {'Amplitude': Amplitude, 'Slope': Slope, 'Latency': Latency, 'Peak width': PeakWidth}
+    X = pd.DataFrame(data=features)
 
     # labels vector
     Tnum = 13 # Target is labeled as 0
@@ -223,24 +245,12 @@ def main():
     Bnum = 13 # Baseline is labeled as 2
     y = np.concatenate((np.zeros((Tnum,), dtype=int), np.ones((Dnum,), dtype=int), 2*np.ones((Bnum,), dtype=int)), axis=0)
 
-    saveFeatures(exp_path, Amplitude, Slope, Latency, PeakWidth, y)
-    # in find_peaks we can look at height (we can set a function as the height, for exm sin),
-    # distance, prominence, width
+    # saveFeatures(exp_path, Amplitude, Slope, Latency, PeakWidth, y)
 
     # Amplitude - distractor is higher than target
     # Slope - distractor is higher than target
     # Latency - distractor is lower than target
     # Peak width - distractor is lower than target
-    # If we get lower/higher like we thought we can look at the histogram and make it a feature
-
-    # Peak-to-Peak distance?
-
-    #def feature_exract(feature,f_name):
-    #    plt.hist(x=feature, bins='auto', color='#0504aa',alpha=0.7, rwidth=0.85)
-    #    plt.xlabel('Value')
-    #    plt.ylabel('Count')
-    #    plt.title(f_name)
-
 
 if __name__ == '__main__':
     main()
