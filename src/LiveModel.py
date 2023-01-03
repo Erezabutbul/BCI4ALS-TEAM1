@@ -4,7 +4,8 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from Model import svc, DecisionTree
 from DataByFeature import X
-from FeatureExtraction import y
+
+# TODO - load trained model
 
 
 # SVC Prediction
@@ -13,9 +14,9 @@ print("Predicted values:")
 print(y_pred)
 
 # Prediction Factors
-print("Confusion Matrix: ", confusion_matrix(y, y_pred))
-print("Accuracy : ", accuracy_score(y, y_pred) * 100)
-print("Report : ", classification_report(y, y_pred))
+print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
+print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
+print("Report : ", classification_report(y_test, y_pred))
 
 
 # Decision Tree Prediction
@@ -24,6 +25,6 @@ print("Predicted values:")
 print(y_pred)
 
 # Prediction Factors
-print("Confusion Matrix: ", confusion_matrix(y, y_pred))
-print("Accuracy : ", accuracy_score(y, y_pred) * 100)
-print("Report : ", classification_report(y, y_pred))
+print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
+print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
+print("Report : ", classification_report(y_test, y_pred))

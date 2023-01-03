@@ -14,15 +14,30 @@ def generateExperiment():
     return experiment
 
 
-# Generate Block
+# # OLD Generate Block
+# def generateBlock():
+#     block = list()
+#     block.append(0)  # block starts with 0
+#     for i in range(0, trials_N):
+#         t = generated_trial()
+#         if t != 0:  # if target was selected
+#             block.append(t)
+#         block.append(0)
+#     return block
+
+####### ****NEW**** Generate Block
+# does not provide baseline after target or distractor
 def generateBlock():
     block = list()
-    block.append(0)  # block starts with 0
-    for i in range(0, trials_N):
-        t = generated_trial()
-        if t != 0:  # if target was selected
-            block.append(t)
-        block.append(0)
+
+    for i in range(trials_N):
+        r = random.randint(1, trials_N)
+        if 1 <= r <= targetAppearances:
+            block.append(1)
+        elif targetAppearances < r <= 2 * targetAppearances:
+            block.append(2)
+        else:
+            block.append(0)
     return block
 
 

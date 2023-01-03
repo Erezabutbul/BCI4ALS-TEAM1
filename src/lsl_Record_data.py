@@ -1,15 +1,14 @@
-"""Example program to show how to read a multi-channel time series from LSL."""
+import os
 import pylsl
-from pylsl import StreamInlet, resolve_stream
+from pylsl import StreamInlet, resolve_stream, resolve_bypred
 import pandas as pd
 import parameters as p
 
 
-def main():
+def main(exp_path, keepRunning):
     # first resolve an EEG stream on the lab network
     print("looking for an EEG stream...")
     streams = resolve_stream('type', 'EEG')
-
     # create a new inlet to read from the stream
     inlet = StreamInlet(streams[0])
 
@@ -18,7 +17,8 @@ def main():
 
     index = 0
 
-    while p.keepRunning:
+    while keepRunning.value:
+
         # get a new sample (you can also omit the timestamp part if you're not
         # interested in it)
         data = dict()
@@ -43,8 +43,14 @@ def main():
         index += 1
         list_res.append(data)
 
+
+    ###########################################################
+    # save to "EXP_{date}" directory
+    EEG_dir = exp_path + "EEG_Recordings"
+    os.makedirs(EEG_dir, exist_ok=True)
+    #########################################################
     file = pd.DataFrame(list_res)
-    file.to_csv(p.EEG_file_name)
+    file.to_csv(EEG_dir + "/" + p.EEG_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
 
 if __name__ == '__main__':

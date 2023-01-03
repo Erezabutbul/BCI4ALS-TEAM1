@@ -1,0 +1,172 @@
+3.4354 	WARNING 	Monitor specification not found. Creating a temporary one...
+3.4388 	WARNING 	User requested fullscreen with size [800 600], but screen is actually [1536, 864]. Using actual size
+6.7019 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+1188594.0377 	WARNING 	t of last frame was 1188587335.98ms (=1/0)
+1188594.0377 	EXP 	START
+1188594.1349 	WARNING 	t of last frame was 97.23ms (=1/10)
+1188594.8168 	WARNING 	t of last frame was 681.87ms (=1/1)
+1188598.0055 	DATA 	Keypress: space
+1188598.0157 	WARNING 	t of last frame was 3198.92ms (=1/0)
+1188598.0157 	EXP 	startBlock
+1188598.3598 	WARNING 	Multiple dropped frames have occurred - I'll stop bothering you about them!
+1188598.3598 	EXP 	baseLine
+1188599.9744 	EXP 	baseLine
+1188601.5839 	EXP 	baseLine
+1188603.1953 	EXP 	baseLine
+1188604.8042 	EXP 	baseLine
+1188606.4223 	EXP 	distractor
+1188608.0420 	EXP 	distractor
+1188609.6558 	EXP 	distractor
+1188611.2606 	EXP 	baseLine
+1188612.8690 	EXP 	distractor
+1188614.4776 	EXP 	baseLine
+1188616.0920 	EXP 	target
+1188617.6950 	EXP 	baseLine
+1188619.3056 	EXP 	baseLine
+1188620.9079 	EXP 	target
+1188622.5112 	EXP 	baseLine
+1188624.1238 	EXP 	target
+1188625.7169 	EXP 	baseLine
+1188627.3279 	EXP 	baseLine
+1188628.9322 	EXP 	target
+1188630.5465 	EXP 	baseLine
+1188632.1461 	EXP 	baseLine
+1188633.7645 	EXP 	baseLine
+1188635.3775 	EXP 	baseLine
+1188636.9981 	EXP 	distractor
+1188638.6102 	EXP 	baseLine
+1188640.5334 	EXP 	baseLine
+1188642.1323 	EXP 	baseLine
+1188643.7422 	EXP 	target
+1188645.3504 	EXP 	target
+1188649.7622 	DATA 	Keypress: space
+1188649.7659 	EXP 	startBlock
+1188649.9721 	EXP 	baseLine
+1188651.5836 	EXP 	baseLine
+1188653.1945 	EXP 	target
+1188654.7913 	EXP 	baseLine
+1188656.3919 	EXP 	distractor
+1188658.0811 	EXP 	baseLine
+1188659.6971 	EXP 	baseLine
+1188661.3100 	EXP 	distractor
+1188662.8979 	EXP 	baseLine
+1188664.4976 	EXP 	baseLine
+1188666.1112 	EXP 	distractor
+1188667.7187 	EXP 	target
+1188669.3236 	EXP 	baseLine
+1188670.9193 	EXP 	baseLine
+1188672.5315 	EXP 	baseLine
+1188674.1375 	EXP 	target
+1188675.7362 	EXP 	distractor
+1188677.3543 	EXP 	baseLine
+1188678.9641 	EXP 	baseLine
+1188680.5805 	EXP 	baseLine
+1188682.1862 	EXP 	target
+1188683.7843 	EXP 	distractor
+1188685.3915 	EXP 	target
+1188686.9936 	EXP 	baseLine
+1188688.5923 	EXP 	baseLine
+1188690.1864 	EXP 	baseLine
+1188693.4863 	EXP 	baseLine
+1188695.0996 	EXP 	baseLine
+1188696.7060 	EXP 	target
+1188698.3077 	EXP 	distractor
+1188704.3517 	DATA 	Keypress: space
+1188704.3581 	EXP 	startBlock
+1188704.5641 	EXP 	distractor
+1188706.1608 	EXP 	baseLine
+1188707.7536 	EXP 	baseLine
+1188709.3680 	EXP 	baseLine
+1188710.9694 	EXP 	baseLine
+1188712.5798 	EXP 	distractor
+1188714.1878 	EXP 	baseLine
+1188715.7693 	EXP 	distractor
+1188717.3669 	EXP 	baseLine
+1188718.9814 	EXP 	baseLine
+1188720.5879 	EXP 	distractor
+1188722.1910 	EXP 	baseLine
+1188723.7870 	EXP 	distractor
+1188725.3954 	EXP 	target
+1188726.9886 	EXP 	baseLine
+1188728.5994 	EXP 	baseLine
+1188730.1992 	EXP 	target
+1188731.7900 	EXP 	target
+1188733.3751 	EXP 	baseLine
+1188734.9747 	EXP 	baseLine
+1188736.5906 	EXP 	distractor
+1188738.1802 	EXP 	baseLine
+1188739.7692 	EXP 	baseLine
+1188741.3732 	EXP 	target
+1188742.9846 	EXP 	baseLine
+1188744.5858 	EXP 	baseLine
+1188746.1926 	EXP 	baseLine
+1188747.7908 	EXP 	baseLine
+1188749.3892 	EXP 	baseLine
+1188750.9806 	EXP 	distractor
+1188755.1966 	DATA 	Keypress: space
+1188755.2059 	EXP 	startBlock
+1188755.4112 	EXP 	target
+1188757.0168 	EXP 	distractor
+1188758.6279 	EXP 	baseLine
+1188760.2288 	EXP 	baseLine
+1188761.8358 	EXP 	baseLine
+1188763.4321 	EXP 	baseLine
+1188765.0185 	EXP 	baseLine
+1188766.6211 	EXP 	target
+1188768.2266 	EXP 	baseLine
+1188769.8192 	EXP 	baseLine
+1188771.4276 	EXP 	baseLine
+1188773.0236 	EXP 	baseLine
+1188774.6332 	EXP 	distractor
+1188776.3070 	EXP 	baseLine
+1188777.9106 	EXP 	distractor
+1188779.5639 	EXP 	baseLine
+1188781.1780 	EXP 	baseLine
+1188782.7828 	EXP 	baseLine
+1188784.3804 	EXP 	distractor
+1188785.9848 	EXP 	baseLine
+1188787.5886 	EXP 	baseLine
+1188789.1986 	EXP 	baseLine
+1188790.8094 	EXP 	baseLine
+1188792.4251 	EXP 	target
+1188794.0276 	EXP 	target
+1188795.6186 	EXP 	baseLine
+1188797.2110 	EXP 	distractor
+1188798.8276 	EXP 	baseLine
+1188800.4205 	EXP 	baseLine
+1188802.0186 	EXP 	baseLine
+1188805.2310 	DATA 	Keypress: space
+1188805.2370 	EXP 	startBlock
+1188805.4309 	EXP 	baseLine
+1188807.0311 	EXP 	distractor
+1188808.6384 	EXP 	baseLine
+1188810.2503 	EXP 	baseLine
+1188811.8582 	EXP 	baseLine
+1188813.4472 	EXP 	baseLine
+1188815.0478 	EXP 	baseLine
+1188816.6439 	EXP 	baseLine
+1188818.2315 	EXP 	distractor
+1188819.8282 	EXP 	baseLine
+1188821.4311 	EXP 	baseLine
+1188823.0413 	EXP 	baseLine
+1188824.6510 	EXP 	target
+1188826.2504 	EXP 	target
+1188827.8502 	EXP 	baseLine
+1188829.4554 	EXP 	baseLine
+1188831.0584 	EXP 	distractor
+1188832.6686 	EXP 	baseLine
+1188834.2686 	EXP 	distractor
+1188835.8533 	EXP 	baseLine
+1188837.4680 	EXP 	target
+1188839.0690 	EXP 	distractor
+1188840.6691 	EXP 	baseLine
+1188842.2734 	EXP 	target
+1188843.8827 	EXP 	distractor
+1188845.5097 	EXP 	target
+1188847.1060 	EXP 	distractor
+1188848.7197 	EXP 	baseLine
+1188850.3315 	EXP 	baseLine
+1188851.9353 	EXP 	baseLine
