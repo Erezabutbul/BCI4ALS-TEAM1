@@ -274,6 +274,24 @@ def main():
         std = np.concatenate((std, [pow(standiv, 2)]))
     stdB = std[2:]
 
+    # Target - Baseline
+    # subtractTB = np.array([0, 0])
+    # # for elec_num in np.array([2, 4, 5, 9]):
+    # for elec_num in np.arange(1, 14):
+    #     x = df_target.iloc[elec_num + 1, 1:] - np.mean(df_target.iloc[elec_num + 1, 1:])
+    #     y = df_baseline.iloc[elec_num + 1, 1:] - np.mean(df_baseline.iloc[elec_num + 1, 1:])
+    #     subtractTB = np.concatenate((subtractTB, [abs(x-y)]))
+    # subTB = subtractTB[2:]
+
+    # Distrator - Baseline
+    # subtractDB = np.array([0, 0])
+    # # for elec_num in np.array([2, 4, 5, 9]):
+    # for elec_num in np.arange(1, 14):
+    #     x = df_target.iloc[elec_num + 1, 1:] - np.mean(df_target.iloc[elec_num + 1, 1:])
+    #     y = df_baseline.iloc[elec_num + 1, 1:] - np.mean(df_baseline.iloc[elec_num + 1, 1:])
+    #     subtractDB = np.concatenate((subtractDB, [abs(x-y)]))
+    # subDB = subtractDB[2:]
+
     # concat all classes
     # AmplitudeExp1 = np.concatenate((AmplitudeT, AmplitudeD, AmplitudeB))
     # SlopeExp1 = np.concatenate((SlopeT, SlopeD, SlopeB))
@@ -581,8 +599,8 @@ def main():
     # y = yExp1
     # y = yExp2
 
-    # pd.set_option('display.max_rows', None)
-    # print(X)
+    pd.set_option('display.max_rows', None)
+    print(X)
     # saveFeatures(exp_path, Amplitude, Slope, Latency, PeakWidth, y)
     return X, y
     # Amplitude - distractor is higher than target
