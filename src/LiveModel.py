@@ -7,30 +7,32 @@ from sklearn.metrics import confusion_matrix
 # from DataByFeature import X
 import pickle
 import numpy as np
+from parameters import *
 
 # def main(exp_path):
 def main(exp_path):
     # TODO - remove exp_path
     # load models
-    exp_path = "output_files/featuresAndModel/features/models/"
-    SVC_Model_filename = exp_path + 'finalized_SVC_Model.sav'
+    # exp_path = "output_files/featuresAndModel/features/models/"
+    currModelPath = exp_path + model_folder_path
+    SVC_Model_filename = 'finalized_SVC_Model.sav'
     SVC_model = pickle.load(open(SVC_Model_filename, 'rb'))
-    labels_path = "output_files/featuresAndModel/features/"
-    test_set_labels = np.loadtxt(labels_path + "test_labels.csv", delimiter=',')
+    # labels_path = "output_files/featuresAndModel/features/"
+    # test_set_labels = np.loadtxt(labels_path + "test_labels.csv", delimiter=',')
 
     # SVC Prediction
-    testFeatureMatrix = pd.read_csv("output_files/featuresAndModel/features/test_featuresMatrix.csv", header=None)
+    testFeatureMatrix = pd.read_csv(exp_path + feature_folder_path + feature_of_test_file_name, header=None)
     y_SVC_pred = SVC_model.predict(testFeatureMatrix)
     print("Predicted values:")
     print(y_SVC_pred)
     print("\n\n")
-    print("Accuracy:", accuracy_score(test_set_labels, y_SVC_pred) * 100)
+    # print("Accuracy:", accuracy_score(test_set_labels, y_SVC_pred) * 100)
     print("RandomForest")
     print("\n\n")
 
 
     # save the RandomForest model
-    RandomForest_filename = exp_path + 'finalized_RandomForest_Model.sav'
+    RandomForest_filename = currModelPath + 'finalized_RandomForest_Model.sav'
     RandomForest_model = pickle.load(open(RandomForest_filename, 'rb'))
 
     # RandomForest Prediction
@@ -38,7 +40,7 @@ def main(exp_path):
     print("Predicted values:")
     print(y_RandomForest_pred)
     print("\n\n")
-    print("Accuracy:", accuracy_score(test_set_labels, y_RandomForest_pred) * 100)
+    # print("Accuracy:", accuracy_score(test_set_labels, y_RandomForest_pred) * 100)
 
 
 

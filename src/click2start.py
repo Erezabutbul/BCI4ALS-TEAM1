@@ -8,7 +8,7 @@ from data_extraction_by_class import main as data_spliting_main
 from psycho_data_Arrange import main as arrange_markers_main
 from avgData import main as avgData_main
 from featureExtraction import main as featureExtraction_main
-
+from Model import main as modelToTrain
 
 
 def createFile():
@@ -59,7 +59,7 @@ def main():
     featureExtraction_main(exp_path)
 
     # train model
-
+    modelToTrain(exp_path)
 
 
 if __name__ == '__main__':

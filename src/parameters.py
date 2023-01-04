@@ -66,8 +66,9 @@ mean_EEG_distractor_folder_path = "Mean_EEG_Signal_distractor/"
 # mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
 feature_folder_path = "features/"
 feature_file_name = "featuresMatrix.csv"
+feature_of_test_file_name = "test_featuresMatrix.csv"
 label_file_name = "labels.csv"
-
+model_folder_path = "models/"
 # markers_folder_path = "output_files/Marker_Recordings/"
 # markers_psycho_folder_path = "output_files/markerPsycho/"
 # markers_psycho_file_name = "output_files/markerPsycho/" + f"listOfMarkers_{date}.csv" # with path

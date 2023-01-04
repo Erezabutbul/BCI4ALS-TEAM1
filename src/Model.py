@@ -16,9 +16,8 @@ import pickle
 from parameters import *
 
 
-# def main(exp_path):
+
 def main(exp_path):
-    # TODO - remove exp_path
     # load "featuresMatrix.csv" and "labels.csv"
     # X = pd.read_csv(exp_path + "featuresMatrix.csv")
     X = np.loadtxt(exp_path + feature_folder_path + feature_file_name, delimiter=',')
@@ -35,8 +34,11 @@ def main(exp_path):
     model.fit(X, y)
     print("SVC model")
 
+    # Create the "EXP_{date}" directory
+    currModelPath = exp_path + model_folder_path
+    os.makedirs(currModelPath, exist_ok=True)
     # save the SVCModel
-    SVC_Model_filename = exp_path + "models/" + 'finalized_SVC_Model.sav'
+    SVC_Model_filename = currModelPath + 'finalized_SVC_Model.sav'
     pickle.dump(model, open(SVC_Model_filename, 'wb'))
 
     # Prediction
@@ -82,7 +84,7 @@ def main(exp_path):
     # print("Report:", classification_report(y_test, y_pred))
 
     # save the RandomForest model
-    RandomForest_filename = exp_path + "/models/" + 'finalized_RandomForest_Model.sav'
+    RandomForest_filename = currModelPath + 'finalized_RandomForest_Model.sav'
     pickle.dump(model, open(RandomForest_filename, 'wb'))
 
 

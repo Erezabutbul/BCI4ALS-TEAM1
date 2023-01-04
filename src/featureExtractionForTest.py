@@ -9,9 +9,9 @@ def saveFeatures(exp_path, X, y):
     featuresDir = exp_path + feature_folder_path
     os.makedirs(featuresDir, exist_ok=True)
     # X.to_csv(featuresDir + feature_file_name)
-    np.savetxt(featuresDir + "test_" + feature_file_name, X, delimiter=",")
+    np.savetxt(featuresDir + feature_of_test_file_name, X, delimiter=",")
     # Save the array to a CSV file
-    np.savetxt(featuresDir + "test_labels.csv", y, delimiter=",")
+    np.savetxt(featuresDir + "test_" + label_file_name, y, delimiter=",")
 
 
 # height feature extraction
