@@ -20,23 +20,24 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
             # setting time for end of sample
             end_time = marker[1] + durationAfterStimuli
 
-            trial_data = eeg.loc[
-                (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
-                ["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]
-            ].to_dict("records")
+            # ATTENTION mal function for now
+            # trial_data = eeg.loc[
+            #     (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
+            #     ["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]
+            # ].to_dict("records")
 
             # TODO - check
-            # # Get the index of the start_time row
-            # start_index = eeg[eeg["timeStamp"] >= start_time].index[0]
-            #
-            # # Select the rows from start_index -start_index to start_index + numOfSamplesToCut
-            # trial_data = eeg.iloc[start_index:start_index + numOfSamplesToCut, :]
-            #
-            # # Select the relevant columns
-            # trial_data = trial_data[["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]]
-            #
-            # # Convert to a list of dictionaries
-            # trial_data = trial_data.to_dict("records")
+            # Get the index of the start_time row
+            start_index = eeg[eeg["timeStamp"] >= start_time].index[0]
+
+            # Select the rows from start_index -start_index to start_index + numOfSamplesToCut
+            trial_data = eeg.iloc[start_index:start_index + numOfSamplesToCut, :]
+
+            # Select the relevant columns
+            trial_data = trial_data[["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]]
+
+            # Convert to a list of dictionaries
+            trial_data = trial_data.to_dict("records")
 
             allTrial.append(trial_data)
 
@@ -45,13 +46,14 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
     return allTrial
 
 
-def main(exp_path):
-
+# def main(exp_path):
+def main():
+    exp_path = "output_files/EXP_02_01_2023 at 12_22_52_PM/"
     # load the filtered data and split it into classes
     currentEEGFile = exp_path + filtered_EEG_folder_path + Filtered_EEG_file_name
-
     currentMarkerFile = exp_path + markers_arranged_folder_path + markers_arranged_file_name
 
+    
     ###########################################################
     # save to "EXP_{date}" directory
     classPath = exp_path + allClasses

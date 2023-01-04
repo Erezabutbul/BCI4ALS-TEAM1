@@ -66,6 +66,7 @@ mean_EEG_distractor_folder_path = "Mean_EEG_Signal_distractor/"
 # mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
 feature_folder_path = "features/"
 feature_file_name = "featuresMatrix.csv"
+label_file_name = "labels.csv"
 
 # markers_folder_path = "output_files/Marker_Recordings/"
 # markers_psycho_folder_path = "output_files/markerPsycho/"
@@ -97,6 +98,7 @@ feature_file_name = "featuresMatrix.csv"
 # allTrialsBaseLine_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/baseLine/" + f"Mean_EEG_Signal_baseLinebaseLine_AVG_by_blocks.csv"
 # allTrialsTarget_file_MEAN_name_FORTEST = "output_files/cut_data_by_class/target/" + f"Mean_EEG_Signal_targettarget_AVG_by_blocks.csv"
 # allTrialsDistractor_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/distractor/" + f"Mean_EEG_Signal_distractordistractor_AVG_by_blocks.csv"
+
 
 
 # useful functions

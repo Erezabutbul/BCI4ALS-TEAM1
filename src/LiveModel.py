@@ -1,30 +1,46 @@
 # Importing the required packages
+import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
-from Model import svc, DecisionTree
-from DataByFeature import X
+# from Model import svc, DecisionTree
+# from DataByFeature import X
+import pickle
+import numpy as np
 
-# TODO - load trained model
+# def main(exp_path):
+def main(exp_path):
+    # TODO - remove exp_path
+    # load models
+    exp_path = "output_files/featuresAndModel/features/models/"
+    SVC_Model_filename = exp_path + 'finalized_SVC_Model.sav'
+    SVC_model = pickle.load(open(SVC_Model_filename, 'rb'))
+    labels_path = "output_files/featuresAndModel/features/"
+    test_set_labels = np.loadtxt(labels_path + "test_labels.csv", delimiter=',')
+
+    # SVC Prediction
+    testFeatureMatrix = pd.read_csv("output_files/featuresAndModel/features/test_featuresMatrix.csv", header=None)
+    y_SVC_pred = SVC_model.predict(testFeatureMatrix)
+    print("Predicted values:")
+    print(y_SVC_pred)
+    print("\n\n")
+    print("Accuracy:", accuracy_score(test_set_labels, y_SVC_pred) * 100)
+    print("RandomForest")
+    print("\n\n")
 
 
-# SVC Prediction
-y_pred = svc.predict(X)
-print("Predicted values:")
-print(y_pred)
+    # save the RandomForest model
+    RandomForest_filename = exp_path + 'finalized_RandomForest_Model.sav'
+    RandomForest_model = pickle.load(open(RandomForest_filename, 'rb'))
 
-# Prediction Factors
-print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
-print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
-print("Report : ", classification_report(y_test, y_pred))
+    # RandomForest Prediction
+    y_RandomForest_pred = RandomForest_model.predict(testFeatureMatrix)
+    print("Predicted values:")
+    print(y_RandomForest_pred)
+    print("\n\n")
+    print("Accuracy:", accuracy_score(test_set_labels, y_RandomForest_pred) * 100)
 
 
-# Decision Tree Prediction
-y_pred = DecisionTree.predict(X)
-print("Predicted values:")
-print(y_pred)
 
-# Prediction Factors
-print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
-print("Accuracy : ", accuracy_score(y_test, y_pred) * 100)
-print("Report : ", classification_report(y_test, y_pred))
+if __name__ == '__main__':
+    main()
