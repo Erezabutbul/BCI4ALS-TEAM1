@@ -40,43 +40,46 @@ def getLatency(df_marker, elec_num):
     amp = df_marker.iloc[elec_num, 1:] - np.mean(df_marker.iloc[elec_num, 1:])
     start_ind = round(samplingRate * 0.4)
     end_ind = round(samplingRate * 0.55)
-    return np.argmax(amp[start_ind:end_ind]) * samplingRate
+    return np.argmax(amp[start_ind:end_ind]) / samplingRate
 
 
-def main(exp_path):
-    # def main():
+# def main(exp_path):
+def main():
     # load block by block and extract features
     # concat all the features into one futureMatrix and save it
     # TODO - need to find a way to select the experiment
+    exp_path = "output_files/featuresAndModel/"
     # that we want to extract features from
     experiment = ["output_files/EXP_02_01_2023 at 12_12_58_PM/", "output_files/EXP_02_01_2023 at 12_22_52_PM/"]
     blocks = np.arange(0, 5)
-    electrodes = np.arange(0, 13)
+    electrodes = np.array([0, 2, 6, 7, 9, 10, 11, 12])
     markers = ["target", "distractor"]
     listOfMatrix = list()
     labelsList = list()
+    featureNum = 4
+    colOfMatrix = len(electrodes) * featureNum
+    j = 0
     for exp_num in np.arange(len(experiment)):
-        featureMatrix = pd.DataFrame(np.zeros((2 * len(blocks), 65)))
+        featureMatrix = pd.DataFrame(np.zeros((2 * len(blocks), colOfMatrix)))
         for block_num in blocks:
             for elec_num in electrodes:
                 for label in np.arange(len(markers)):
                     if label == 0:
                         df = pd.read_csv(
                             f"{experiment[exp_num]}" + f"cut_data_by_class/{markers[label]}/Mean_EEG_Signal_{markers[label]}/" + f"AVG_block_num_{block_num}.csv")
-                        featureMatrix.loc[2 * block_num, 5 * elec_num] = getHight(df, markers[label], elec_num)
-                        featureMatrix.loc[2 * block_num, 5 * elec_num + 1] = getDistance(df, elec_num)
-                        featureMatrix.loc[2 * block_num, 5 * elec_num + 2] = getLatency(df, markers[label], elec_num)
-                        featureMatrix.loc[2 * block_num, 5 * elec_num + 3] = getWidth(df, elec_num)
-                        featureMatrix.loc[2 * block_num, 5 * elec_num + 4] = getSTD(df, elec_num)
+                        featureMatrix.loc[2 * block_num, featureNum * j] = getAmplitude(df, elec_num)
+                        featureMatrix.loc[2 * block_num, featureNum * j + 1] = getArea(df, elec_num)
+                        featureMatrix.loc[2 * block_num, featureNum * j + 2] = getLatency(df, elec_num)
+                        featureMatrix.loc[2 * block_num, featureNum * j + 3] = getSTD(df, elec_num)
                     else:
                         df = pd.read_csv(
                             f"{experiment[exp_num]}" + f"cut_data_by_class/{markers[label]}/Mean_EEG_Signal_{markers[label]}/" + f"AVG_block_num_{block_num}.csv")
-                        featureMatrix.loc[2 * block_num + 1, 5 * elec_num] = getHight(df, markers[label], elec_num)
-                        featureMatrix.loc[2 * block_num + 1, 5 * elec_num + 1] = getDistance(df, elec_num)
-                        featureMatrix.loc[2 * block_num + 1, 5 * elec_num + 2] = getLatency(df, markers[label],
-                                                                                            elec_num)
-                        featureMatrix.loc[2 * block_num + 1, 5 * elec_num + 3] = getWidth(df, elec_num)
-                        featureMatrix.loc[2 * block_num + 1, 5 * elec_num + 4] = getSTD(df, elec_num)
+                        featureMatrix.loc[2 * block_num + 1, featureNum * j] = getAmplitude(df, elec_num)
+                        featureMatrix.loc[2 * block_num + 1, featureNum * j + 1] = getArea(df, elec_num)
+                        featureMatrix.loc[2 * block_num + 1, featureNum * j + 2] = getLatency(df, elec_num)
+                        featureMatrix.loc[2 * block_num + 1, featureNum * j + 3] = getSTD(df, elec_num)
+                j = j + 1
+            j = 0
             labelsList.append(0)
             labelsList.append(1)
         listOfMatrix.append(featureMatrix)
@@ -88,6 +91,7 @@ def main(exp_path):
     # currMatrix = listOfMatrix[0]
     # for i in range(1, len(listOfMatrix)-1):
     #     currMatrix = np.concatenate((currMatrix, listOfMatrix[i]))
+    print(listOfMatrix[0])
     finalMatrix = np.concatenate((listOfMatrix[0], listOfMatrix[1]))
     labelsVec = np.array(labelsList)
     labelsVec = labelsVec.reshape(-1, 1)

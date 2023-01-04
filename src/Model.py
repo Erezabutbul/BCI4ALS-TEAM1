@@ -17,9 +17,11 @@ from parameters import *
 
 
 
-def main(exp_path):
+# def main(exp_path):
+def main():
     # load "featuresMatrix.csv" and "labels.csv"
     # X = pd.read_csv(exp_path + "featuresMatrix.csv")
+    exp_path = "output_files/featuresAndModel/"
     X = np.loadtxt(exp_path + feature_folder_path + feature_file_name, delimiter=',')
     y = np.loadtxt(exp_path + feature_folder_path + label_file_name, delimiter=',')
 
@@ -47,7 +49,7 @@ def main(exp_path):
     # print(y_pred)
     #
     # Prediction Factors
-    # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
+    print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
     print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
     # print("Report:", classification_report(y_test, y_pred))
 
@@ -64,7 +66,7 @@ def main(exp_path):
     # print(y_pred)
     #
     # # Prediction Factors
-    # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
+    print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
     print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
     # print("Report:", classification_report(y_test, y_pred))
 
@@ -79,7 +81,7 @@ def main(exp_path):
     # print(y_pred)
 
     # Prediction Factors
-    # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
+    print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
     print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
     # print("Report:", classification_report(y_test, y_pred))
 
