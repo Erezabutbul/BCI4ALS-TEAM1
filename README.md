@@ -71,14 +71,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="images/bci.png">
+<img src="images/bci.png" alt="bci" width="240" height="240">
 
 Creating a brain-computer interface capable of distinguishing between a yes/no answer by processing an EEG signal with
 Machine learning algorithms. The interface is built from a running visual experiment of changing shapes - circle, square and triangle.
 One of the forms is a baseline for the experiment, and the other two forms are intended for the yes/no answer, in our experiment we treated them as target and distractor. So the desired answer, either yes or no, is the target and the other answer is the distractor.
 This principle is based on the three-stimulus paradigm using the ERP P300 signal.
 
-<img src="images/shapes.jpg">
+<img src="images/shapes.jpg" alt="shapes">
 
 
 
