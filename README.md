@@ -87,8 +87,8 @@ we aim to tell if the users are thinking of moving your left hand, right hand, o
 ### Built With
 
 * [psychopy](https://www.psychopy.org/)
-* [MNE-features](https://mne.tools/mne-features)
-* [Keras](https://keras.io/)
+* [scipy](https://scipy.org/)
+* [seaborn](https://seaborn.pydata.org/)
 * [scikit-learn](https://scikit-learn.org/)
 
 
