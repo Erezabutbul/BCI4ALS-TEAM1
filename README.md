@@ -87,7 +87,7 @@ One of the shapes is used for a baseline of the experiment, and the other two sh
 This principle is based on the three-stimulus paradigm using the ERP P300 signal.
 
 <p align="center">
-<img src="images/p300.jpg" alt="p300" width="720" height="360">
+<img src="images/p300.png" alt="p300" width="720" height="360">
 </p>
 
 
