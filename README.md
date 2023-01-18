@@ -71,14 +71,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<img src="images/bci.png">
 
-BCI's measure brain activity, process it, and produce control signals that reflect
-the user's intent. We aim to detect and classify patterns of activity in the
-ongoing brain signals that are associated with specific tasks or events.
-
-A common mental strategy is called motor imagery. In our implementation,
-we aim to tell if the users are thinking of moving your left hand, right hand, or not moving (idle).
+Creating a brain-computer interface capable of distinguishing between a yes/no answer by processing an EEG signal with
+Machine learning algorithms. The interface is built from a running visual experiment of changing shapes - circle, square and triangle.
+One of the forms is a baseline for the experiment, and the other two forms are intended for the yes/no answer, in our experiment we treated them as target and distractor. So the desired answer, either yes or no, is the target and the other answer is the distractor.
+This principle is based on the three-stimulus paradigm using the ERP P300 signal.
 
 <img src="images/shapes.jpg">
 
@@ -149,7 +147,7 @@ Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
 Nofar yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
 
-Eden or - [edenzo@post.bgu.ac.il](edenzo@post.bgu.ac.il)
+Eden or - [edeo@post.bgu.ac.il](edeo@post.bgu.ac.il)
 
 
 Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/Erezabutbul/BCI4ALS-TEAM1)
