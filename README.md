@@ -81,7 +81,7 @@ One of the forms is a baseline for the experiment, and the other two forms are i
 This principle is based on the three-stimulus paradigm using the ERP P300 signal.
 
 <p align="center">
-<img src="images/shapes.jpg" alt="shapes" width="360" height="360">
+<img src="images/shapes.jpg" alt="shapes" width="720" height="360">
 </p>
 
 
