@@ -87,13 +87,13 @@ Machine learning algorithms. The interface is built from a running visual experi
 One of the shapes is used for a baseline of the experiment, and the other two shapes are intended for the yes/no answer, in our experiment we treated them as target and distractor. So the desired answer, either yes or no, is the target and the other answer is the distractor.
 
 <p align="center">
-<img src="images/shapes.jpg" alt="shapes" width="720" height="300">
+<img src="images/shapes.jpg" alt="shapes" width="630" height="250">
 </p>
 
 This principle is based on the three-stimulus paradigm using the ERP P300 signal.
 
 <p align="center">
-<img src="images/p300.png" alt="p300" width="720" height="300">
+<img src="images/p300.png" alt="p300" width="630" height="250">
 </p>
 
 
