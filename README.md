@@ -19,7 +19,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/Erezabutbul/BCI4ALS-TEAM1">
-    <img src="images/logo.png" alt="Logo" width="360" height="360">
+    <img src="images/logo.png" alt="Logo" width="280" height="280">
   </a>
 
   <h3 align="center">BCI - 4 - ALS</h3>
@@ -71,9 +71,13 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<p align="center">
-<img src="images/bci.png" alt="bci" width="360" height="360">
-</p>
+*** <p align="center">
+*** <img src="images/bci.png" alt="bci" width="280" height="280">
+*** </p>
+
+<div align="center">
+  <img src="https://media.giphy.com/media/PI3QGKFN6XZUCMMqJm/giphy.gif" width="300"/>
+</div>
 
 Creating a brain-computer interface capable of distinguishing between a yes/no answer by processing an EEG signal with
 Machine learning algorithms. The interface is built from a running visual experiment of changing shapes - circle, square and triangle.
