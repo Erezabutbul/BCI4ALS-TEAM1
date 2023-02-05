@@ -167,7 +167,7 @@ Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/
 ## Acknowledgements
 
 <div align="center">
-  <img src="https://media.giphy.com/media/u4KibgMsDLWM0/giphy.gif" width="100"/>
+  <img src="https://media.giphy.com/media/u4KibgMsDLWM0/giphy.gif" width="300"/>
 </div>
 
 We'd like to take the BCI4ALS course team for their on-going support, and of course to our mentor who is a crutial part of our team.
