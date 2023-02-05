@@ -71,9 +71,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-*** <p align="center">
-*** <img src="images/bci.png" alt="bci" width="280" height="280">
-*** </p>
+% <p align="center">
+% <img src="images/bci.png" alt="bci" width="280" height="280">
+% </p>
 
 <div align="center">
   <img src="https://media.giphy.com/media/PI3QGKFN6XZUCMMqJm/giphy.gif" width="300"/>
