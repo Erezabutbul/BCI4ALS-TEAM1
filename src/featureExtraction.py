@@ -43,12 +43,12 @@ def getLatency(df_marker, elec_num):
     return np.argmax(amp[start_ind:end_ind]) / samplingRate
 
 
-# def main(exp_path):
-def main():
+def main(exp_path):
     # load block by block and extract features
     # concat all the features into one futureMatrix and save it
     # TODO - need to find a way to select the experiment
-    exp_path = "output_files/featuresAndModel/"
+    # maybe read from a txt file that has the paths row by row
+    file_exp_path = exp_path + "/featuresAndModel/"
     # that we want to extract features from
     experiment = ["output_files/EXP_02_01_2023 at 12_12_58_PM/", "output_files/EXP_02_01_2023 at 12_22_52_PM/"]
     blocks = np.arange(0, 5)
@@ -95,7 +95,7 @@ def main():
     finalMatrix = np.concatenate((listOfMatrix[0], listOfMatrix[1]))
     labelsVec = np.array(labelsList)
     labelsVec = labelsVec.reshape(-1, 1)
-    saveFeatures(exp_path, finalMatrix, labelsVec)
+    saveFeatures(file_exp_path, finalMatrix, labelsVec)
     # print(labelsVec.shape)
 
 

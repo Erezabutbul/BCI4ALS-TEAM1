@@ -13,7 +13,9 @@ def getCol(curDf, colNum, row):
         currDict = ast.literal_eval(currDict)
     return currDict
 
-
+# input: load recording file of the experiment
+# output: create file for each block in the experiment,
+#         in the format that can be sampled to feature extraction ect
 def main(exp_path):
     for marker_type in marker_types:
         # read file

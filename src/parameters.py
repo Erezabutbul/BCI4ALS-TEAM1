@@ -17,21 +17,10 @@ path_to_image_triangle = "../images/triangle.jpg"
 path_to_image_rectangle = "../images/rectangle.jpg"
 shapes = [path_to_image_rectangle, path_to_image_triangle, path_to_image_circle]
 
-# # Define stimulus types and load data
-# stimulusType = ["dog", "terrorist",
-#                 "grandmother"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
-#
-# # psychopy parameters
-# path_to_image_dog = "../images/dog.jpg"
-# path_to_image_terrorist = "../images/terrorist.jpg"
-# path_to_image_grandmother = "../images/grandmother.jpg"
-# shapes = [path_to_image_dog, path_to_image_terrorist, path_to_image_grandmother]
-
-
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 30  # (number of trials per block) -  at least 200
-blocks_N = 5  # (number of blocks)
+trials_N = 2  # (number of trials per block) -  at least 200
+blocks_N = 2  # (number of blocks)
 targetAppearances = trials_N / target_ratio  # (number of times target appear per block)
 marker_types = ["baseLine", "target", "distractor"]
 durationAfterStimuli = 0.4  # look 4 mil sec after the stimuli was shown

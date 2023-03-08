@@ -17,13 +17,11 @@ from parameters import *
 
 
 
-# def main(exp_path):
-def main():
+def main(exp_path):
     # load "featuresMatrix.csv" and "labels.csv"
-    # X = pd.read_csv(exp_path + "featuresMatrix.csv")
-    exp_path = "output_files/featuresAndModel/"
-    X = np.loadtxt(exp_path + feature_folder_path + feature_file_name, delimiter=',')
-    y = np.loadtxt(exp_path + feature_folder_path + label_file_name, delimiter=',')
+    model_exp_path = exp_path + "/featuresAndModel/"
+    X = np.loadtxt(model_exp_path + feature_folder_path + feature_file_name, delimiter=',')
+    y = np.loadtxt(model_exp_path + feature_folder_path + label_file_name, delimiter=',')
 
     # print("number of rows of y " + str(y.shape))
     # print("number of rows of X " + str(X.shape[0]))
@@ -37,7 +35,7 @@ def main():
     print("SVC model")
 
     # Create the "EXP_{date}" directory
-    currModelPath = exp_path + model_folder_path
+    currModelPath = model_exp_path + model_folder_path
     os.makedirs(currModelPath, exist_ok=True)
     # save the SVCModel
     SVC_Model_filename = currModelPath + 'finalized_SVC_Model.sav'

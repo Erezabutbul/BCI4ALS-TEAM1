@@ -3,7 +3,7 @@ from parameters import *
 import os
 from datetime import datetime
 
-
+# cut the data in the mentioned below nature
 def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile, marker_type):
     markers = pd.read_csv(currentMarkerFile)
     eeg = pd.read_csv(currentEEGFile)
@@ -46,9 +46,7 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
     return allTrial
 
 
-# def main(exp_path):
-def main():
-    exp_path = "output_files/EXP_02_01_2023 at 12_22_52_PM/"
+def main(exp_path):
     # load the filtered data and split it into classes
     currentEEGFile = exp_path + filtered_EEG_folder_path + Filtered_EEG_file_name
     currentMarkerFile = exp_path + markers_arranged_folder_path + markers_arranged_file_name
@@ -60,6 +58,9 @@ def main():
     os.makedirs(classPath, exist_ok=True)
     #########################################################
 
+    # cut the EEG recording by classes (as mentioned in parameters.py)
+    # EEG samples in len of: samplingRate * (durationBeforeStimuli + durationAfterStimuli)
+    # save the file in class"marker_type" file that later can be analysed
     for marker_type in marker_types:
         allTrialOfType = cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile,
                              marker_type)

@@ -3,27 +3,14 @@ import random
 from parameters import *
 
 
-# FUNCTIONS
+# Generate Experiment - returns the trials / test order
 
-
-# Generate Experiment
 def generateExperiment():
     experiment = list()
     for i in range(0, blocks_N):
         experiment.append(generateBlock())
     return experiment
 
-
-# # OLD Generate Block
-# def generateBlock():
-#     block = list()
-#     block.append(0)  # block starts with 0
-#     for i in range(0, trials_N):
-#         t = generated_trial()
-#         if t != 0:  # if target was selected
-#             block.append(t)
-#         block.append(0)
-#     return block
 
 ####### ****NEW**** Generate Block
 # does not provide baseline after target or distractor

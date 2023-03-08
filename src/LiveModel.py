@@ -10,20 +10,17 @@ import numpy as np
 from parameters import *
 
 
-# def main(exp_path):
-def main():
-    # TODO - remove exp_path
+def main(exp_path):
     # load models
-    exp_path = "output_files/featuresAndModel/"
-    # exp_path = "output_files/featuresAndModel/features/models/"
-    currModelPath = exp_path + feature_folder_path + model_folder_path
+    liveModle_exp_path = exp_path + "/featuresAndModel/"
+    currModelPath = liveModle_exp_path + feature_folder_path + model_folder_path
     SVC_Model_filename = currModelPath + 'finalized_SVC_Model.sav'
     SVC_model = pickle.load(open(SVC_Model_filename, 'rb'))
     # labels_path = "output_files/featuresAndModel/features/"
     # test_set_labels = np.loadtxt(labels_path + "test_labels.csv", delimiter=',')
 
     # SVC Prediction
-    testFeatureMatrix = pd.read_csv(exp_path + feature_folder_path + feature_of_test_file_name, header=None)
+    testFeatureMatrix = pd.read_csv(liveModle_exp_path + feature_folder_path + feature_of_test_file_name, header=None)
     y_SVC_pred = SVC_model.predict(testFeatureMatrix)
     print("Predicted values:")
     print(y_SVC_pred)
