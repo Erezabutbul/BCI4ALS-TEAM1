@@ -1,5 +1,8 @@
 import multiprocessing
 import os
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame
 from datetime import datetime
 from lsl_Record_data import main as lsl_main
 from GUI import showExperiment
@@ -9,6 +12,7 @@ from psycho_data_Arrange import main as arrange_markers_main
 from avgData import main as avgData_main
 from featureExtraction import main as featureExtraction_main
 from Model import main as modelToTrain
+
 
 
 def createFile():

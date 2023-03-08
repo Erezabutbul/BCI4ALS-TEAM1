@@ -1,5 +1,5 @@
 import os
-from psychopy import logging, core, visual
+from psychopy import logging, core, visual, sound
 from runExperiment import generated_experiment
 import parameters as p
 import pylsl
@@ -19,8 +19,8 @@ def showExperiment(exp_path, keepRunning):
     interTime = p.interTime  # take from parameters
     StimOnset = p.StimOnset
 
-    shapes = p.shapes
-    shapeStrings = p.stimulusType
+    faces = p.faces
+    stimulusType = p.stimulusType
 
     win = visual.Window(fullscr=True, autoLog=False)
 
@@ -51,10 +51,11 @@ def showExperiment(exp_path, keepRunning):
         currentBlock = generated_experiment[indexOfBlock]
 
         # generating new order for target,non target,distractor
-        baseline, target, distractor = random.sample(range(0, 3), 3)
+        baseline = 0
+        target, distractor = random.sample(range(1, 3), 2)
 
         # plot to audience
-        message.text = "Please focus on the {}".format(shapeStrings[target])  # Change properties of existing stim
+        message.text = "Please focus on the {}".format(stimulusType[target])  # Change properties of existing stim
         message.draw()
         win.flip()
         core.wait(interTime)
@@ -64,35 +65,56 @@ def showExperiment(exp_path, keepRunning):
 
         win.logOnFlip(level=logging.EXP, msg="startBlock")  # here we are logging the time
         win.flip()
+
+        # sounds
+        # baseline_sound = sound.Sound('A', octave=5, sampleRate=44100, secs=0.1, bits=8)
+        # target_sound = sound.Sound('B', octave=6, sampleRate=44100, secs=0.1, bits=8)
+        # distractor_sound = sound.Sound('C', octave=7, sampleRate=44100, secs=0.1, bits=8)
+
+        baseline_sound = sound.Sound(p.sounds[baseline])
+        target_sound = sound.Sound(p.sounds[target])
+        distractor_sound = sound.Sound(p.sounds[distractor])
+
+        # images
+        baseline_image = visual.ImageStim(win, image=faces[baseline], autoLog=False)
+        target_image = visual.ImageStim(win, image=faces[target], autoLog=False)
+        distractor_image = visual.ImageStim(win, image=faces[distractor], autoLog=False)
+
         # go through current block
         for i in currentBlock:
             if i == 0:
-                shape_image = visual.ImageStim(win, image=shapes[baseline], autoLog=False)
-                shape_image.draw()
+                # shape_image = visual.ImageStim(win, image=shapes[baseline], autoLog=False)
+                # shape_image.draw()
+                baseline_image.draw()
+                # baseline_sound.play()
                 win.logOnFlip(level=logging.EXP, msg="baseLine")  # here we are logging the time
                 win.flip()
                 # write the timestamp of baseline
-                print("writing baseline and the baseline is " + shapeStrings[baseline])
+                print("writing baseline and the baseline is " + stimulusType[baseline])
                 core.wait(StimOnset)
                 win.flip()
                 core.wait(StimOnset)
             elif i == 1:
-                shape_image = visual.ImageStim(win, image=shapes[target], autoLog=False)
-                shape_image.draw()
+                # shape_image = visual.ImageStim(win, image=shapes[target], autoLog=False)
+                # shape_image.draw()
+                target_image.draw()
+                target_sound.play()
                 win.logOnFlip(level=logging.EXP, msg="target")  # here we are logging the time
                 win.flip()
                 # write the timestamp of target
-                print("writing target and the target is " + shapeStrings[target])
+                print("writing target and the target is " + stimulusType[target])
                 core.wait(StimOnset)
                 win.flip()
                 core.wait(StimOnset)
             elif i == 2:
-                shape_image = visual.ImageStim(win, image=shapes[distractor], autoLog=False)
-                shape_image.draw()
+                # shape_image = visual.ImageStim(win, image=shapes[distractor], autoLog=False)
+                # shape_image.draw()
+                distractor_image.draw()
+                distractor_sound.play()
                 win.logOnFlip(level=logging.EXP, msg="distractor")  # here we are logging the time
                 win.flip()
                 # write the timestamp of distractor
-                print("writing distractor and the distractor is " + shapeStrings[distractor])
+                print("writing distractor and the distractor is " + stimulusType[distractor])
                 core.wait(StimOnset)
                 win.flip()
                 core.wait(StimOnset)
@@ -103,6 +125,7 @@ def showExperiment(exp_path, keepRunning):
     keepRunning.value = False
     # win.close()
     # core.quit()
+
 
 if __name__ == '__main__':
     showExperiment()

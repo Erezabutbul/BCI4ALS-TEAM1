@@ -4,22 +4,31 @@ import os
 
 # Experiment parameters
 StimOnset = 0.7  # (time to present the stimulus)
-interTime = 0.2  # (time between stimulus)
+interTime = 0.4  # (time between stimulus)
 targets_N = 2  # (number of target stimulus)
 
 # Define stimulus types and load data
-stimulusType = ["square", "triangle",
-                "circle"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
+stimulusType = ["neutral face", "sad face",
+                "happy face"]  # (type of stimulus to load and present- different pictures\ audio \ etc.)
 
 # psychopy parameters
-path_to_image_circle = "../images/circle.jpg"
-path_to_image_triangle = "../images/triangle.jpg"
-path_to_image_rectangle = "../images/rectangle.jpg"
-shapes = [path_to_image_rectangle, path_to_image_triangle, path_to_image_circle]
 
+# image
+path_to_image_neutral = "../images/neutral_face.jpg"
+path_to_image_happy = "../images/happy_face.jpg"
+path_to_image_sad = "../images/sad_face.jpg"
+
+faces = [path_to_image_neutral, path_to_image_sad, path_to_image_happy]
+
+# sound
+normal_path = "../sounds/ding1.mp3"
+major_path = "../sounds/ding1.mp3"
+minor_path = "../sounds/ding2.mp3"
+
+sounds = [normal_path, minor_path, major_path]
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 2  # (number of trials per block) -  at least 200
+trials_N = 10  # (number of trials per block) -  at least 200
 blocks_N = 2  # (number of blocks)
 targetAppearances = trials_N / target_ratio  # (number of times target appear per block)
 marker_types = ["baseLine", "target", "distractor"]
@@ -59,6 +68,8 @@ feature_of_test_file_name = "test_featuresMatrix.csv"
 label_file_name = "labels.csv"
 label_of_test_file_name = "test_labels.csv"
 model_folder_path = "models/"
+
+
 # markers_folder_path = "output_files/Marker_Recordings/"
 # markers_psycho_folder_path = "output_files/markerPsycho/"
 # markers_psycho_file_name = "output_files/markerPsycho/" + f"listOfMarkers_{date}.csv" # with path
@@ -91,7 +102,6 @@ model_folder_path = "models/"
 # allTrialsDistractor_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/distractor/" + f"Mean_EEG_Signal_distractordistractor_AVG_by_blocks.csv"
 
 
-
 # useful functions
 def getTheMostUpdatedFile(pathOfFiles):
     # because of the way of saving
@@ -116,4 +126,3 @@ def extract_date(file_name):
 
 global keepRunning
 keepRunning = True
-
