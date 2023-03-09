@@ -6,6 +6,7 @@ import os
 StimOnset = 0.7  # (time to present the stimulus)
 interTime = 0.4  # (time between stimulus)
 targets_N = 2  # (number of target stimulus)
+waitBetweenSounds = 2 # (introducing the sounds in test condition)
 
 # Define stimulus types and load data
 stimulusType = ["neutral face", "sad face",
