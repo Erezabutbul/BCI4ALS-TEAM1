@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import pandas as pd
 from parameters import *
 import os
@@ -67,3 +68,5 @@ markers_Arranged = {
 file = pd.DataFrame(markers_Arranged)
 file.to_csv(markers_psycho_folder_path + f"{date}_Fixed.csv", index=True, index_label="index", encoding="utf_8_sig")
 >>>>>>> 5af68f5 (erez's version)
+=======
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b

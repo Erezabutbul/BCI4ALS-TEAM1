@@ -1,10 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import os
 =======
 """Example program to show how to read a multi-channel time series from LSL."""
 import time
 
 >>>>>>> 5af68f5 (erez's version)
+=======
+"""Example program to show how to read a multi-channel time series from LSL."""
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 import pylsl
 from pylsl import StreamInlet, resolve_stream, resolve_bypred
 import pandas as pd
@@ -24,8 +28,8 @@ def main(exp_path, keepRunning):
     index = 0
 <<<<<<< HEAD
 
-    while keepRunning.value:
-
+    while p.keepRunning:
+        # print(p.keepRunning)
         # get a new sample (you can also omit the timestamp part if you're not
         # interested in it)
         data = dict()

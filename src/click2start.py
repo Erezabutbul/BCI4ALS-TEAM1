@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import multiprocessing
 <<<<<<< HEAD
 import os
@@ -28,11 +29,17 @@ if __name__ == '__main__':
 import data_extraction_by_class
 from threading import Thread
 >>>>>>> 5af68f5 (erez's version)
+=======
+import time
 
-def createFile(state):
-    # date & time
-    date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
+import lsl_Record_data
+import GUI
+import data_match_and_merge
+from threading import Thread
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 
+
+<<<<<<< HEAD
 <<<<<<< HEAD
     # Create the "EXP_{date}" directory
     if state == "train":
@@ -159,3 +166,11 @@ print("All processes finished")
 # p1.wait()
 # p2.wait()
 >>>>>>> 5af68f5 (erez's version)
+=======
+t1 = Thread(target=lsl_Record_data.main, args=[])
+t1.start()
+GUI.showExperiment()
+t1.join()
+
+data_match_and_merge.main()
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b

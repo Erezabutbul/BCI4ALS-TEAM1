@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import pandas as pd
 import ast
 from parameters import *
@@ -209,3 +210,5 @@ if __name__ == '__main__':
 # #     for i in range(0,lengthOfDF):
 # #         currDict = df.iloc[i,currentCol]
 # #         for key in currDict.keys():
+=======
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b

@@ -22,10 +22,14 @@ def generateBlock():
         if 1 <= r <= targetAppearances:
             block.append(1)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             t = t + 1
 >>>>>>> 5af68f5 (erez's version)
         elif targetAppearances < r <= 2 * targetAppearances:
+=======
+        elif targets_N<r<=2*targets_N:
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
             block.append(2)
         else:
             block.append(0)

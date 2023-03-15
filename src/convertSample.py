@@ -1,8 +1,5 @@
-import pandas as pd
-import ast
-from numpy import float_
-from parameters import *
 
+<<<<<<< HEAD
 
 def getCol(curDf, colNum, row):
 <<<<<<< HEAD
@@ -74,3 +71,7 @@ outputDf = outputDf.iloc[2:, :]
 # save the file / show it
 outputDf.to_csv("output_files/cut_data_by_class/baseLine/" + f"AVG_block_num_{block}.csv")
 >>>>>>> 5af68f5 (erez's version)
+=======
+# save the file / show it
+outputDf.to_csv("output_files/cut_data_by_class/baseLine/" + f"AVG_block_num_{block}.csv")
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b

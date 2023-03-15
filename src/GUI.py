@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import os
 import time
 
@@ -8,6 +9,15 @@ import sys
 
 from psychopy import logging, core, visual
 >>>>>>> 5af68f5 (erez's version)
+=======
+from matplotlib import pyplot as plt
+from matplotlib import image as mpimg
+import numpy as np
+import pylsl
+from matplotlib.pyplot import figure
+# %matplotlib auto
+import lsl_Record_data
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 from runExperiment import generated_experiment
 import parameters as p
 import pylsl
@@ -22,12 +32,16 @@ class Timer:
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def showExperiment(exp_path, keepRunning, state):
 =======
 def showExperiment():
     # fileName = p.markers_file_name_psychopy
 
 >>>>>>> 5af68f5 (erez's version)
+=======
+def showExperiment():
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
     interTime = p.interTime  # take from parameters
     StimOnset = p.StimOnset
     faces = p.faces
@@ -40,6 +54,7 @@ def showExperiment():
     os.makedirs(markers_dir, exist_ok=True)
     ###########################################################
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     fileName = markers_dir + "/" + p.markers_psycho_file_name
     logfile = open(fileName, 'w')
@@ -65,6 +80,20 @@ def showExperiment():
     message.draw()
     win.flip()
     core.wait(interTime)
+=======
+    figure(figsize=(8, 6), dpi=80)
+    figManager = plt.get_current_fig_manager()
+    figManager.window.showMaximized()
+
+    plt.text(0.5, 0.5, "Welcome", fontsize=50, horizontalalignment='center')
+    plt.axis('off')
+    plt.pause(2)
+    plt.clf()
+    plt.ion()  # added for correctness
+
+    # will save the time stamps and the shape according to the order of appearance
+    timeStampAndShapes = list()
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 
     for indexOfBlock in range(0, p.blocks_N):
         # get current block
@@ -92,6 +121,7 @@ def showExperiment():
         if state == "train":
         # plot to audience
 <<<<<<< HEAD
+<<<<<<< HEAD
             message.text = "Please focus on the {}".format(stimulusType[target])  # Change properties of existing stim
             message.draw()
             win.flip()
@@ -109,11 +139,24 @@ def showExperiment():
             core.wait(p.waitBetweenSounds)
             distractor_sound.play()
         keyboard.wait(' ')
+=======
+        plt.text(0.5, 0.5, "Please focus on the {}".format(shapeStrings[target]), fontsize=50,
+                 horizontalalignment='center')
+        plt.axis('off')
+        plt.pause(2)
+        plt.clf()
+        # keyboard.wait(' ')
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
+        curr_data = dict()
+        curr_data["timeStamp"] = pylsl.local_clock()
+        curr_data["description"] = "start_of_Block_number " + str(indexOfBlock)
+        timeStampAndShapes.append(curr_data)
 
         win.logOnFlip(level=logging.EXP, msg="startBlock")  # here we are logging the time
         win.flip()
+<<<<<<< HEAD
 =======
         message.text = "Please focus on the {}".format(shapeStrings[target])  # Change properties of existing stim
         message.draw()
@@ -214,3 +257,45 @@ if __name__ == '__main__':
 # if __name__ == '__main__':
 showExperiment()
 >>>>>>> 5af68f5 (erez's version)
+=======
+        # go through current block
+        for i in currentBlock:
+            if i == 0:
+                plt.axis('off')
+                plt.imshow(shapes[baseline])
+                plt.show()
+                # write the timestamp of baseline
+                print("writing baseline and the baseline is " + shapeStrings[baseline])
+                curr_data["timeStamp"] = pylsl.local_clock()
+                curr_data["description"] = "baseLine"
+                plt.pause(StimOnset)
+                plt.clf()
+                plt.pause(interTime)
+            elif i == 1:
+                plt.axis('off')
+                plt.imshow(shapes[target])
+                plt.show()
+                print("writing target and the target is " + shapeStrings[target])
+                curr_data["timeStamp"] = pylsl.local_clock()
+                curr_data["description"] = "target"
+                plt.pause(StimOnset)
+                plt.clf()
+                plt.pause(interTime)
+            elif i == 2:
+                plt.axis('off')
+                plt.imshow(shapes[distractor])
+                plt.show()
+                # write the timestamp of distractor
+                print("writing distractor and the distractor is " + shapeStrings[distractor])
+                curr_data["timeStamp"] = pylsl.local_clock()
+                curr_data["description"] = "distractor"
+                plt.pause(StimOnset)
+                plt.clf()
+                plt.pause(interTime)
+            timeStampAndShapes.append(curr_data)
+
+    file = pd.DataFrame(timeStampAndShapes)
+    file.to_csv(p.markers_file_name, index=True, index_label="index", encoding="utf_8_sig")
+    plt.close()
+    p.keepRunning = False
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b

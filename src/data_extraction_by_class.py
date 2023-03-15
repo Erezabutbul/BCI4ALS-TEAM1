@@ -4,10 +4,17 @@ import os
 from datetime import datetime
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # cut the data in the mentioned below nature
 =======
 
 >>>>>>> 5af68f5 (erez's version)
+=======
+
+=======
+# cut the data in the mentioned below nature
+>>>>>>> 655094ad61895b9365569cf1685c72c4cc308303
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile, marker_type):
     markers = pd.read_csv(currentMarkerFile)
     eeg = pd.read_csv(currentEEGFile)
@@ -25,6 +32,14 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
             end_time = marker[1] + durationAfterStimuli
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+            trial_data = eeg.loc[
+                (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
+                ["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]
+            ].to_dict("records")
+=======
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
             # ATTENTION mal function for now
             # trial_data = eeg.loc[
             #     (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
@@ -44,12 +59,16 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
             # Convert to a list of dictionaries
             trial_data = trial_data.to_dict("records")
 
+<<<<<<< HEAD
 =======
             trial_data = eeg.loc[
                 (start_time <= eeg["timeStamp"]) & (eeg["timeStamp"] <= end_time),
                 ["index", "timeStamp", *[f"channel_{i}" for i in range(1, 17)]]
             ].to_dict("records")
 >>>>>>> 5af68f5 (erez's version)
+=======
+>>>>>>> 655094ad61895b9365569cf1685c72c4cc308303
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
             allTrial.append(trial_data)
 
         elif curr_type == 'startBlock':
@@ -58,6 +77,24 @@ def cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentE
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+def main():
+    # currentMarkerFile = markers_folder_path + getTheMostUpdatedFile(markers_folder_path)
+    # TODO - make sure you change to filtered after all the BALAGAN
+    # currentEEGFile = EEG_folder_path + getTheMostUpdatedFile(EEG_folder_path)
+
+    currentMarkerFile = markers_psycho_file_name_FORTEST
+    currentEEGFile = EEG_file_name_FORTEST
+
+    for marker_type in marker_types:
+        allTrialOfType = cut(durationBeforeStimuli, durationAfterStimuli, currentMarkerFile, currentEEGFile,
+                             marker_type)
+        df = pd.DataFrame(allTrialOfType)
+        df.to_csv(f"output_files/cut_data_by_class/{marker_type}/" + f"class_{marker_type}_{date}.csv", index=True,
+                  index_label="index", encoding="utf_8_sig")
+=======
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 def main(exp_path):
     # load the filtered data and split it into classes
     currentEEGFile = exp_path + filtered_EEG_folder_path + Filtered_EEG_file_name
@@ -83,6 +120,7 @@ def main(exp_path):
         file = pd.DataFrame(allTrialOfType)
         file.to_csv(classTypePath + f"class{marker_type}.csv", index=True, index_label="index", encoding="utf_8_sig")
 
+<<<<<<< HEAD
 =======
 def main():
     # currentMarkerFile = markers_folder_path + getTheMostUpdatedFile(markers_folder_path)
@@ -99,6 +137,9 @@ def main():
         df.to_csv(f"output_files/cut_data_by_class/{marker_type}/" + f"class_{marker_type}_{date}.csv", index=True,
                   index_label="index", encoding="utf_8_sig")
 >>>>>>> 5af68f5 (erez's version)
+=======
+>>>>>>> 655094ad61895b9365569cf1685c72c4cc308303
+>>>>>>> 372fbdb0d3b32824a93b186dd8e6e631e12dba4b
 
 
 if __name__ == '__main__':
