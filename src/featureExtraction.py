@@ -1,102 +1,63 @@
-# Importing the required packages
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-from scipy.signal import find_peaks
+from dict2Mat import main as dict2Mat_main
+import os
 from parameters import *
+import pandas as pd
+import numpy as np
 
 
-def saveFeatures(exp_path, X, y):
-    # save to "EXP_{date}" directory
-    featureDir = exp_path + feature_folder_path
-    os.makedirs(featureDir, exist_ok=True)
-    # X.to_csv(featuresDir + feature_file_name)
-    np.savetxt(featureDir + feature_file_name, X, delimiter=",")
-    # Save the array to a CSV file
-    np.savetxt(featureDir + label_file_name, y, delimiter=",")
+def main(state):
+    # get all the experiment folders
+    main_folder = "output_files"
+    # TODO - add path for test condition
+    # save test condition in the exp_path folder : 'currTest/features/'
+    exp_folders = [f for f in os.listdir(main_folder) if
+                   os.path.isdir(os.path.join(main_folder, f)) and f.startswith('EXP')]
 
+    # extract trial by class for each experiment
+    for exp_num in range(len(exp_folders)):
+        exp_path = "output_files/" + exp_folders[exp_num]
+        dict2Mat_main(exp_path)
 
-def getAmplitude(df_marker, elec_num):
-    amp = df_marker.iloc[elec_num, 1:] - np.mean(df_marker.iloc[elec_num, 1:])
-    start_ind = round(samplingRate * 0.4)
-    end_ind = round(samplingRate * 0.55)
-    return max(amp[start_ind:end_ind])
+    outputDf_target = pd.DataFrame()
+    outputDf_distractor = pd.DataFrame()
+    # for each experiment, per class, concatenate all trials
+    for exp_num in range(len(exp_folders)):
+        exp_path = "output_files/" + exp_folders[exp_num]
 
+        for marker_type in marker_types:
+            folder_path = exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
+            trial_files = [f for f in os.listdir(folder_path) if f.endswith('.csv')]
 
-def getArea(df_marker, elec_num):
-    amp = df_marker.iloc[elec_num, 1:] - np.mean(df_marker.iloc[elec_num, 1:])
-    ind = round(samplingRate * 0.3)
-    return np.sum(amp[ind:])
+            outputDf_exp = pd.DataFrame()
+            for trial in range(len(trial_files)):
+                trial_path = folder_path + trial_files[trial]
+                currDf = pd.read_csv(trial_path)
+                # TODO - trial and electrode rejection
+                outputDf_exp = pd.concat([outputDf_exp, currDf])
 
+            outputDf_exp.to_csv(folder_path + f"All_Trials_{marker_type}.csv")
 
-def getSTD(df_marker, elec_num):
-    x = df_marker.iloc[elec_num, 1:] - np.mean(df_marker.iloc[elec_num, 1:])
-    standiv = np.std(x)
-    std = pow(standiv, 2)
-    return std
+            if state == 'train':
+                # for each class concatenate trials for all EXP
+                if marker_type == 'target':
+                    outputDf_target = pd.concat([outputDf_target, outputDf_exp])
+                if marker_type == 'distractor':
+                    outputDf_distractor = pd.concat([outputDf_distractor, outputDf_exp])
 
+    if state == 'train':
+        # save features matrix for all EXP available
+        features_path = "output_files/featuresAndModel/features/"
+        outputDf_target.to_csv(features_path + f"Features_target.csv")
+        outputDf_distractor.to_csv(features_path + f"Features_distractor.csv")
 
-def getLatency(df_marker, elec_num):
-    amp = df_marker.iloc[elec_num, 1:] - np.mean(df_marker.iloc[elec_num, 1:])
-    start_ind = round(samplingRate * 0.4)
-    end_ind = round(samplingRate * 0.55)
-    return np.argmax(amp[start_ind:end_ind]) / samplingRate
+        # create labels vector
+        num_target = outputDf_target.shape[0]
+        num_distractor = outputDf_distractor.shape[0]
+        labels_vec = np.concatenate((np.ones(num_target), np.zeros(num_distractor)))
+        np.savetxt(features_path + f"labels_vector.csv", labels_vec, delimiter=",")
+        outputDf = pd.concat([outputDf_target, outputDf_distractor])
+        outputDf.to_csv(features_path + f"features_matrix.csv")
 
-
-def main(exp_path):
-    # load block by block and extract features
-    # concat all the features into one futureMatrix and save it
-    # TODO - need to find a way to select the experiment
-    # maybe read from a txt file that has the paths row by row
-    file_exp_path = exp_path + "/featuresAndModel/"
-    # that we want to extract features from
-    experiment = ["output_files/EXP_02_01_2023 at 12_12_58_PM/", "output_files/EXP_02_01_2023 at 12_22_52_PM/"]
-    blocks = np.arange(0, 5)
-    electrodes = np.array([0, 2, 6, 7, 9, 10, 11, 12])
-    markers = ["target", "distractor"]
-    listOfMatrix = list()
-    labelsList = list()
-    featureNum = 4
-    colOfMatrix = len(electrodes) * featureNum
-    j = 0
-    for exp_num in np.arange(len(experiment)):
-        featureMatrix = pd.DataFrame(np.zeros((2 * len(blocks), colOfMatrix)))
-        for block_num in blocks:
-            for elec_num in electrodes:
-                for label in np.arange(len(markers)):
-                    if label == 0:
-                        df = pd.read_csv(
-                            f"{experiment[exp_num]}" + f"cut_data_by_class/{markers[label]}/Mean_EEG_Signal_{markers[label]}/" + f"AVG_block_num_{block_num}.csv")
-                        featureMatrix.loc[2 * block_num, featureNum * j] = getAmplitude(df, elec_num)
-                        featureMatrix.loc[2 * block_num, featureNum * j + 1] = getArea(df, elec_num)
-                        featureMatrix.loc[2 * block_num, featureNum * j + 2] = getLatency(df, elec_num)
-                        featureMatrix.loc[2 * block_num, featureNum * j + 3] = getSTD(df, elec_num)
-                    else:
-                        df = pd.read_csv(
-                            f"{experiment[exp_num]}" + f"cut_data_by_class/{markers[label]}/Mean_EEG_Signal_{markers[label]}/" + f"AVG_block_num_{block_num}.csv")
-                        featureMatrix.loc[2 * block_num + 1, featureNum * j] = getAmplitude(df, elec_num)
-                        featureMatrix.loc[2 * block_num + 1, featureNum * j + 1] = getArea(df, elec_num)
-                        featureMatrix.loc[2 * block_num + 1, featureNum * j + 2] = getLatency(df, elec_num)
-                        featureMatrix.loc[2 * block_num + 1, featureNum * j + 3] = getSTD(df, elec_num)
-                j = j + 1
-            j = 0
-            labelsList.append(0)
-            labelsList.append(1)
-        listOfMatrix.append(featureMatrix)
-    # TODO -
-    # concatenate features with loop
-    # create a labels vector from original samples
-
-    # print(listOfMatrix)
-    # currMatrix = listOfMatrix[0]
-    # for i in range(1, len(listOfMatrix)-1):
-    #     currMatrix = np.concatenate((currMatrix, listOfMatrix[i]))
-    print(listOfMatrix[0])
-    finalMatrix = np.concatenate((listOfMatrix[0], listOfMatrix[1]))
-    labelsVec = np.array(labelsList)
-    labelsVec = labelsVec.reshape(-1, 1)
-    saveFeatures(file_exp_path, finalMatrix, labelsVec)
-    # print(labelsVec.shape)
 
 
 if __name__ == '__main__':
