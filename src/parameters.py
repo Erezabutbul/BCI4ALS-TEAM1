@@ -2,6 +2,10 @@ from matplotlib import image as mpimg
 from datetime import datetime
 import os
 
+#train or test MODE
+modes = ["TRAIN","TEST"]
+mode = 0 
+
 # Experiment parameters
 StimOnset = 0.7  # (time to present the stimulus)
 interTime = 0.4  # (time between stimulus)
