@@ -19,51 +19,51 @@ def getCol(curDf, colNum, row):
 #         in the format that can be sampled to feature extraction ect
 def main(exp_path):
     for marker_type in marker_types:
+        # check if directory exists, if not makes one
+        directory = exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-        # read file
-        df = pd.read_csv(
-            exp_path + f"/cut_data_by_class/{marker_type}/class{marker_type}.csv")
-        # removing indexes
-        # cut the index column, and
-        # according to the number of samples that supposed to see in the current sampling rate
-        df = df.iloc[:, 1:(numOfSamplesToCut + 1)]
+            # read file
+            df = pd.read_csv(
+                exp_path + f"/cut_data_by_class/{marker_type}/class{marker_type}.csv")
+            # removing indexes
+            # cut the index column, and
+            # according to the number of samples that supposed to see in the current sampling rate
+            df = df.iloc[:, 1:(numOfSamplesToCut + 1)]
 
-        # Find the indices of the rows containing the startBlock markers
-        start_block_indices = df.index[df['0'] == 'startBlock'].tolist()
+            # Find the indices of the rows containing the startBlock markers
+            start_block_indices = df.index[df['0'] == 'startBlock'].tolist()
 
-        # Iterate over the list of start block indices
-        for i in range(len(start_block_indices)):
-            # Slice the dataframe from the current start block index to the next start block index
-            if i < len(start_block_indices) - 1:
-                startRow = start_block_indices[i] + 1
-                endRow = start_block_indices[i + 1]
-            else:
-                startRow = start_block_indices[len(start_block_indices) - 1] + 1
-                endRow = df.shape[0]
+            # Iterate over the list of start block indices
+            for i in range(len(start_block_indices)):
+                # Slice the dataframe from the current start block index to the next start block index
+                if i < len(start_block_indices) - 1:
+                    startRow = start_block_indices[i] + 1
+                    endRow = start_block_indices[i + 1]
+                else:
+                    startRow = start_block_indices[len(start_block_indices) - 1] + 1
+                    endRow = df.shape[0]
 
-            sliced_df = df.iloc[startRow:endRow, :]
-            numOfCol = sliced_df.shape[1]
-            if not sliced_df.empty:
-                # Select the trial you want to see
-                # the trial is represented as a row in the block
-                for trial in range(startRow, endRow):
-                    # Create a output dataframe
-                    outputDf = pd.DataFrame()
+                sliced_df = df.iloc[startRow:endRow, :]
+                numOfCol = sliced_df.shape[1]
 
-                    for col in range(numOfCol):
-                        outputDf[col] = getCol(sliced_df, col, trial)
+                if not sliced_df.empty:
+                    # Select the trial you want to see
+                    # the trial is represented as a row in the block
+                    for trial in range(startRow, endRow):
+                        # Create a output dataframe
+                        outputDf = pd.DataFrame()
 
-                    # remove the index and the timestamps
-                    outputDf = outputDf.iloc[2:, :]
+                        for col in range(numOfCol):
+                            outputDf[col] = getCol(sliced_df, col, trial)
 
-                    # check if directory exists, if not make one
-                    directory = exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
-                    if not os.path.exists(directory):
-                        os.makedirs(directory)
+                        # remove the index and the timestamps
+                        outputDf = outputDf.iloc[2:, :]
 
-                    # save the file / show it
-                    outputDf.to_csv(exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
-                                    + f"Trial_num_{trial}.csv")
+                        # save the file / show it
+                        outputDf.to_csv(exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
+                                        + f"Trial_num_{trial}.csv")
 
 
 if __name__ == '__main__':

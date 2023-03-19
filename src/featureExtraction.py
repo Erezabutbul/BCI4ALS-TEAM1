@@ -18,18 +18,22 @@ def getTrialFilesList(currTrialEEGSignalPath):
 
 
 def concatAllTrialsByClass(marker_type, currTrialEEGSignalPath):
-    trialFilesList = getTrialFilesList(currTrialEEGSignalPath)
-    outputDf_exp = pd.DataFrame()
-    for trial in trialFilesList:
-        trial_path = os.path.join(currTrialEEGSignalPath, trial)
-        currDf = pd.read_csv(trial_path)
-        # TODO - trial and electrode rejection, electrodes are hardcoded here
-        channels = [0, 2, 3, 5, 9]
-        # iterate over indexList and extract matching rows
-        for i in channels:
-            row_df = currDf.iloc[i:i + 1, :]
-            outputDf_exp = pd.concat([outputDf_exp, row_df])
-    outputDf_exp.to_csv(currTrialEEGSignalPath + f"All_Trials_{marker_type}.csv", index=False)
+    # checks if All_Trials_class file exists, if not create one
+    if os.path.isfile(currTrialEEGSignalPath + f"All_Trials_{marker_type}.csv"):
+        print(f"All_Trials_{marker_type} already exists")
+        outputDf_exp = pd.read_csv(currTrialEEGSignalPath + f"All_Trials_{marker_type}.csv")
+    else:
+        trialFilesList = getTrialFilesList(currTrialEEGSignalPath)
+        outputDf_exp = pd.DataFrame()
+        for trial in trialFilesList:
+            trial_path = os.path.join(currTrialEEGSignalPath, trial)
+            currDf = pd.read_csv(trial_path)
+            # TODO - trial and electrode rejection, electrodes are hardcoded here
+            channels = [0, 2, 3, 5, 9]
+            # extract selected channels from trial
+            currDf = currDf.iloc[channels, :]
+            outputDf_exp = pd.concat([outputDf_exp, currDf])
+        outputDf_exp.to_csv(currTrialEEGSignalPath + f"All_Trials_{marker_type}.csv", index=False)
     return outputDf_exp
 
 
