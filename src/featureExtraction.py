@@ -67,7 +67,7 @@ def main(exp_path, state):
         # create labels vector
         num_target = outputDf_target.shape[0]
         num_distractor = outputDf_distractor.shape[0]
-        labels_vec = np.concatenate((np.ones(num_target), np.zeros(num_distractor)))
+        labels_vec = np.concatenate((np.ones(num_target, dtype=int), np.zeros(num_distractor, dtype=int)))
         np.savetxt(feature_folder_path + f"labels_vector.csv", labels_vec, delimiter=",")
         finalFeatureMatrix = pd.concat([outputDf_target, outputDf_distractor])
         finalFeatureMatrix.to_csv(feature_folder_path + f"features_matrix.csv")
@@ -90,6 +90,9 @@ def main(exp_path, state):
         # TODO - move path to parameters
         feature_folder_path = os.path.join(exp_path, "features")
         os.makedirs(feature_folder_path, exist_ok=False)
+        # save num of trials*elecs for each condition - target and distractor
+        num_trails_elecs_conditions = np.array([outputDf_condition1.shape[0], outputDf_condition2.shape[0]], dtype=int)
+        np.savetxt(feature_folder_path + f"num_trails_elecs_conditions.csv", num_trails_elecs_conditions, delimiter=",")
         finalTestFeatureMatrix = pd.concat([outputDf_condition1, outputDf_condition2])
         finalTestFeatureMatrix.to_csv(feature_folder_path + f"test_features_matrix.csv", index=False)
 
