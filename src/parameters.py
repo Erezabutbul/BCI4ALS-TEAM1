@@ -1,10 +1,13 @@
 from matplotlib import image as mpimg
 from datetime import datetime
 import os
+import pandas as pd
+import pylsl
+import numpy as np
 
 #train or test MODE
 modes = ["TRAIN","TEST"]
-mode = 0 
+mode = 1 
 
 # Experiment parameters
 StimOnset = 0.7  # (time to present the stimulus)
@@ -33,8 +36,8 @@ minor_path = "../sounds/ding2.mp3"
 sounds = [normal_path, minor_path, major_path]
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 10  # (number of trials per block) -  at least 200
-blocks_N = 2  # (number of blocks)
+trials_N = 20  # (number of trials per block) -  at least 200
+blocks_N = 1  # (number of blocks)
 targetAppearances = trials_N / target_ratio  # (number of times target appear per block)
 marker_types = ["baseLine", "target", "distractor"]
 durationAfterStimuli = 0.4  # look 4 mil sec after the stimuli was shown
@@ -46,6 +49,8 @@ numOfSamplesToCut = int(samplingRate * (durationBeforeStimuli + durationAfterSti
 date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
 # file parameters
+output_files = "output_files/"
+
 EEG_file_name = "EEG_Recording_unprocessed.csv"
 EEG_folder_path = "EEG_Recordings/"
 markers_psycho_file_name = f"listOfMarkers_before_parse.csv"
@@ -66,45 +71,18 @@ allTrialsDistractor_folder_path = "cut_data_by_class/distractor/"
 mean_EEG_baseLine_folder_path = "Mean_EEG_Signal_baseLine/"
 mean_EEG_target_folder_path = "Mean_EEG_Signal_target/"
 mean_EEG_distractor_folder_path = "Mean_EEG_Signal_distractor/"
-# mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
-feature_folder_path = "features/"
-feature_file_name = "featuresMatrix.csv"
-feature_of_test_file_name = "test_featuresMatrix.csv"
+
+train_features_folder_name = "features/"
+featuresAndModel_folder_name = "featuresAndModel/"
+train_features_file_name = "train_features_Matrix.csv"
+train_model_folder_name = "models/"
+
+
+test_features_folder_name = "features/"
+test_features_file_name = "test_features_Matrix.csv"
 label_file_name = "labels.csv"
-label_of_test_file_name = "test_labels.csv"
-model_folder_path = "models/"
 
 
-# markers_folder_path = "output_files/Marker_Recordings/"
-# markers_psycho_folder_path = "output_files/markerPsycho/"
-# markers_psycho_file_name = "output_files/markerPsycho/" + f"listOfMarkers_{date}.csv" # with path
-# markers_file_name = "output_files/Marker_Recordings/" + f"listOfMarkers_{date}.csv"
-# markers_file_name_psychopy = "output_files/Marker_Recordings/" + f"listOfMarkers_{date}.psycholog"
-# allTrialsBaseLine_file_name = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_{date}.csv"
-# allTrialsTarget_file_name = "output_files/cut_data_by_class/target/" + f"classTarget_{date}.csv"
-# allTrialsDistractor_file_name = "output_files/cut_data_by_class/distractor/" + f"classDistractor_{date}.csv"
-# mean_EEG_BaseLine_folder_path = "output_files/cut_data_by_class/baseLine/Mean_EEG_Signal_BaseLine"
-# mean_EEG_Target_folder_path = "output_files/cut_data_by_class/target/Mean_EEG_Signal_Target"
-# mean_EEG_distractor_folder_path = "output_files/cut_data_by_class/distractor/Mean_EEG_Signal_Distractor"
-# mean_EEG_file_name = f"Mean_EEG_Signal_For_{date}_"
-
-
-# test name parameters
-# EEG_file_name_FORTEST = "output_files/EEG_Recordings/" + f"EEG_test.csv"
-# markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_test.csv"
-
-# EEG_file_name_FORTEST = "output_files/EEG_Recordings/" + f"EEG_28_12_2022 at 06_31_04_PM_NADAVSECOUNDS.csv"
-# markers_file_name_FORTEST = "output_files/Marker_Recordings/" + f"listOfMarkers_26_12_2022 at 05_28_33_PM_ErezFirstRecord.csv"
-# markers_psycho_file_name_FORTEST = "output_files/markerPsycho/" + f"28_12_2022 at 07_59_39_PM_Fixed_NADAVSECOUNDS.csv"
-#
-#
-# allTrialsBaseLine_file_name_FORTEST = "output_files/cut_data_by_class/baseLine/" + f"classBaseLine_test1.csv"
-# allTrialsTarget_file_name_FORTEST = "output_files/cut_data_by_class/target/" + f"classTarget_test1.csv"
-# allTrialsDistractor_file_name_FORTEST = "output_files/cut_data_by_class/distractor/" + f"classDistractor_test1.csv"
-#
-# allTrialsBaseLine_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/baseLine/" + f"Mean_EEG_Signal_baseLinebaseLine_AVG_by_blocks.csv"
-# allTrialsTarget_file_MEAN_name_FORTEST = "output_files/cut_data_by_class/target/" + f"Mean_EEG_Signal_targettarget_AVG_by_blocks.csv"
-# allTrialsDistractor_MEAN_file_name_FORTEST = "output_files/cut_data_by_class/distractor/" + f"Mean_EEG_Signal_distractordistractor_AVG_by_blocks.csv"
 
 
 # useful functions

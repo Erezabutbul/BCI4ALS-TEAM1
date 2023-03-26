@@ -1,8 +1,8 @@
-import pandas as pd
+# import pandas as pd
 import ast
 from numpy import float_
 from parameters import *
-import os
+# import os
 
 
 def getCol(curDf, colNum, row):
@@ -19,6 +19,9 @@ def getCol(curDf, colNum, row):
 #         in the format that can be sampled to feature extraction ect
 def main(exp_path):
     for marker_type in marker_types:
+
+        if marker_type == "baseLine":  # no need to extract baseline trials
+            continue
 
         # read file
         df = pd.read_csv(
