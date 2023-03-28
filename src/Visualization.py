@@ -417,13 +417,15 @@ def plot_erp_per_block_time_domain(block1, block2, block3, block4, block5):
     ax[3, 3].set(xlabel='Time [Seconds]', ylabel='Voltage [\u03BCV]')
 
 directory = os.getcwd()
+# directory = "EXP_30_04_2023 at 02_02_55_PM"
+exp = "EXP_30_04_2023 at 01_58_52_PM"
 fs = 125
 # Visualization of raw and post processing data
 
 # Raw data
 
 # Time Domain
-EEG_raw = pd.read_csv(directory + "\\output_files\\EEG_Recordings\\EEG_Recording_unprocessed.csv")
+EEG_raw = pd.read_csv(directory + f"\\output_files\\{exp}\\EEG_Recordings\\EEG_Recording_unprocessed.csv")
 plt.figure(0)
 plot_per_electrode_time_domain(EEG_raw, "raw")
 
@@ -439,7 +441,7 @@ plot_per_electrode_frequency_domain(EEG_raw, "raw")
 
 # Time Domain
 plt.figure(1)
-EEG_filtered = pd.read_csv(directory + "\\output_files\\filtered_EEG_Recordings\\EEG_Recording_processed.csv")
+EEG_filtered = pd.read_csv(directory + f"\\output_files\\{exp}\\filtered_EEG_Recordings\\EEG_Recording_processed.csv")
 plot_per_electrode_time_domain(EEG_filtered, "filtered")
 
 # Frequency Domain
@@ -573,103 +575,103 @@ ax[1].set(ylabel='Voltage [\u03BCV]', xlabel='time [sec]')
 ax[0].set(xlim=[155, 157])
 ax[1].set(xlim=[155, 157])
 
-
+plt.show()
 # ERP Visualization
 
 # Number of Repetition from each ERP
-baseline_exp = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\baseLine_AVG_all_the_EXP.csv")
-baseline_block1 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_0.csv")
-baseline_block2 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_1.csv")
-baseline_block3 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_2.csv")
-baseline_block4 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_3.csv")
-baseline_block5 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_4.csv")
+# baseline_exp = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\baseLine_AVG_all_the_EXP.csv")
+# baseline_block1 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_0.csv")
+# baseline_block2 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_1.csv")
+# baseline_block3 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_2.csv")
+# baseline_block4 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_3.csv")
+# baseline_block5 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\baseLine\\Mean_EEG_Signal_baseLine\\AVG_block_num_4.csv")
+#
+# distractor_exp = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\distractor_AVG_all_the_EXP.csv")
+# distractor_block1 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_0.csv")
+# distractor_block2 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_1.csv")
+# distractor_block3 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_2.csv")
+# distractor_block4 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_3.csv")
+# distractor_block5 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_4.csv")
+#
+# target_exp = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\target_AVG_all_the_EXP.csv")
+# target_block1 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_0.csv")
+# target_block2 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_1.csv")
+# target_block3 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_2.csv")
+# target_block4 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_3.csv")
+# target_block5 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_4.csv")
 
-distractor_exp = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\distractor_AVG_all_the_EXP.csv")
-distractor_block1 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_0.csv")
-distractor_block2 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_1.csv")
-distractor_block3 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_2.csv")
-distractor_block4 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_3.csv")
-distractor_block5 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\distractor\\Mean_EEG_Signal_distractor\\AVG_block_num_4.csv")
-
-target_exp = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\target_AVG_all_the_EXP.csv")
-target_block1 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_0.csv")
-target_block2 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_1.csv")
-target_block3 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_2.csv")
-target_block4 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_3.csv")
-target_block5 = pd.read_csv(directory + "\\output_files\\cut_data_by_class\\target\\Mean_EEG_Signal_target\\AVG_block_num_4.csv")
-
-# ERP per electrode
-plot_erp_per_electrode_time_domain(baseline_exp, distractor_exp, target_exp)
-
-# ERP per type per electrode across blocks
-plot_erp_per_block_time_domain(baseline_block1, baseline_block2, baseline_block3, baseline_block4, baseline_block5)
-plot_erp_per_block_time_domain(distractor_block1, distractor_block2, distractor_block3, distractor_block4, distractor_block5)
-plot_erp_per_block_time_domain(target_block1, target_block2, target_block3, target_block4, target_block5)
-
-# ERP Example
-t = np.arange(0, (1 / fs) * len(baseline_exp.T[2][1:-1]), (1 / fs))
-fig, ax = plt.subplots()
-ax.plot(t, baseline_exp.T[11][1:-1], label='Electrode 10 - Baseline', color="#f0e594")
-ax.plot(t, distractor_exp.T[11][1:-1], label='Electrode 10 - Distractor', color="#57b884")
-ax.plot(t, target_exp.T[11][1:-1], label='Electrode 10 - Target', color="#ffab8d")
-ax.set(ylabel='Voltage [\u03BCV]', xlabel='time [sec]')
-ax.vlines(0.2, color="red", ymin=-200, ymax=200)
-ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
-ax.legend(loc="upper left")
-ax.set_ylim((-35, 50))
-fig.suptitle("""EEG ERP Electrode 10  - Time Domain\n\n""", fontweight="bold")
-
-fig, ax = plt.subplots()
-ax.plot(t, baseline_exp.T[5][1:-1], label='Electrode 4 - Baseline', color="#f0e594")
-ax.plot(t, distractor_exp.T[5][1:-1], label='Electrode 4 - Distractor', color="#57b884")
-ax.plot(t, target_exp.T[5][1:-1], label='Electrode 4 - Target', color="#ffab8d")
-ax.vlines(0.2, color="red", ymin=-200, ymax=200)
-ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
-ax.legend(loc="upper left")
-ax.set_ylim((-35, 50))
-fig.suptitle("""EEG ERP Electrode 4  - Time Domain\n\n""", fontweight="bold")
-
-
-fig, ax = plt.subplots()
-ax.plot(t, baseline_exp.T[10][1:-1], label='Electrode 9 - Baseline', color="#f0e594")
-ax.plot(t, distractor_exp.T[10][1:-1], label='Electrode 9 - Distractor', color="#57b884")
-ax.plot(t, target_exp.T[10][1:-1], label='Electrode 9 - Target', color="#ffab8d")
-ax.vlines(0.2, color="red", ymin=-200, ymax=200)
-ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
-ax.legend(loc="upper left")
-ax.set_ylim((-35, 50))
-fig.suptitle("""EEG ERP Electrode 9  - Time Domain\n\n""", fontweight="bold")
-
-fig, ax = plt.subplots()
-ax.plot(t, baseline_exp.T[3][1:-1], label='Electrode 2 - Baseline', color="#f0e594")
-ax.plot(t, distractor_exp.T[3][1:-1], label='Electrode 2 - Distractor', color="#57b884")
-ax.plot(t, target_exp.T[3][1:-1], label='Electrode 2 - Target', color="#ffab8d")
-ax.vlines(0.2, color="red", ymin=-200, ymax=200)
-ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
-ax.legend(loc="upper left")
-ax.set_ylim((-35, 50))
-fig.suptitle("""EEG ERP Electrode 2  - Time Domain\n\n""", fontweight="bold")
+# # ERP per electrode
+# plot_erp_per_electrode_time_domain(baseline_exp, distractor_exp, target_exp)
+#
+# # ERP per type per electrode across blocks
+# plot_erp_per_block_time_domain(baseline_block1, baseline_block2, baseline_block3, baseline_block4, baseline_block5)
+# plot_erp_per_block_time_domain(distractor_block1, distractor_block2, distractor_block3, distractor_block4, distractor_block5)
+# plot_erp_per_block_time_domain(target_block1, target_block2, target_block3, target_block4, target_block5)
+#
+# # ERP Example
+# t = np.arange(0, (1 / fs) * len(baseline_exp.T[2][1:-1]), (1 / fs))
+# fig, ax = plt.subplots()
+# ax.plot(t, baseline_exp.T[11][1:-1], label='Electrode 10 - Baseline', color="#f0e594")
+# ax.plot(t, distractor_exp.T[11][1:-1], label='Electrode 10 - Distractor', color="#57b884")
+# ax.plot(t, target_exp.T[11][1:-1], label='Electrode 10 - Target', color="#ffab8d")
+# ax.set(ylabel='Voltage [\u03BCV]', xlabel='time [sec]')
+# ax.vlines(0.2, color="red", ymin=-200, ymax=200)
+# ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
+# ax.legend(loc="upper left")
+# ax.set_ylim((-35, 50))
+# fig.suptitle("""EEG ERP Electrode 10  - Time Domain\n\n""", fontweight="bold")
+#
+# fig, ax = plt.subplots()
+# ax.plot(t, baseline_exp.T[5][1:-1], label='Electrode 4 - Baseline', color="#f0e594")
+# ax.plot(t, distractor_exp.T[5][1:-1], label='Electrode 4 - Distractor', color="#57b884")
+# ax.plot(t, target_exp.T[5][1:-1], label='Electrode 4 - Target', color="#ffab8d")
+# ax.vlines(0.2, color="red", ymin=-200, ymax=200)
+# ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
+# ax.legend(loc="upper left")
+# ax.set_ylim((-35, 50))
+# fig.suptitle("""EEG ERP Electrode 4  - Time Domain\n\n""", fontweight="bold")
+#
+#
+# fig, ax = plt.subplots()
+# ax.plot(t, baseline_exp.T[10][1:-1], label='Electrode 9 - Baseline', color="#f0e594")
+# ax.plot(t, distractor_exp.T[10][1:-1], label='Electrode 9 - Distractor', color="#57b884")
+# ax.plot(t, target_exp.T[10][1:-1], label='Electrode 9 - Target', color="#ffab8d")
+# ax.vlines(0.2, color="red", ymin=-200, ymax=200)
+# ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
+# ax.legend(loc="upper left")
+# ax.set_ylim((-35, 50))
+# fig.suptitle("""EEG ERP Electrode 9  - Time Domain\n\n""", fontweight="bold")
+#
+# fig, ax = plt.subplots()
+# ax.plot(t, baseline_exp.T[3][1:-1], label='Electrode 2 - Baseline', color="#f0e594")
+# ax.plot(t, distractor_exp.T[3][1:-1], label='Electrode 2 - Distractor', color="#57b884")
+# ax.plot(t, target_exp.T[3][1:-1], label='Electrode 2 - Target', color="#ffab8d")
+# ax.vlines(0.2, color="red", ymin=-200, ymax=200)
+# ax.vlines(0.5, color="blue", ymin=-200, ymax=200)
+# ax.legend(loc="upper left")
+# ax.set_ylim((-35, 50))
+# fig.suptitle("""EEG ERP Electrode 2  - Time Domain\n\n""", fontweight="bold")
 
 
 # comparison before after filtering on the same electrode
 
 # Feature space visualization
-features = pd.read_csv(directory + "\\output_files\\featuresAndModels\\features\\featuresMatrix.csv")
-labels = [[[["Target"], ["Distractor"]]*10]*8]
-labels = [j for i in labels for j in i]
-labels = [j for i in labels for j in i]
-labels = [j for i in labels for j in i]
-
-features['labels'] = labels
-print(type(features['Latency'].values[0]))
-
-features['Latency'] = features['Latency'].apply(lambda x: float(x)/125**2)
+# features = pd.read_csv(directory + "\\output_files\\featuresAndModels\\features\\featuresMatrix.csv")
+# labels = [[[["Target"], ["Distractor"]]*10]*8]
+# labels = [j for i in labels for j in i]
+# labels = [j for i in labels for j in i]
+# labels = [j for i in labels for j in i]
+#
+# features['labels'] = labels
+# print(type(features['Latency'].values[0]))
+#
+# features['Latency'] = features['Latency'].apply(lambda x: float(x)/125**2)
 
 # see how it looks on feature space
-sns.pairplot(features, hue='labels')
-sns.catplot(data=features, x="labels", y="Latency", kind="box")
-sns.catplot(data=features, x="labels", y="Amplitude", kind="box")
-
-sns.jointplot(data=features, x="Latency", y="Amplitude",  hue='labels',  kind="kde")
+# sns.pairplot(features, hue='labels')
+# sns.catplot(data=features, x="labels", y="Latency", kind="box")
+# sns.catplot(data=features, x="labels", y="Amplitude", kind="box")
+#
+# sns.jointplot(data=features, x="Latency", y="Amplitude",  hue='labels',  kind="kde")
 
 
