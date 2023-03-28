@@ -1,16 +1,16 @@
-import os
-import pylsl
-from pylsl import StreamInlet, resolve_stream, resolve_bypred
-import pandas as pd
-import parameters as p
-
+# import os
+# import pylsl
+# from pylsl import StreamInlet, resolve_stream, resolve_bypred
+# import pandas as pd
+# import parameters as p
+from parameters import *
 
 def main(exp_path, keepRunning):
     # first resolve an EEG stream on the lab network
     print("looking for an EEG stream...")
-    streams = resolve_stream('type', 'EEG')
+    streams = pylsl.resolve_stream('type', 'EEG')
     # create a new inlet to read from the stream
-    inlet = StreamInlet(streams[0])
+    inlet = pylsl.StreamInlet(streams[0])
 
     # create a dict inorder to save the data
     list_res = list()
@@ -50,7 +50,7 @@ def main(exp_path, keepRunning):
     os.makedirs(EEG_dir, exist_ok=True)
     #########################################################
     file = pd.DataFrame(list_res)
-    file.to_csv(EEG_dir + "/" + p.EEG_file_name, index=True, index_label="index", encoding="utf_8_sig")
+    file.to_csv(EEG_dir + "/" + EEG_file_name, index=True, index_label="index", encoding="utf_8_sig")
 
 
 if __name__ == '__main__':

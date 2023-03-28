@@ -19,9 +19,11 @@ def getCol(curDf, colNum, row):
 #         in the format that can be sampled to feature extraction ect
 def main(exp_path):
     for marker_type in marker_types:
+        if marker_type == "baseLine":
+            continue
         # check if directory exists, if not makes one
         directory = exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
-        if not os.path.exists(directory):
+        if os.path.exists(exp_path) and not os.path.exists(directory):
             os.makedirs(directory)
 
             # read file

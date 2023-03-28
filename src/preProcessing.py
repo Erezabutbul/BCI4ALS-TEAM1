@@ -1,8 +1,8 @@
 # Import the necessary modules
-import numpy as np
+# import numpy as np
 from scipy.signal import butter, lfilter, filtfilt
 from parameters import *
-import pandas as pd
+# import pandas as pd
 
 
 def main(exp_path):

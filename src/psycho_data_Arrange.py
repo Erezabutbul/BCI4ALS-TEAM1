@@ -1,6 +1,6 @@
-import pandas as pd
+# import pandas as pd
 from parameters import *
-import os
+# import os
 
 # purse the psychopy output file into a readable csv file
 def main(exp_path):

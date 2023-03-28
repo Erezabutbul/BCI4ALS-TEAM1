@@ -1,10 +1,11 @@
-import os
-import time
+# import os
+# import time
 
 from psychopy import logging, core, visual, sound
 from runExperiment import generated_experiment
-import parameters as p
-import pylsl
+# import parameters as p
+from parameters import *
+# pylslimport 
 import random
 import keyboard
 from shutil import move
@@ -16,19 +17,19 @@ class Timer:
 
 
 def showExperiment(exp_path, keepRunning, state):
-    interTime = p.interTime  # take from parameters
-    StimOnset = p.StimOnset
-    faces = p.faces
-    stimulusType = p.stimulusType
+    # interTime = interTime  # take from parameters
+    # StimOnset = StimOnset
+    # faces = faces
+    # stimulusType = stimulusType
     win = visual.Window(fullscr=True, autoLog=False)
 
     ###########################################################
     # save to "EXP_{date}" directory
-    markers_dir = exp_path + p.markers_psycho_folder_path
+    markers_dir = exp_path + markers_psycho_folder_path
     os.makedirs(markers_dir, exist_ok=True)
     ###########################################################
 
-    fileName = markers_dir + "/" + p.markers_psycho_file_name
+    fileName = markers_dir + "/" + markers_psycho_file_name
     logfile = open(fileName, 'w')
     log = logging.LogFile(fileName, level=logging.EXP, filemode='w')
     studyClock = Timer()
@@ -42,7 +43,7 @@ def showExperiment(exp_path, keepRunning, state):
     win.flip()
     core.wait(interTime)
 
-    for indexOfBlock in range(0, p.blocks_N):
+    for indexOfBlock in range(0, blocks_N):
         # get current block
         currentBlock = generated_experiment[indexOfBlock]
 
@@ -56,9 +57,9 @@ def showExperiment(exp_path, keepRunning, state):
         # target_sound = sound.Sound('B', octave=6, sampleRate=44100, secs=0.1, bits=8)
         # distractor_sound = sound.Sound('C', octave=7, sampleRate=44100, secs=0.1, bits=8)
 
-        baseline_sound = sound.Sound(p.sounds[baseline])
-        target_sound = sound.Sound(p.sounds[target])
-        distractor_sound = sound.Sound(p.sounds[distractor])
+        baseline_sound = sound.Sound(sounds[baseline])
+        target_sound = sound.Sound(sounds[target])
+        distractor_sound = sound.Sound(sounds[distractor])
 
         # images
         baseline_image = visual.ImageStim(win, image=faces[baseline], autoLog=False)
@@ -79,11 +80,11 @@ def showExperiment(exp_path, keepRunning, state):
             message.text = "YES - {}".format(stimulusType[target]) + " with first sound \nNO - {} with second sound \n".format(stimulusType[distractor])
             message.draw()
             win.flip()
-            core.wait(p.waitBetweenSounds)
+            core.wait(waitBetweenSounds)
             target_sound.play()
-            core.wait(p.waitBetweenSounds)
+            core.wait(waitBetweenSounds)
             distractor_sound.play()
-        keyboard.wait(' ')
+        # keyboard.wait(' ')
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
 
