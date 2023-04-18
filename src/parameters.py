@@ -7,7 +7,7 @@ import numpy as np
 
 #train or test MODE
 modes = ["TRAIN", "TEST"]
-mode = 0
+mode = 1
 
 # Experiment parameters
 StimOnset = 0.7  # (time to present the stimulus)
