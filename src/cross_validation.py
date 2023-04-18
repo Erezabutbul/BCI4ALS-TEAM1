@@ -70,7 +70,7 @@ def getRandomBlockNum(exp_random_path):
     return random_block_index
 
 
-def cutBlockFromFile(random_exp_path, startIndex, EndIndex, marker_type):
+def cutBlockFromFile(random_exp_path, startIndex, EndIndex, marker_type, channels):
     main_folder = output_files + random_exp_path + f"/cut_data_by_class/{marker_type}/Trial_EEG_Signal_{marker_type}/"
     trial_list = getTrialsFoldersList(main_folder)
 
@@ -85,7 +85,7 @@ def cutBlockFromFile(random_exp_path, startIndex, EndIndex, marker_type):
         trial_path = main_folder + "Trial_num_" + str(trial) + ".csv"
         currDf = pd.read_csv(trial_path)
         # extract selected channels from trial
-        currDf = currDf.iloc[selected_channels, :]
+        currDf = currDf.iloc[channels, :]
         outputDf_exp = pd.concat([outputDf_exp, currDf])
     # os.makedirs(main_folder + "testBLOCK", exist_ok=True)
     # outputDf_exp.to_csv(main_folder + "testBLOCK/" + f"test_BLOCK_{marker_type}.csv", index=False)
@@ -102,7 +102,7 @@ def is_array_in_2d_array(array_1d, array_2d):
 
 
 
-def main():
+def main(channels):
     sum_all_test_results = 0
     for i in range(100):
         pathOfRandomEXP = generateRandomExpAndBlock()
@@ -111,13 +111,13 @@ def main():
         # random_block_num = 3
         indexesOfMarkerTypeInFile = getIndexOfBlockInFile(pathOfRandomEXP, random_block_num)
         startIndexOfTarget, endIndexOfTarget, startIndexOfDistractor, endIndexOfDistractor = indexesOfMarkerTypeInFile
-        print(pathOfRandomEXP)
-        print("the BLOCK IS: "+str(random_block_num))
-        print(indexesOfMarkerTypeInFile)
+        # print(pathOfRandomEXP)
+        # print("the BLOCK IS: "+str(random_block_num))
+        # print(indexesOfMarkerTypeInFile)
 
         # cut the current blocks from files
-        targetDF = cutBlockFromFile(pathOfRandomEXP, startIndexOfTarget, endIndexOfTarget, "target")
-        distractorDF = cutBlockFromFile(pathOfRandomEXP, startIndexOfDistractor, endIndexOfDistractor, "distractor")
+        targetDF = cutBlockFromFile(pathOfRandomEXP, startIndexOfTarget, endIndexOfTarget, "target", channels)
+        distractorDF = cutBlockFromFile(pathOfRandomEXP, startIndexOfDistractor, endIndexOfDistractor, "distractor", channels)
         # print(targetDF)
         # print(type(targetDF))
         # print(type(distractorDF))
@@ -170,7 +170,7 @@ def main():
             if not is_array_in_2d_array(array, x_test_arr) and index < n:
                 result_arr[index] = array
                 index += 1
-        print("the diduction of the block is competble with the size of matrix: " + str((len(full_X_arr) - len(x_test_arr)) == len(result_arr)))
+        # print("the diduction of the block is competble with the size of matrix: " + str((len(full_X_arr) - len(x_test_arr)) == len(result_arr)))
         # print(len(result_arr[0]))
         #############################################
         # distinct_df = full_X.set_axis(list(x_test.columns), axis=1, inplace=False)
@@ -204,14 +204,14 @@ def main():
         # train model with this data
         model = RandomForestClassifier()
         model.fit(result_arr, y_train)
-        print("Random Forest model")
+        # print("Random Forest model")
         #
         # Prediction
         y_pred = model.predict(x_test_arr)
-        print("Random Forest Predicted values:")
+        # print("Random Forest Predicted values:")
         # print("numbers of targets: "+ str(num_target))
         # print("numbers of distractors: "+ str(num_distractor))
-        print("num of trial in y_pred: "+str(len(y_pred)/5))
+        # print("num of trial in y_pred: "+str(len(y_pred)/5))
         sum_all_test_results += vote(y_pred, y_test, num_target)
         # print(type(x_test))
 
@@ -220,6 +220,8 @@ def main():
         # print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
     print("\n\nfinal result in percentage: " + str(sum_all_test_results/100))
     print("number of success : " + str(sum_all_test_results))
+
+    return sum_all_test_results
 
 
 

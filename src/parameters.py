@@ -46,7 +46,8 @@ samplingRate = 125
 numOfSamplesToCut = int(samplingRate * (durationBeforeStimuli + durationAfterStimuli))
 
 # selected electrodes for features extractions
-selected_channels = [0, 2, 3, 5, 9]
+# selected_channels = [0, 2, 3, 5, 9]
+selected_channels = [0, 1, 4, 8, 10]
 
 # date & time
 date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
