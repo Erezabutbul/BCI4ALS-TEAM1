@@ -57,7 +57,7 @@ def showExperiment(exp_path, keepRunning, state):
         # target_sound = sound.Sound('B', octave=6, sampleRate=44100, secs=0.1, bits=8)
         # distractor_sound = sound.Sound('C', octave=7, sampleRate=44100, secs=0.1, bits=8)
 
-        baseline_sound = sound.Sound(sounds[baseline])
+        # baseline_sound = sound.Sound(sounds[baseline])
         target_sound = sound.Sound(sounds[target])
         distractor_sound = sound.Sound(sounds[distractor])
 
@@ -66,7 +66,7 @@ def showExperiment(exp_path, keepRunning, state):
         target_image = visual.ImageStim(win, image=faces[target], autoLog=False)
         distractor_image = visual.ImageStim(win, image=faces[distractor], autoLog=False)
 
-        if state == "train":
+        if modes[mode] == "TRAIN":
         # plot to audience
             message.text = "Please focus on the {}".format(stimulusType[target])  # Change properties of existing stim
             message.draw()
@@ -84,7 +84,20 @@ def showExperiment(exp_path, keepRunning, state):
             target_sound.play()
             core.wait(waitBetweenSounds)
             distractor_sound.play()
+            # Open the file in write mode
+            file = open(exp_path + "/pics_allocation.txt", "w")
+
+            # Write content to the file
+            file.write(f"condition1 is {target}: \n")
+            file.write(stimulusType[target])
+            file.write(f"\ncondition2 is {distractor}: \n")
+            file.write(stimulusType[distractor])
+
+            # Close the file
+            file.close()
+
         # keyboard.wait(' ')
+        core.wait(3)
         print("___________ starting new block _________________")
         print("the length of this block is " + str(len(currentBlock)))
 

@@ -1,16 +1,13 @@
 import multiprocessing
 # import os
-import contextlib
 # with contextlib.redirect_stdout(None):
     # import pygame
 # from datetime import datetime
 from lsl_Record_data import main as lsl_main
 from GUI import showExperiment
 from preProcessing import main as preProcessing_main
-from data_extraction_by_class import main as data_spliting_main
 from psycho_data_Arrange import main as arrange_markers_main
-from avgData import main as avgData_main
-from featureExtraction import main as featureExtraction_main
+from featureExtractionMNE import main as featureExtraction_main
 from Model import main as model_main
 from parameters import *
 
@@ -47,24 +44,18 @@ def main():
         p1.join()
         print("finished recording")
 
-    print("pre processing...")
-    # pre processing
-    preProcessing_main(exp_path)
 
     print("arranging and splitting data...")
     # Arrange the data by psychopy
     arrange_markers_main(exp_path)
 
-    # extract data by class
-    data_spliting_main(exp_path)
-
-    # print("AVG...")
-    # avg data
-    # avgData_main(exp_path)
+    print("pre processing...")
+    # pre processing
+    epoch_target, epoch_distractor, epoch_baseLine, epoch_target_df, epoch_distractor_df, epoch_baseLine_df = preProcessing_main(exp_path)
 
     # overwrites every features and models folder
     # extract features
-    featureExtraction_main(exp_path, modes[mode])
+    featureExtraction_main(exp_path, modes[mode], epoch_target, epoch_distractor)
 
     # model TRAIN / TEST
     model_main(exp_path)
