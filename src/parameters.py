@@ -128,5 +128,3 @@ def extract_date(file_name):
     return datetime.strptime(file_name.split('_')[1], "%d_%m_%Y")
 
 
-global keepRunning
-keepRunning = True
