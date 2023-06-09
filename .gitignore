@@ -1,7 +1,6 @@
 # created by virtualenv automatically
 edensREALFilteredData.zip
 src/output_files/edensREALFilteredData.zip
-.idea/*
 *.xml
 *.iml
 src/__pycache__/*
