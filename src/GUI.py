@@ -1,11 +1,8 @@
-# import os
 # import time
 
-from psychopy import logging, core, visual, sound
-from runExperiment import generated_experiment
 # import parameters as p
+from runExperiment import generated_experiment
 from parameters import *
-# pylslimport 
 import random
 import keyboard
 from shutil import move
@@ -17,6 +14,7 @@ class Timer:
 
 
 def showExperiment(exp_path, keepRunning, state):
+    from psychopy import logging, core, visual, sound
     # interTime = interTime  # take from parameters
     # StimOnset = StimOnset
     # faces = faces
@@ -143,7 +141,3 @@ def showExperiment(exp_path, keepRunning, state):
     keepRunning.value = False
     # win.close()
     # core.quit()
-
-
-if __name__ == '__main__':
-    showExperiment()
