@@ -3,7 +3,8 @@ edensREALFilteredData.zip
 src/output_files/edensREALFilteredData.zip
 *.xml
 *.iml
-src/__pycache__/*
+.idea/
+src/__pycache__/
 *.fif
 *.csv
-src/output_files/*
+src/output_files/
