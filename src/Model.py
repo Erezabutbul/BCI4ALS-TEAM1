@@ -25,7 +25,7 @@ def getEXPFoldersList(main_folder):
     return exp_folders
 
 # def main(exp_path):
-def main():
+def main(exp_path=None):
     if modes[mode] == "TRAIN":
 
         listOfEXP = getEXPFoldersList(output_files)
