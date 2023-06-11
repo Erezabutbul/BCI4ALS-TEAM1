@@ -157,7 +157,7 @@ def main(exp_path):
     ica_eeg = ICA(n_components=component_number, max_iter='auto', random_state=97)
     ica_eeg.fit(filtered_data_eeg)
     ica_eeg.exclude = [0]  # remove the noisiest component
-    ica_eeg.apply(filtered_data_eeg)
+    # ica_eeg.apply(filtered_data_eeg)
 
     annotations = set_annotations_from_event_table(event_table, filtered_data_eeg, offset)
     filtered_data_eeg.set_annotations(annotations)
