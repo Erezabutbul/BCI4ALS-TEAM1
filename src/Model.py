@@ -16,7 +16,7 @@ import pickle
 import tkinter as tk
 from tkinter import filedialog
 from parameters import *
-from votingEXP import main as vote
+from Vote import main as vote
 
 def getEXPFoldersList(main_folder):
     # get all the experiment folders
@@ -150,7 +150,7 @@ def main(exp_path=None):
         # exp_path = output_files + "testSet/test_21_05_2023 at 02_47_41_PM/"
         condition1_features = pd.read_csv(exp_path + "target_test_features_Matrix.csv", header=None)
         condition1_num_of_trials = condition1_features.shape[0]
-        vote(y_pred, condition1_num_of_trials, exp_path)
+        vote(y_pred, condition1_num_of_trials, exp_path, "REAL TEST")
         # print("Accuracy:", accuracy_score(test_set_labels, y_pred) * 100)
 
 if __name__ == '__main__':
