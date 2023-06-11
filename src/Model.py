@@ -24,39 +24,44 @@ def getEXPFoldersList(main_folder):
                    os.path.isdir(os.path.join(main_folder, f)) and f.startswith('EXP')]
     return exp_folders
 
-# def main(exp_path):
+
+
+def concatFeatures(condition_set_path):
+    listOfEXP = condition_set_path
+    if type(listOfEXP) == str:
+        listOfEXP = [listOfEXP]
+    # the outputs that will be concatenated
+    outputDf_target_features = pd.DataFrame()
+    outputDf_distractor_features = pd.DataFrame()
+    outputDf_target_labels = pd.DataFrame()
+    outputDf_distractor_labels = pd.DataFrame()
+
+    for expFolder in listOfEXP:
+        currExpPath = output_files + expFolder
+
+        currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
+        currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
+        currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
+        currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
+
+        outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
+        outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
+        outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
+        outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
+
+    endOfcon1 = outputDf_target_features.shape[0]
+
+    outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
+    outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
+
+    return outputDf_features, outputDf_labels, endOfcon1
+
+
 def main(exp_path=None):
     if modes[mode] == "TRAIN":
 
         listOfEXP = getEXPFoldersList(output_files)
-        # the outputs that will be concatenated
-        outputDf_target_features = pd.DataFrame()
-        outputDf_distractor_features = pd.DataFrame()
-        outputDf_target_labels = pd.DataFrame()
-        outputDf_distractor_labels = pd.DataFrame()
-
-
-        for expFolder in listOfEXP:
-            currExpPath = output_files + expFolder
-            # currFeatures = pd.read_csv(currExpPath + "/" + train_features_file_name, header=None)
-            # currLabels = pd.read_csv(currExpPath + "/" + label_file_name, header=None)
-
-            currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
-            currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
-            currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
-            currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
-
-            # outputDf_features = pd.concat([outputDf_features, currFeatures])
-            # outputDf_labels = pd.concat([outputDf_labels, currLabels], axis=0)
-
-            outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
-            outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
-            outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
-            outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
-
-        outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
-        outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
-
+        outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(listOfEXP)
         train_features_folder_path = os.path.join(output_files, featuresAndModel_folder_name)
         outputDf_features.to_csv(train_features_folder_path + "newFeatures.csv", header=False, index=False)
         outputDf_labels.to_csv(train_features_folder_path + "newLabels.csv", header=False, index=False)
@@ -73,15 +78,6 @@ def main(exp_path=None):
 
         # load "featuresMatrix.csv" and "labels.csv"
         model_exp_path = output_files + featuresAndModel_folder_name + train_features_folder_name
-        # # fixing file to be only numbers
-        # full_X = pd.read_csv(model_exp_path + train_features_file_name)
-        # full_X = full_X.iloc[:, 1:]
-        # full_X.to_csv(model_exp_path + train_features_file_name, index=False)
-        # X = np.loadtxt(model_exp_path + train_features_file_name, delimiter=',')
-        # y = np.loadtxt(model_exp_path + label_file_name, delimiter=',')
-
-
-
         X = outputDf_features
         y = outputDf_labels
 
@@ -151,7 +147,7 @@ def main(exp_path=None):
         print("Predicted values:")
         print(y_pred)
         print("\n\n")
-        exp_path = output_files + "testSet/test_21_05_2023 at 02_47_41_PM/"
+        # exp_path = output_files + "testSet/test_21_05_2023 at 02_47_41_PM/"
         condition1_features = pd.read_csv(exp_path + "target_test_features_Matrix.csv", header=None)
         condition1_num_of_trials = condition1_features.shape[0]
         vote(y_pred, condition1_num_of_trials, exp_path)
