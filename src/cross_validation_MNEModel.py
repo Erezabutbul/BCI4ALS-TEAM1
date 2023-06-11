@@ -36,102 +36,57 @@ def getEXPFoldersList(main_folder):
     return exp_folders
 
 
-def generateRandomExpAndBlock():
-    expFoldersList = getEXPFoldersList(output_files)
-    # get random EXP
-    random_EXP_index = random.randrange(len(expFoldersList))
-    # print(expFoldersList[random_index])
-    test_set = expFoldersList[random_EXP_index]
-    expFoldersList.remove(expFoldersList[random_EXP_index])
-
-    # after removal of test set
-    train_set = expFoldersList
-    return train_set, test_set
+# def generateRandomExpAndBlock():
+#     expFoldersList = getEXPFoldersList(output_files)
+#     # get random EXP
+#     random_EXP_index = random.randrange(len(expFoldersList))
+#     # print(expFoldersList[random_index])
+#     test_set = expFoldersList[random_EXP_index]
+#     expFoldersList.remove(expFoldersList[random_EXP_index])
+#
+#     # after removal of test set
+#     train_set = expFoldersList
+#     return train_set, test_set
 
 
 def train_model_crossValidation(train_set_path):
-    listOfEXP = train_set_path
-    # the outputs that will be concatenated
-    outputDf_target_features = pd.DataFrame()
-    outputDf_distractor_features = pd.DataFrame()
-    outputDf_target_labels = pd.DataFrame()
-    outputDf_distractor_labels = pd.DataFrame()
 
-    for expFolder in listOfEXP:
-        currExpPath = output_files + expFolder
-
-
-        currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
-        currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
-        currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
-        currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
-
-
-        outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
-        outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
-        outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
-        outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
-
-    outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
-    outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
-
+    outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(train_set_path)
     model = RandomForestClassifier()
     model.fit(outputDf_features.values, outputDf_labels.values.ravel())
-
     return model
 
 def test_set_crossValidation(test_set_path):
-    # the outputs that will be concatenated
-    outputDf_target_features = pd.DataFrame()
-    outputDf_distractor_features = pd.DataFrame()
-    outputDf_target_labels = pd.DataFrame()
-    outputDf_distractor_labels = pd.DataFrame()
 
-
-    currExpPath = output_files + test_set_path
-    currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
-    currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
-    currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
-    currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
-
-
-    outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
-    outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
-    outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
-    outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
-
-    endOfcon1 = outputDf_target_features.shape[0]
-
-    outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
-    outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
-
+    outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(test_set_path)
     return outputDf_features.values, outputDf_labels.values, endOfcon1
-
-
-# def vote(firstTrial, lastTrial, test_predicted):
-#     voting_zeros = list()  # Initialize an empty list to store voting results
-#     voting_ones = list()  # Initialize an empty list to store voting results
-#     voting_results = list()
-#     num_of_electrodes = len(selected_channels)
-#     for i in range(firstTrial, lastTrial, num_of_electrodes):
-#         subarray = test_predicted[i:i + num_of_electrodes]  # Get a subarray of num_of_electrodes elements
-#         total = np.sum(subarray)
-#         if total > num_of_electrodes // 2:
-#             voting_ones.append(1)
-#             voting_results.append(1)
-#         else:
-#             voting_zeros.append(1)
-#             voting_results.append(0)
 #
-#     winner = -1
-#     if len(voting_ones) > len(voting_zeros):
-#         total = np.sum(voting_ones)
-#         winner = 1
-#     else:
-#         total = np.sum(voting_zeros)
-#         winner = 0
+# def test_set_crossValidation(test_set_path):
+#     # the outputs that will be concatenated
+#     outputDf_target_features = pd.DataFrame()
+#     outputDf_distractor_features = pd.DataFrame()
+#     outputDf_target_labels = pd.DataFrame()
+#     outputDf_distractor_labels = pd.DataFrame()
 #
-#     return float((total / ((lastTrial - firstTrial))) * 100), voting_results ,winner
+#
+#     currExpPath = output_files + test_set_path
+#     currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
+#     currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
+#     currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
+#     currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
+#
+#
+#     outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
+#     outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
+#     outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
+#     outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
+#
+#     endOfcon1 = outputDf_target_features.shape[0]
+#
+#     outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
+#     outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
+#
+#     return outputDf_features.values, outputDf_labels.values, endOfcon1
 
 
 
@@ -150,15 +105,8 @@ def voteONES(firstTrial, lastTrial, test_predicted):
             voting_zeros.append(1)
             voting_results.append(0)
 
-    # winner = -1
     total = np.sum(voting_ones)
 
-    # if len(voting_ones) > len(voting_zeros):
-    #     total = np.sum(voting_ones)
-    #     winner = 1
-    # else:
-    #     total = np.sum(voting_zeros)
-    #     winner = 0
     return (total / ((lastTrial - firstTrial) / num_of_electrodes)), voting_results
 
 
@@ -180,9 +128,35 @@ def probaVote(firstTrial, lastTrial, test_predicted):
 
 
 
+def concatFeatures(condition_set_path):
+    listOfEXP = condition_set_path
+    if type(listOfEXP) == str:
+        listOfEXP = [listOfEXP]
+    # the outputs that will be concatenated
+    outputDf_target_features = pd.DataFrame()
+    outputDf_distractor_features = pd.DataFrame()
+    outputDf_target_labels = pd.DataFrame()
+    outputDf_distractor_labels = pd.DataFrame()
 
+    for expFolder in listOfEXP:
+        currExpPath = output_files + expFolder
 
+        currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
+        currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
+        currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
+        currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
 
+        outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
+        outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
+        outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
+        outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
+
+    endOfcon1 = outputDf_target_features.shape[0]
+
+    outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
+    outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
+
+    return outputDf_features, outputDf_labels, endOfcon1
 
 
 
@@ -201,49 +175,6 @@ def positivityFeature():
 
 
 
-
-
-
-
-
-# def train_model_crossValidation(train_set_path):
-#
-#     listOfEXP = getEXPFoldersList(output_files)
-#     # the outputs that will be concatenated
-#     outputDf_target_features = pd.DataFrame()
-#     outputDf_distractor_features = pd.DataFrame()
-#     outputDf_target_labels = pd.DataFrame()
-#     outputDf_distractor_labels = pd.DataFrame()
-#
-#     for expFolder in listOfEXP:
-#         currExpPath = output_files + expFolder
-#         # currFeatures = pd.read_csv(currExpPath + "/" + train_features_file_name, header=None)
-#         # currLabels = pd.read_csv(currExpPath + "/" + label_file_name, header=None)
-#
-#         currTargetFeatures = pd.read_csv(currExpPath + "/" + target_train_features_file_name, header=None)
-#         currDistractorFeatures = pd.read_csv(currExpPath + "/" + distractor_train_features_file_name, header=None)
-#         currTargetLabels = pd.read_csv(currExpPath + "/" + target_label_file_name, header=None)
-#         currDistractorLabels = pd.read_csv(currExpPath + "/" + distractor_label_file_name, header=None)
-#
-#         # outputDf_features = pd.concat([outputDf_features, currFeatures])
-#         # outputDf_labels = pd.concat([outputDf_labels, currLabels], axis=0)
-#
-#         outputDf_target_features = pd.concat([outputDf_target_features, currTargetFeatures])
-#         outputDf_distractor_features = pd.concat([outputDf_distractor_features, currDistractorFeatures])
-#         outputDf_target_labels = pd.concat([outputDf_target_labels, currTargetLabels], axis=0)
-#         outputDf_distractor_labels = pd.concat([outputDf_distractor_labels, currDistractorLabels], axis=0)
-#
-#     outputDf_features = pd.concat([outputDf_target_features, outputDf_distractor_features])
-#     outputDf_labels = pd.concat([outputDf_target_labels, outputDf_distractor_labels])
-#
-#
-#
-#
-#
-#     model = RandomForestClassifier()
-#     model.fit(final_features_matrix, outputDf_labels.values.ravel())
-#
-#     return model
 
 
 
@@ -273,12 +204,16 @@ def main():
         files_to_train = allFolder[:i] + allFolder[i + 1:]
         print("Files to train:", files_to_train)
         print("test file:", file_to_exclude)
+
+        # train model
         model = train_model_crossValidation(files_to_train)
+        # extract feature from the test set
         test_feature_matrix, test_true_labels_before_vote, endOfcon1TEST = test_set_crossValidation(file_to_exclude)
 
+        # predict using the trained model
         test_predicted_labels_before_vote = model.predict_proba(test_feature_matrix)
 
-
+        # get the voting result
         target_voting_result = probaVote(0, endOfcon1TEST, test_predicted_labels_before_vote) # correlates to target
         distractor_voting_result = probaVote(endOfcon1TEST, len(test_predicted_labels_before_vote), test_predicted_labels_before_vote) # correlates to distractor
 
