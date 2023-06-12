@@ -57,7 +57,7 @@ numOfSamplesToCut = int(samplingRate * (durationBeforeStimuli + durationAfterSti
 selected_channels = ['C3', 'C4', 'Cz', 'FC1', 'FC2', 'FC5', 'FC6']
 
 # date & time
-date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
+# date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
 # file parameters
 output_files = "output_files/"
