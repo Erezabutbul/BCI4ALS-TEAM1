@@ -32,10 +32,10 @@ def main():
     # show starting gui. choose the parameters.
     params = []
     startingGui(params)
-    print(f"params are : {params}")
     gui_mode = modes[mode] if params[0] == "mode:" else params[0]
     gui_trials = trials_N if (params[1] == "" or not params[1].isdigit() ) else int(params[1])
     gui_blocks = blocks_N if (params[2] == "" or not params[2].isdigit() ) else int(params[2])
+    print(f"exp mode: {gui_mode}, num of trials: {gui_trials}, num of blocks: {gui_blocks}")
     # modes of EXP : train or test
     # Create the "EXP_{date}" directory
     exp_path = createFile(gui_mode)
@@ -44,7 +44,7 @@ def main():
         keepRunning = manager.Value('b', True)
         # Create the processes
         p1 = multiprocessing.Process(target=lsl_main, args=[exp_path, keepRunning])
-        p2 = multiprocessing.Process(target=showExperiment, args=[exp_path, keepRunning, modes[mode]])
+        p2 = multiprocessing.Process(target=showExperiment, args=[exp_path, keepRunning, gui_mode, gui_trials, gui_blocks])
 
         # Start the processes
         p1.start()
