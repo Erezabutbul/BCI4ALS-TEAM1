@@ -125,10 +125,10 @@ def main():
         # get the voting result
         # target_voting_result = Vote(0, endOfcon1TEST, test_predicted_labels_before_vote) # correlates to target
         # distractor_voting_result = Vote(endOfcon1TEST, len(test_predicted_labels_before_vote), test_predicted_labels_before_vote) # correlates to distractor
+        print("----------------------------------------- New Fold -----------------------------------------")
         target_AVG_voting_result, distractor_AVG_voting_result, target_voting_results_vec, distractor_voting_results_vec = Vote(test_predicted_labels_before_vote, endOfcon1TEST)
 
 
-        print("----------------------------------------- New Fold -----------------------------------------")
         print("The general list of prediction per trial is: ", target_voting_results_vec, "", distractor_voting_results_vec)
         print("target proba ", target_AVG_voting_result)
         print("distractor proba", distractor_AVG_voting_result)

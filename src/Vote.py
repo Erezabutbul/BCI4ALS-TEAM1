@@ -72,33 +72,31 @@ def probaVote(firstTrial, lastTrial, test_predicted):
 
         # logic in order to make the decision
         # TODO - take into consideration different sizes, and bias for distractor
-        if trial_target_proba > trial_distractor_proba and trial_target_proba > 0.51:
+        if trial_target_proba - trial_distractor_proba > 0.03 and trial_target_proba > trial_distractor_proba: #and trial_target_proba > 0.51:
             voting_proba_results.append(trial_target_proba)
             voting_results_vec.append(1)
-        elif trial_distractor_proba > trial_target_proba and trial_distractor_proba > 0.55:
+        elif trial_distractor_proba - trial_target_proba > 0.03 and trial_distractor_proba > trial_target_proba: #and trial_distractor_proba > 0.55:
             voting_proba_results.append(trial_distractor_proba)
             voting_results_vec.append(0)
-        # document the decision
-        # if trial_target_proba > 0.53:
-        #     voting_results_vec.append(1)
-        # else:
-        #     voting_results_vec.append(0)
 
+    precentageTOBETarget = sum(voting_results_vec) / len(voting_results_vec)
 
-    return voting_proba_results, voting_results_vec
+    return voting_proba_results, voting_results_vec, precentageTOBETarget
 
 
 # 2 modes - "REAL TEST": when making live prediction
 #           "None mode": when using vore for cross validation purpose
 def main(prediction, endOfCondition1, exp_path=None, state=None):
 
-    condition_1_voting_proba_result, condition_1_voting_results_vec = probaVote(0, endOfCondition1, prediction)  # correlates to target
-    condition_2_voting_proba_result, condition_2_voting_results_vec = probaVote(endOfCondition1, len(prediction), prediction)  # correlates to distractor
+    condition_1_voting_proba_result, condition_1_voting_results_vec, precentageTOBETarget_condition1 = probaVote(0, endOfCondition1, prediction)  # correlates to target
+    condition_2_voting_proba_result, condition_2_voting_results_vec, precentageTOBETarget_condition2 = probaVote(endOfCondition1, len(prediction), prediction)  # correlates to distractor
 
-    print("The general list of prediction per trial is: " + str(condition_1_voting_proba_result) + str(
-        condition_2_voting_proba_result))
+
     condition_1_AVG_proba_precentage = sum(condition_1_voting_proba_result) / len(condition_1_voting_proba_result)
     condition_2_AVG_proba_precentage = sum(condition_2_voting_proba_result) / len(condition_2_voting_proba_result)
+
+    print("precentageTOBETarget_condition1", precentageTOBETarget_condition1)
+    print("precentageTOBETarget_condition2", precentageTOBETarget_condition2)
 
     if state is not None:
         file = open(exp_path + "/pics_allocation.txt", "r")

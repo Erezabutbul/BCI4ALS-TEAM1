@@ -23,11 +23,18 @@ def positivityFeature():
     return
 
 def CzSumFeature(epochs_object, shape_of_matrix_to_resize):
-    Cz_data = epochs_object.get_data(tmin=0.355, tmax=0.4, picks=epochs_object.ch_names.index("Cz"))
+    Cz_data = epochs_object.get_data(tmin=0.30, tmax=0.39, picks=epochs_object.ch_names.index("Cz"))
     Cz_sum = np.sum(Cz_data)
     Cz_sum_resizes = np.array([Cz_sum] * shape_of_matrix_to_resize)
     Cz_sum_resizes = Cz_sum_resizes.reshape([Cz_sum_resizes.shape[0], 1])
     return Cz_sum_resizes
+
+def powerSum(epochs_object, shape_of_matrix_to_resize):
+    elec_data = epochs_object.get_data(tmin=0.30, tmax=0.39, picks=selected_channels)
+    sum_elec_data = np.sum(elec_data, axis=2)
+    elec_sum_resizes = np.reshape(sum_elec_data, [sum_elec_data.shape[0]*sum_elec_data.shape[1],1])
+
+    return elec_sum_resizes
 
 def extractFeatures(epochs_object, epochs_data):
     epochs_shape = epochs_data.shape
@@ -35,11 +42,15 @@ def extractFeatures(epochs_object, epochs_data):
     trialFlowFeatureMatrix = trialFlowFearture(epochs_data, epochs_shape)
     # Cz sum feature
     # Cz_sum_vector = CzSumFeature(epochs_object, trialFlowFeatureMatrix.shape[0])
+    #
+    # total sum feature
+    total_sum_vector = powerSum(epochs_object, trialFlowFeatureMatrix.shape[0])
 
     # final_feature_matrix = np.concatenate([trialFlowFeatureMatrix, Cz_sum_vector], axis=1)
+    final_feature_matrix = np.concatenate([trialFlowFeatureMatrix, total_sum_vector], axis=1)
 
-    return trialFlowFeatureMatrix
-    # return final_feature_matrix
+    # return trialFlowFeatureMatrix
+    return final_feature_matrix
 
 
 def main(exp_path, state="TRAIN", target_epochs=None, distractor_epochs=None):
