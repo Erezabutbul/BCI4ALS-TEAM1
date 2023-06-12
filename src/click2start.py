@@ -10,24 +10,35 @@ from psycho_data_Arrange import main as arrange_markers_main
 from featureExtractionMNE import main as featureExtraction_main
 from Model import main as model_main
 from parameters import *
+from starting_gui import main as startingGui
+import os
 
-def createFile():
+def createFile(mode):
     # date & time
     date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
     # Create the "EXP_{date}" directory
-    if modes[mode] == "TRAIN":
+    if mode == "TRAIN":
         exp_dir = f"output_files/EXP_{date}/"
-    else:
+    elif mode == "TEST":
         exp_dir = f"output_files/testSet/test_{date}/"
+    else:
+        raise Exception("mode is not supported")
     os.makedirs(exp_dir, exist_ok=True)
     return exp_dir
 
 
 def main():
+    # show starting gui. choose the parameters.
+    params = []
+    startingGui(params)
+    print(f"params are : {params}")
+    gui_mode = modes[mode] if params[0] == "mode:" else params[0]
+    gui_trials = trials_N if (params[1] == "" or not params[1].isdigit() ) else int(params[1])
+    gui_blocks = blocks_N if (params[2] == "" or not params[2].isdigit() ) else int(params[2])
     # modes of EXP : train or test
     # Create the "EXP_{date}" directory
-    exp_path = createFile()
+    exp_path = createFile(gui_mode)
 
     with multiprocessing.Manager() as manager:
         keepRunning = manager.Value('b', True)

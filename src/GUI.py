@@ -1,7 +1,7 @@
 # import time
 
 # import parameters as p
-from runExperiment import generated_experiment
+from runExperiment import generateExperiment
 from parameters import *
 import random
 import keyboard
@@ -13,7 +13,7 @@ class Timer:
         return pylsl.local_clock()
 
 
-def showExperiment(exp_path, keepRunning, state):
+def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
     from psychopy import logging, core, visual, sound
     # interTime = interTime  # take from parameters
     # StimOnset = StimOnset
@@ -41,7 +41,9 @@ def showExperiment(exp_path, keepRunning, state):
     win.flip()
     core.wait(interTime)
 
-    for indexOfBlock in range(0, blocks_N):
+    generated_experiment = generateExperiment(gui_trials , gui_blocks)
+
+    for indexOfBlock in range(0, gui_blocks):
         # get current block
         currentBlock = generated_experiment[indexOfBlock]
 
@@ -64,7 +66,7 @@ def showExperiment(exp_path, keepRunning, state):
         target_image = visual.ImageStim(win, image=faces[target], autoLog=False)
         distractor_image = visual.ImageStim(win, image=faces[distractor], autoLog=False)
 
-        if modes[mode] == "TRAIN":
+        if gui_mode == "TRAIN":
         # plot to audience
             message.text = "Please focus on the {}".format(stimulusType[target])  # Change properties of existing stim
             message.draw()
@@ -141,3 +143,7 @@ def showExperiment(exp_path, keepRunning, state):
     keepRunning.value = False
     # win.close()
     # core.quit()
+
+
+if __name__ == '__main__':
+    showExperiment()

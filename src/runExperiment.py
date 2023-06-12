@@ -1,5 +1,7 @@
 import random
 
+import numpy as np
+
 from parameters import *
 
 
@@ -18,23 +20,23 @@ def generateBlock():
     twos = trials_N // 7 + random.randint(0, 3)
     zeros = (5 * trials_N) // 7
 
-    # extream cases
-    if ones + twos > zeros:
-        zeros = ones + twos
-
-    # Generate an array of zeros and insert ones and twos randomly
-    block = [0] * trials_N
-    while ones != 0:
-        index = random.randint(1, trials_N - 2)
-        if block[index] == 0 and block[index - 1] == 0 and block[index + 1] == 0:
-            block[index] = 1
-            ones -= 1
-    while twos != 0:
-        index = random.randint(1, trials_N - 2)
-        if block[index] == 0 and block[index - 1] == 0 and block[index + 1] == 0:
-            block[index] = 2
-            twos -= 1
-
+    # # extream cases
+    # if ones + twos > zeros:
+    #     zeros = ones + twos
+    #
+    # # Generate an array of zeros and insert ones and twos randomly
+    # block = [0] * trials_N
+    # while ones != 0:
+    #     index = random.randint(1, trials_N - 2)
+    #     if block[index] == 0 and block[index - 1] == 0 and block[index + 1] == 0:
+    #         block[index] = 1
+    #         ones -= 1
+    # while twos != 0:
+    #     index = random.randint(1, trials_N - 2)
+    #     if block[index] == 0 and block[index - 1] == 0 and block[index + 1] == 0:
+    #         block[index] = 2
+    #         twos -= 1
+    block = np.ones(trials_N)
     return block
 
 
