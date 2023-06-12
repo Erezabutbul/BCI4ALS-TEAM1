@@ -10,30 +10,41 @@ from psycho_data_Arrange import main as arrange_markers_main
 from featureExtractionMNE import main as featureExtraction_main
 from Model import main as model_main
 from parameters import *
+from starting_gui import main as startingGui
+import os
 
-def createFile():
+def createFile(mode):
     # date & time
     date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
     # Create the "EXP_{date}" directory
-    if modes[mode] == "TRAIN":
+    if mode == "TRAIN":
         exp_dir = f"output_files/EXP_{date}/"
-    else:
+    elif mode == "TEST":
         exp_dir = f"output_files/testSet/test_{date}/"
+    else:
+        raise Exception("mode is not supported")
     os.makedirs(exp_dir, exist_ok=True)
     return exp_dir
 
 
 def main():
+    # show starting gui. choose the parameters.
+    params = []
+    startingGui(params)
+    gui_mode = modes[mode] if params[0] == "mode:" else params[0]
+    gui_trials = trials_N if (params[1] == "" or not params[1].isdigit() ) else int(params[1])
+    gui_blocks = blocks_N if (params[2] == "" or not params[2].isdigit() ) else int(params[2])
+    print(f"exp mode: {gui_mode}, num of trials: {gui_trials}, num of blocks: {gui_blocks}")
     # modes of EXP : train or test
     # Create the "EXP_{date}" directory
-    exp_path = createFile()
+    exp_path = createFile(gui_mode)
 
     with multiprocessing.Manager() as manager:
         keepRunning = manager.Value('b', True)
         # Create the processes
         p1 = multiprocessing.Process(target=lsl_main, args=[exp_path, keepRunning])
-        p2 = multiprocessing.Process(target=showExperiment, args=[exp_path, keepRunning, modes[mode]])
+        p2 = multiprocessing.Process(target=showExperiment, args=[exp_path, keepRunning, gui_mode, gui_trials, gui_blocks])
 
         # Start the processes
         p1.start()
