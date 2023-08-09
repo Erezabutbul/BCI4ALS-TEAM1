@@ -4,8 +4,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from featureExtractionMNE import main as extractFeatures
 from Vote import main as Vote
-
-
+from scipy.stats import zscore
+import mne
 
 def getEXPFoldersList(main_folder):
     # get all the experiment folders
@@ -59,18 +59,27 @@ def concatFeatures(condition_set_path):
 
 
 
-def positivityFeature():
+def positivityFeature(path_to_exp):
+    path_to_exp += "/"
     # need to consider a way to add it externally to the model
-    """
-    AVG_TARGET = epochs["target"].average()
-    AVG_DISTRACTOR = epochs["distractor"].average()
-    diff = mne.combine_evoked((AVG_TARGET,-AVG_DISTRACTOR), weights='equal')
+    con1_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "target_epochs.fif")
+    con2_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "distractor_epochs.fif")
+
+    AVG_con1 = con1_epochs.average()
+    AVG_con2 = con2_epochs.average()
+    diff = mne.combine_evoked((AVG_con1,-AVG_con2), weights='equal')
     subStactionFeature = diff.get_data(tmin=0.335, tmax=0.40)
     feature = np.sum(subStactionFeature)
-    if feature > 0
-    :return: TARGET
-    """
-    return
+
+    if feature > 0:
+        # con1 is the target
+        winner = "con1"# return the precentage that you want to add
+
+    else:
+        winner = "con2"# return the precentage that you want to add
+    # con2 is the target
+
+    return winner, 0.01
 
 
 
@@ -119,6 +128,8 @@ def main():
         # extract feature from the test set
         test_feature_matrix, test_true_labels_before_vote, endOfcon1TEST = test_set_crossValidation(file_to_exclude)
 
+        winner, added_chance = positivityFeature(output_files + file_to_exclude)
+
         # predict using the trained model
         test_predicted_labels_before_vote = model.predict_proba(test_feature_matrix)
 
@@ -132,6 +143,11 @@ def main():
         print("The general list of prediction per trial is: ", target_voting_results_vec, "", distractor_voting_results_vec)
         print("target proba ", target_AVG_voting_result)
         print("distractor proba", distractor_AVG_voting_result)
+
+        if winner == "con1":
+            target_AVG_voting_result += added_chance
+        else:
+            distractor_AVG_voting_result += added_chance
 
         #################### proba vote ##################################
         # if target_proba_precentage - distractor_proba_precentage > 0.005:
