@@ -61,7 +61,7 @@ def main():
 
 
     print("arranging and splitting data...")
-    # Arrange the data by psychopy
+    # Arrange the data by psychopy - makes the psychopy log readable
     arrange_markers_main(exp_path)
 
     print("pre processing...")

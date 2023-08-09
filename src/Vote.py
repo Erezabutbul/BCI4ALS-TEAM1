@@ -98,7 +98,7 @@ def calculate_average_percentage(voting_result):
         return sum(voting_result) / len(voting_result)
 
 # 2 modes - "REAL TEST": when making live prediction
-#           "None mode": when using vore for cross validation purpose
+#           "None mode": when using vote for cross validation purpose
 def main(prediction, endOfCondition1, exp_path=None, state=None):
 
     # condition_1_voting_proba_result, condition_1_voting_results_vec, precentageTOBETarget_condition1 = probaVote(0, endOfCondition1, prediction)  # correlates to target
