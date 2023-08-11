@@ -24,18 +24,7 @@
 
   <h3 align="center">BCI - 4 - ALS</h3>
 
-  <p align="center">
-    A BCI Classification project
-    <br />
-    <a href="https://github.com/evyatarluv/BCI-4-ALS/blob/master/Project%20Report.pdf"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/evyatarluv/BCI-4-ALS">View Demo</a>
-    ·
-    <a href="https://github.com/evyatarluv/BCI-4-ALS">Report Bug</a>
-    ·
-    <a href="https://github.com/evyatarluv/BCI-4-ALS">Request Feature</a>
-  </p>
+  
 </p>
 
 
