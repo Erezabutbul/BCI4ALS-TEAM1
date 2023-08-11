@@ -44,7 +44,7 @@ dog_sound__path = "../sounds/dog.wav"
 sounds = [neutral_path, cat_sound_path, dog_sound__path]
 
 target_ratio = 7  # (percentage of the oddball onsets)
-trials_N = 50  # (number of trials per block) -  at least 200
+trials_N = 20  # (number of trials per block) -  at least 200
 blocks_N = 1  # (number of blocks)
 targetAppearances = trials_N / target_ratio  # (number of times target appear per block)
 marker_types = ["baseLine", "target", "distractor"]
@@ -54,7 +54,8 @@ samplingRate = 125
 numOfSamplesToCut = int(samplingRate * (durationBeforeStimuli + durationAfterStimuli))
 
 # selected electrodes for features extractions
-selected_channels = ['C3', 'C4', 'Cz', 'FC1', 'FC2', 'FC5', 'FC6']
+# selected_channels = ['C3', 'C4', 'Cz', 'FC1', 'FC2', 'FC5', 'FC6'] BEST SCORE 5/7 - 21.5.23
+selected_channels = ['Cz', 'FC1', 'FC2', 'CP1', 'CP2']
 
 # date & time
 date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
@@ -128,3 +129,6 @@ def extract_date(file_name):
     return datetime.strptime(file_name.split('_')[1], "%d_%m_%Y")
 
 
+def createFolder(path):
+    os.makedirs(path, exist_ok=True)
+    return

@@ -76,7 +76,7 @@ def create_mne_raw(EEG_data, bad_channels):
 def create_epoch(filtered_data_eeg, tmin, tmax, min_for_basline, max_for_baseline):
     # create events and event id from epoch
     event_id_erp = {"baseLine": 1, "distractor": 2, "target": 3}
-    events, event_id = mne.events_from_annotations(filtered_data_eeg, event_id=event_id_erp, chunk_duration=0.7)
+    events, event_id = mne.events_from_annotations(filtered_data_eeg, event_id=event_id_erp)
     baseline = (min_for_basline, max_for_baseline)
     # The time interval to consider as “baseline” when applying baseline correction. If None, do not apply baseline correction.
     # If a tuple (a, b), the interval is between a and b (in seconds), including the endpoints. If a is None, the beginning of the data is used;
@@ -154,15 +154,15 @@ def main(exp_path):
     # Using ICA to clean data
     # ICA
     component_number = 13 - len(bad_channels)
-    ica_eeg = ICA(n_components=component_number, max_iter='auto', random_state=97)
-    ica_eeg.fit(filtered_data_eeg)
-    ica_eeg.exclude = [0]  # remove the noisiest component
+    # ica_eeg = ICA(n_components=component_number, max_iter='auto', random_state=97)
+    # ica_eeg.fit(filtered_data_eeg)
+    # ica_eeg.exclude = [0]  # remove the noisiest component
     # ica_eeg.apply(filtered_data_eeg)
 
     annotations = set_annotations_from_event_table(event_table, filtered_data_eeg, offset)
     filtered_data_eeg.set_annotations(annotations)
     epochs = create_epoch(filtered_data_eeg, durationBeforeStimuli, durationAfterStimuli, baseline_min, baseline_max)
-    epochs.drop_bad(reject=reject_criteria)
+    # epochs.drop_bad(reject=reject_criteria)
 
     # find bad channel automatically by mark them as bad for percentage drop of above x percent
     my_tuple = epochs.drop_log
@@ -182,7 +182,7 @@ def main(exp_path):
 
     # redo epoches
     epochs = create_epoch(filtered_data_eeg, durationBeforeStimuli, durationAfterStimuli, baseline_min, baseline_max)
-    epochs.drop_bad(reject=reject_criteria)
+    # epochs.drop_bad(reject=reject_criteria)
 
     # save the filtered file in the original form
     filtered_eeg_df = filtered_data_eeg.to_data_frame()
@@ -209,11 +209,12 @@ def main(exp_path):
 
     ###########################################################
     # save to "EXP_{date}" directory
-    filtered_EEG_dir = exp_path + "filtered_EEG_Recordings"
+    filtered_EEG_dir = exp_path + "filtered_EEG_Recordings/"
     os.makedirs(filtered_EEG_dir, exist_ok=True)
     #########################################################
-    filtered_eeg_df.to_csv(filtered_EEG_dir + "/" + Filtered_EEG_file_name, index=False)
-
+    filtered_eeg_df.to_csv(filtered_EEG_dir + Filtered_EEG_file_name, index=False)
+    epoch_target.save(filtered_EEG_dir + "target_epochs.fif", overwrite=True)
+    epoch_distractor.save(filtered_EEG_dir + "distractor_epochs.fif", overwrite=True)
     return epoch_target, epoch_distractor, epoch_baseLine, epoch_target_df, epoch_distractor_df, epoch_baseLine_df
 
 if __name__ == '__main__':

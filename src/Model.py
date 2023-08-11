@@ -1,4 +1,6 @@
 # Importing the required packages
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -63,6 +65,7 @@ def main(exp_path=None):
         listOfEXP = getEXPFoldersList(output_files)
         outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(listOfEXP)
         train_features_folder_path = os.path.join(output_files, featuresAndModel_folder_name)
+        createFolder(train_features_folder_path)
         outputDf_features.to_csv(train_features_folder_path + "newFeatures.csv", header=False, index=False)
         outputDf_labels.to_csv(train_features_folder_path + "newLabels.csv", header=False, index=False)
 
@@ -97,8 +100,8 @@ def main(exp_path=None):
         # print(y_pred)
         #
         # Prediction Factors
-        print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
-        print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
+        # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
+        # print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
         # print("Report:", classification_report(y_test, y_pred))
 
         model = LinearSVC()
@@ -118,8 +121,8 @@ def main(exp_path=None):
         # print(y_pred)
 
         # Prediction Factors
-        print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
-        print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
+        # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
+        # print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
         # print("Report:", classification_report(y_test, y_pred))
 
         model = RandomForestClassifier()
@@ -135,23 +138,42 @@ def main(exp_path=None):
         root.withdraw()
         test_model_path = filedialog.askopenfilename() # filedialog.askopenfilename("Choose model")
         test_model = pickle.load(open(test_model_path, 'rb'))
-        # load test features
-        root = tk.Tk()
-        root.withdraw()
-        test_features_path = filedialog.askopenfilename() #filedialog.askopenfilename("Choose features")
-        # cut to feed the model
-        testFeatureMatrixRAW = pd.read_csv(test_features_path)
+
+        # programmer mode
+            # # load test features
+            # root = tk.Tk()
+            # root.withdraw()
+            # test_features_path = filedialog.askopenfilename() #filedialog.askopenfilename("Choose features")
+            # # cut to feed the model
+            # testFeatureMatrixRAW = pd.read_csv(test_features_path)
+
+        testFeatureMatrixRAW = pd.read_csv(exp_path + "/" + test_features_file_name)
         num_columns = len(testFeatureMatrixRAW.columns)
         # testFeatureMatrix = pd.read_csv(test_features_path, header=None, usecols=range(1, num_columns), skiprows=1)
-        y_pred = test_model.predict(testFeatureMatrixRAW)
+        y_pred_proba = test_model.predict_proba(testFeatureMatrixRAW)
         print("Predicted values:")
-        print(y_pred)
-        print("\n\n")
+        # print(y_pred_proba)
+        print("\n")
         # exp_path = output_files + "testSet/test_21_05_2023 at 02_47_41_PM/"
         condition1_features = pd.read_csv(exp_path + "target_test_features_Matrix.csv", header=None)
         condition1_num_of_trials = condition1_features.shape[0]
-        vote(y_pred, condition1_num_of_trials, exp_path, "REAL TEST")
+        condition_1_AVG_TARGET_proba_precentage, condition_2_AVG_TARGET_proba_precentage, condition_1_voting_results_vec, condition_2_voting_results_vec = vote(y_pred_proba, condition1_num_of_trials, exp_path, "REAL TEST")
         # print("Accuracy:", accuracy_score(test_set_labels, y_pred) * 100)
+        file = open(exp_path + "/pics_allocation.txt", "r")
+        lines = file.readlines()
+        #################### proba vote ##################################
+        print("\n\nThe selected is: ")
+        if condition_1_AVG_TARGET_proba_precentage > condition_2_AVG_TARGET_proba_precentage:
+            print("prediction is 1 ")
+            print(f"which means: {lines[1]}")
+            print("precentage of confidence: ", condition_1_AVG_TARGET_proba_precentage)
+        elif condition_1_AVG_TARGET_proba_precentage < condition_2_AVG_TARGET_proba_precentage:
+            print("prediction is 0 ")
+            print(f"which means: {lines[3]}")
+            print("precentage of confidence: ", condition_2_AVG_TARGET_proba_precentage)
+
+        else:
+            print("DON'T HAVE VALID PREDICTION")
 
 if __name__ == '__main__':
     main()

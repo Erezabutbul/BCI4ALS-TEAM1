@@ -2,7 +2,7 @@ import multiprocessing
 # import os
 # with contextlib.redirect_stdout(None):
     # import pygame
-# from datetime import datetime
+from datetime import datetime
 from lsl_Record_data import main as lsl_main
 from GUI import showExperiment
 from preProcessing import main as preProcessing_main
@@ -14,6 +14,10 @@ from starting_gui import main as startingGui
 import os
 
 def createFile(mode):
+
+    # if output_files doesn't exist - create it
+    os.makedirs(output_files, exist_ok=True)
+
     # date & time
     date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
 
@@ -57,7 +61,7 @@ def main():
 
 
     print("arranging and splitting data...")
-    # Arrange the data by psychopy
+    # Arrange the data by psychopy - makes the psychopy log readable
     arrange_markers_main(exp_path)
 
     print("pre processing...")
