@@ -30,7 +30,7 @@ def createFile(mode):
 
 def main():
     # show starting gui. choose the parameters.
-    params = []
+    params = ["TRAIN" , "10" , "1"]
     startingGui(params)
     gui_mode = modes[mode] if params[0] == "mode:" else params[0]
     gui_trials = trials_N if (params[1] == "" or not params[1].isdigit() ) else int(params[1])
