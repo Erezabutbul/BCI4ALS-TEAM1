@@ -59,8 +59,8 @@ def concatFeatures(condition_set_path):
     return outputDf_features, outputDf_labels, endOfcon1
 
 
-def main(exp_path=None):
-    if modes[mode] == "TRAIN":
+def main(gui_mode , exp_path=None):
+    if gui_mode == "TRAIN":
 
         listOfEXP = getEXPFoldersList(output_files)
         outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(listOfEXP)
@@ -132,7 +132,7 @@ def main(exp_path=None):
         RandomForest_filename = RandomForest_dir_path + f'finalized_RandomForest_Model_{date}.sav'
         pickle.dump(model, open(RandomForest_filename, 'wb'))
     
-    if modes[mode] == "TEST":
+    if gui_mode == "TEST":
         # load models
         root = tk.Tk()
         root.withdraw()

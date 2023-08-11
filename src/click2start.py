@@ -34,9 +34,9 @@ def createFile(mode):
 
 def main():
     # show starting gui. choose the parameters.
-    params = ["TRAIN" , "10" , "1"]
+    params = []
     startingGui(params)
-    gui_mode = modes[mode] if params[0] == "mode:" else params[0]
+    gui_mode = "TRAIN" if params[0] == "mode:" else params[0]
     gui_trials = trials_N if (params[1] == "" or not params[1].isdigit() ) else int(params[1])
     gui_blocks = blocks_N if (params[2] == "" or not params[2].isdigit() ) else int(params[2])
     print(f"exp mode: {gui_mode}, num of trials: {gui_trials}, num of blocks: {gui_blocks}")
@@ -70,10 +70,10 @@ def main():
 
     # overwrites every features and models folder
     # extract features
-    featureExtraction_main(exp_path, modes[mode], epoch_target, epoch_distractor)
+    featureExtraction_main(exp_path, gui_mode, epoch_target, epoch_distractor)
 
     # model TRAIN / TEST
-    model_main(exp_path)
+    model_main(gui_mode , exp_path)
     
 
 
