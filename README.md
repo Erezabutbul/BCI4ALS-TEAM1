@@ -102,13 +102,13 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Erez abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
+Erez Abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
 
 Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
-Nofar yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
+Nofar Yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
 
-Eden or - [edeo@post.bgu.ac.il](edeo@post.bgu.ac.il)
+Eden Or - [edeo@post.bgu.ac.il](edeo@post.bgu.ac.il)
 
 
 Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/Erezabutbul/BCI4ALS-TEAM1)
