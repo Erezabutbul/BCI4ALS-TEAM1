@@ -42,7 +42,7 @@ Now the interface is adapted to the parameters of our mentor, when the stimuli a
 
 ### Built With
 
-* [psychopy](https://www.psychopy.org/)
+* [PsychoPy](https://www.psychopy.org/)
 * [MNE](https://mne.tools/stable/overview/index.html)
 * [SciPy](https://docs.scipy.org/doc/scipy/)
 * [scikit-learn](https://scikit-learn.org/)
@@ -115,7 +115,8 @@ Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-Thank you to our mentor for keeping us motivated and being a crucial part of our team. 
+Thank you to our mentor for keeping us motivated and for being a crucial part of our team, in all aspects. 
+Another thank you to the BCI4ALS course staff for the on-going help and support.
 
 <p align="center">
   <img src="images/brain_gif.gif" alt="Possible Labels = {good, brain}">
