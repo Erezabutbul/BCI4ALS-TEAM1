@@ -5,6 +5,15 @@ import pandas as pd
 import pylsl
 import numpy as np
 
+
+"""
+parameters.py - Configuration parameters for the EEG experiment.
+
+This script defines various configuration parameters used in the EEG experiment. These parameters include experiment
+settings, paths for saving data, stimulus types, psychopy parameters, and more.
+
+"""
+
 #train or test MODE
 modes = ["TRAIN", "TEST"]
 mode = 0

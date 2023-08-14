@@ -4,8 +4,27 @@ from parameters import *
 import numpy as np
 import mne
 
+"""
+featureExtraction.py - Feature extraction from EEG data using MNE.
+
+This script defines functions for extracting features from EEG data using MNE. It includes functions for reshaping trials,
+extracting positivity feature, Cz sum feature, power sum feature, and the main feature extraction process.
+
+"""
+
 
 def trialFlowFearture(epochs_data, epochs_shape):
+    """
+    Reshape the epochs data to a trial flow feature matrix.
+
+    Args:
+        epochs_data (numpy.ndarray): EEG data from epochs.
+        epochs_shape (tuple): Shape of the epochs data.
+
+    Returns:
+        numpy.ndarray: Trial flow feature matrix.
+
+    """
     trialFlowFeatureMatrix = epochs_data.reshape([epochs_shape[0] * epochs_shape[1], epochs_shape[2]])
     return trialFlowFeatureMatrix
 
@@ -23,6 +42,17 @@ def positivityFeature():
     return
 
 def CzSumFeature(epochs_object, shape_of_matrix_to_resize):
+    """
+    Calculate Cz sum feature.
+
+    Args:
+        epochs_object (mne.Epochs): Epochs object containing EEG data.
+        shape_of_matrix_to_resize (int): Shape of the matrix to resize.
+
+    Returns:
+        numpy.ndarray: Resized Cz sum feature vector.
+
+    """
     Cz_data = epochs_object.get_data(tmin=0.30, tmax=0.39, picks=epochs_object.ch_names.index("Cz"))
     Cz_sum = np.sum(Cz_data)
     Cz_sum_resizes = np.array([Cz_sum] * shape_of_matrix_to_resize)
@@ -30,6 +60,17 @@ def CzSumFeature(epochs_object, shape_of_matrix_to_resize):
     return Cz_sum_resizes
 
 def powerSum(epochs_object, shape_of_matrix_to_resize):
+    """
+    Calculate power sum feature.
+
+    Args:
+        epochs_object (mne.Epochs): Epochs object containing EEG data.
+        shape_of_matrix_to_resize (int): Shape of the matrix to resize.
+
+    Returns:
+        numpy.ndarray: Resized power sum feature vector.
+
+    """
     elec_data = epochs_object.get_data(tmin=0.30, tmax=0.39, picks=selected_channels)
     sum_elec_data = np.sum(elec_data, axis=2)
     elec_sum_resizes = np.reshape(sum_elec_data, [sum_elec_data.shape[0]*sum_elec_data.shape[1],1])
@@ -37,6 +78,17 @@ def powerSum(epochs_object, shape_of_matrix_to_resize):
     return elec_sum_resizes
 
 def extractFeatures(epochs_object, epochs_data):
+    """
+    Extract features from EEG data.
+
+    Args:
+        epochs_object (mne.Epochs): Epochs object containing EEG data.
+        epochs_data (numpy.ndarray): EEG data from epochs.
+
+    Returns:
+        numpy.ndarray: Final feature matrix.
+
+    """
     epochs_shape = epochs_data.shape
     # Flow feature
     trialFlowFeatureMatrix = trialFlowFearture(epochs_data, epochs_shape)
@@ -54,7 +106,19 @@ def extractFeatures(epochs_object, epochs_data):
 
 
 def main(exp_path, state="TRAIN", target_epochs=None, distractor_epochs=None):
+    """
+    Main function for feature extraction.
 
+    Args:
+        exp_path (str): Path to the experiment directory.
+        state (str): Mode of operation, "TRAIN" or other.
+        target_epochs (mne.Epochs): Epochs object containing target EEG data.
+        distractor_epochs (mne.Epochs): Epochs object containing distractor EEG data.
+
+    Returns:
+        None: Feature extraction results are saved to files.
+
+    """
     if target_epochs is None and distractor_epochs is None:
         target_epochs = mne.read_epochs(exp_path + filtered_EEG_folder_path + "target_epochs.fif")
         distractor_epochs = mne.read_epochs(exp_path + filtered_EEG_folder_path + "distractor_epochs.fif")

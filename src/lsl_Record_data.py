@@ -5,7 +5,30 @@
 # import parameters as p
 from parameters import *
 
+
+"""
+lsl_Record_data.py - Script for recording EEG data using the LabStreamingLayer (LSL) library.
+
+This script utilizes the pylsl library to resolve and record EEG data from an LSL stream. It continuously
+pulls EEG samples from the stream and saves them to a CSV file.
+
+Usage:
+    Run the script directly to record EEG data during the experiment.
+
+"""
+
 def main(exp_path, keepRunning):
+    """
+    Record EEG data using the LabStreamingLayer (LSL) library.
+
+    Args:
+        exp_path (str): Path to the experiment directory.
+        keepRunning (multiprocessing.Value): Value indicating whether the experiment should continue running.
+
+    Returns:
+        None
+
+    """
     # first resolve an EEG stream on the lab network
     print("looking for an EEG stream...")
     streams = pylsl.resolve_stream('type', 'EEG')

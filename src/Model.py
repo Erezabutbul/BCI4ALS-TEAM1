@@ -1,6 +1,5 @@
 # Importing the required packages
 import os
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -10,7 +9,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
-
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
@@ -21,7 +19,16 @@ from parameters import *
 from Vote import main as vote
 
 def getEXPFoldersList(main_folder):
-    # get all the experiment folders
+    """
+    Get a list of experiment folders from the given main folder.
+
+    Args:
+        main_folder (str): Path to the main folder containing experiment folders.
+
+    Returns:
+        list: List of experiment folder names.
+
+    """
     exp_folders = [f for f in os.listdir(main_folder) if
                    os.path.isdir(os.path.join(main_folder, f)) and f.startswith('EXP')]
     return exp_folders
@@ -29,6 +36,18 @@ def getEXPFoldersList(main_folder):
 
 
 def concatFeatures(condition_set_path):
+    """
+    Concatenate features and labels from multiple experiment folders.
+
+    Args:
+        condition_set_path (str or list): Path(s) to the experiment folders.
+
+    Returns:
+        pandas.DataFrame: Concatenated feature matrix.
+        pandas.DataFrame: Concatenated label matrix.
+        int: Index indicating the end of target condition features.
+
+    """
     listOfEXP = condition_set_path
     if type(listOfEXP) == str:
         listOfEXP = [listOfEXP]
@@ -60,6 +79,17 @@ def concatFeatures(condition_set_path):
 
 
 def main(gui_mode , exp_path=None):
+    """
+    Main function for model training and testing.
+
+    Args:
+        gui_mode (str): Mode of operation ("TRAIN" or "TEST").
+        exp_path (str, optional): Path to the experiment folder for testing mode.
+
+    Returns:
+        None
+
+    """
     if gui_mode == "TRAIN":
 
         listOfEXP = getEXPFoldersList(output_files)
@@ -84,46 +114,12 @@ def main(gui_mode , exp_path=None):
         X = outputDf_features
         y = outputDf_labels
 
-        # separate to training and learning sets: X is the data by feature, y is the class vector(target, distractor, baseline)
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=100)
-
-        # SVC (sklearn Support Vector Classification)
-        model = LinearSVC()
-        model.fit(X_train, y_train)
-        print("SVC model")
-
-
-
-        # Prediction
-        y_pred = model.predict(X_test)
-        print("LinearSVC Predicted values:")
-        # print(y_pred)
-        #
-        # Prediction Factors
-        # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
-        # print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
-        # print("Report:", classification_report(y_test, y_pred))
-
+        # Creating models and saving them
         model = LinearSVC()
         model.fit(X, y)
         # save the SVCModel
         SVC_Model_filename = SVC_dir_path + f'finalized_SVC_Model_{date}.sav'
         pickle.dump(model, open(SVC_Model_filename, 'wb'))
-
-        # Random Forest
-        model = RandomForestClassifier()
-        model.fit(X_train, y_train)
-        print("Random Forest model")
-
-        # Prediction
-        y_pred = model.predict(X_test)
-        print("Random Forest Predicted values:")
-        # print(y_pred)
-
-        # Prediction Factors
-        # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
-        # print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
-        # print("Report:", classification_report(y_test, y_pred))
 
         model = RandomForestClassifier()
         model.fit(X, y)
@@ -131,7 +127,35 @@ def main(gui_mode , exp_path=None):
         # save the RandomForest model
         RandomForest_filename = RandomForest_dir_path + f'finalized_RandomForest_Model_{date}.sav'
         pickle.dump(model, open(RandomForest_filename, 'wb'))
-    
+
+        #test for evaluation - not needed for system functionality
+        """
+        # separate to training and learning sets: X is the data by feature, y is the class vector(target, distractor, baseline)
+        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=100)
+        # SVC (sklearn Support Vector Classification)
+        # model = LinearSVC()
+        # model.fit(X_train, y_train)
+        # print("SVC model")
+        # Prediction
+        # y_pred = model.predict(X_test)
+        # print("LinearSVC Predicted values:")
+        # print(y_pred)
+        #
+        # Prediction Factors
+        # print("Confusion_Matrix:", confusion_matrix(y_test, y_pred))
+        # print("Accuracy:", accuracy_score(y_test, y_pred) * 100)
+        # print("Report:", classification_report(y_test, y_pred))
+        # Random Forest
+        # model = RandomForestClassifier()
+        # model.fit(X_train, y_train)
+        # print("Random Forest model")
+        # Prediction
+        # y_pred = model.predict(X_test)
+        # print("Random Forest Predicted values:")
+        # print(y_pred)
+        """
+
+
     if gui_mode == "TEST":
         # load models
         root = tk.Tk()
@@ -139,22 +163,19 @@ def main(gui_mode , exp_path=None):
         test_model_path = filedialog.askopenfilename() # filedialog.askopenfilename("Choose model")
         test_model = pickle.load(open(test_model_path, 'rb'))
 
-        # programmer mode
+        # programmer mode - if you want to do data science - you can choose feature matrix as well
             # # load test features
             # root = tk.Tk()
             # root.withdraw()
             # test_features_path = filedialog.askopenfilename() #filedialog.askopenfilename("Choose features")
             # # cut to feed the model
             # testFeatureMatrixRAW = pd.read_csv(test_features_path)
+            # num_columns = len(testFeatureMatrixRAW.columns)
+            # testFeatureMatrix = pd.read_csv(test_features_path, header=None, usecols=range(1, num_columns), skiprows=1)
 
         testFeatureMatrixRAW = pd.read_csv(exp_path + "/" + test_features_file_name)
-        num_columns = len(testFeatureMatrixRAW.columns)
-        # testFeatureMatrix = pd.read_csv(test_features_path, header=None, usecols=range(1, num_columns), skiprows=1)
         y_pred_proba = test_model.predict_proba(testFeatureMatrixRAW)
         print("Predicted values:")
-        # print(y_pred_proba)
-        print("\n")
-        # exp_path = output_files + "testSet/test_21_05_2023 at 02_47_41_PM/"
         condition1_features = pd.read_csv(exp_path + "target_test_features_Matrix.csv", header=None)
         condition1_num_of_trials = condition1_features.shape[0]
         condition_1_AVG_TARGET_proba_precentage, condition_2_AVG_TARGET_proba_precentage, condition_1_voting_results_vec, condition_2_voting_results_vec = vote(y_pred_proba, condition1_num_of_trials, exp_path, "REAL TEST")

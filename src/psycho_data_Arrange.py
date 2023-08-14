@@ -2,6 +2,13 @@
 from parameters import *
 # import os
 
+"""
+Parse psychopy output markers into a readable CSV file.
+
+This script parses the output markers from a psychopy experiment file and creates a readable CSV file
+containing the timestamps and descriptions of the markers.
+
+"""
 # purse the psychopy output file into a readable csv file
 def main(exp_path):
     completePath = exp_path + markers_psycho_folder_path + markers_psycho_file_name

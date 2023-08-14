@@ -9,7 +9,29 @@ from scipy.signal import firwin2
 from mne.preprocessing import (ICA, corrmap, create_ecg_epochs,
                                create_eog_epochs)
 
+"""
+preprocessing.py - Script for preprocessing EEG data before feature extraction.
+
+This script performs preprocessing steps on EEG data, including filtering, epoching, and artifact removal,
+to prepare the data for feature extraction and model training/testing.
+
+Usage:
+    Run the script directly to perform EEG data preprocessing.
+
+"""
+
+
 def filter_data(raw):
+    """
+    Apply bandpass and notch filters to EEG data.
+
+    Args:
+        raw (mne.io.RawArray): Raw EEG data.
+
+    Returns:
+        filtered_data (mne.io.RawArray): Filtered EEG data.
+
+    """
     sfreq = samplingRate  # sampling frequency
     power_noise = (25, 50)
     # Apply filter to data
@@ -23,7 +45,17 @@ def filter_data(raw):
 
 
 def create_mne_raw(EEG_data, bad_channels):
+    """
+    Create MNE Raw object from EEG data.
 
+    Args:
+        EEG_data (pd.DataFrame): EEG data.
+        bad_channels (list): List of bad channels.
+
+    Returns:
+        mne.io.RawArray: MNE Raw object.
+
+    """
     # unit conversion for uV to V
     EEG_data = EEG_data.div(1000000)
 
@@ -74,6 +106,20 @@ def create_mne_raw(EEG_data, bad_channels):
 
 
 def create_epoch(filtered_data_eeg, tmin, tmax, min_for_basline, max_for_baseline):
+    """
+    Create MNE Epochs from filtered EEG data.
+
+    Args:
+        filtered_data_eeg (mne.io.RawArray): Filtered EEG data.
+        tmin (float): Start time of epoch.
+        tmax (float): End time of epoch.
+        min_for_basline (float): Minimum time for baseline correction.
+        max_for_baseline (float): Maximum time for baseline correction.
+
+    Returns:
+        mne.Epochs: MNE Epochs object.
+
+    """
     # create events and event id from epoch
     event_id_erp = {"baseLine": 1, "distractor": 2, "target": 3}
     events, event_id = mne.events_from_annotations(filtered_data_eeg, event_id=event_id_erp)
@@ -89,7 +135,18 @@ def create_epoch(filtered_data_eeg, tmin, tmax, min_for_basline, max_for_baselin
 
 
 def set_annotations_from_event_table(event_table, raw, offset):
+    """
+    Set annotations for the MNE Raw object from the event table.
 
+    Args:
+        event_table (pd.DataFrame): Event table.
+        raw (mne.io.RawArray): MNE Raw object.
+        offset (float): Time offset.
+
+    Returns:
+        mne.Annotations: MNE Annotations object.
+
+    """
     # Subtract the offset from all of the timestamps
     event_table['timeStamp'] = event_table['timeStamp'] - offset
 
@@ -106,6 +163,21 @@ def set_annotations_from_event_table(event_table, raw, offset):
     return annotations
 
 def main(exp_path):
+    """
+    Main function for EEG data preprocessing.
+
+    Args:
+        exp_path (str): Path to the experiment directory.
+
+    Returns:
+        mne.Epochs: MNE Epochs object for target conditions.
+        mne.Epochs: MNE Epochs object for distractor conditions.
+        mne.Epochs: MNE Epochs object for baseline conditions.
+        pd.DataFrame: Epochs DataFrame for target conditions.
+        pd.DataFrame: Epochs DataFrame for distractor conditions.
+        pd.DataFrame: Epochs DataFrame for baseline conditions.
+
+    """
 
     # creating relevant paths for pre-processing
     EEG_Path = exp_path + EEG_folder_path + EEG_file_name

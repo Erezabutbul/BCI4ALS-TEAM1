@@ -7,7 +7,25 @@ from Vote import main as Vote
 from scipy.stats import zscore
 import mne
 
+"""
+cross_validation.py - Perform cross-validation and testing using a trained classifier.
+
+This script performs cross-validation and testing using a trained classifier on EEG data from different
+experiment folders. It trains a classifier on one set of folders and tests on another, reporting the results.
+
+"""
+
 def getEXPFoldersList(main_folder):
+    """
+    Get a list of experiment folders from a main directory.
+
+    Args:
+        main_folder (str): Path to the main directory.
+
+    Returns:
+        list: List of experiment folder names.
+
+    """
     # get all the experiment folders
     exp_folders = [f for f in os.listdir(main_folder) if
                    os.path.isdir(os.path.join(main_folder, f)) and f.startswith('EXP')]
@@ -15,19 +33,47 @@ def getEXPFoldersList(main_folder):
 
 
 def train_model_crossValidation(train_set_path):
+    """
+    Train a classifier using cross-validation.
 
+    Args:
+        train_set_path (str or list): Path to the training set experiment folders.
+
+    Returns:
+        RandomForestClassifier: Trained classifier model.
+
+    """
     outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(train_set_path)
     model = RandomForestClassifier()
     model.fit(outputDf_features.values, outputDf_labels.values.ravel())
     return model
 
 def test_set_crossValidation(test_set_path):
+    """
+    Prepare the testing set for cross-validation.
 
+    Args:
+        test_set_path (str): Path to the testing set experiment folder.
+
+    Returns:
+        ndarray, ndarray, int: Feature matrix, true labels, and index representing the end of condition 1.
+
+    """
     outputDf_features, outputDf_labels, endOfcon1 = concatFeatures(test_set_path)
     return outputDf_features.values, outputDf_labels.values, endOfcon1
 
 
 def concatFeatures(condition_set_path):
+    """
+    Concatenate features and labels from different experiment folders.
+
+    Args:
+        condition_set_path (str or list): Path to the experiment folders.
+
+    Returns:
+        DataFrame, DataFrame, int: Concatenated features, concatenated labels, and index representing the end of condition 1.
+
+    """
     listOfEXP = condition_set_path
     if type(listOfEXP) == str:
         listOfEXP = [listOfEXP]
@@ -60,6 +106,16 @@ def concatFeatures(condition_set_path):
 
 
 def positivityFeature(path_to_exp):
+    """
+    Calculate and return the positivity feature based on EEG data.
+
+    Args:
+        path_to_exp (str): Path to the experiment folder.
+
+    Returns:
+        str, float: Winner (con1 or con2) and added chance.
+
+    """
     path_to_exp += "/"
     # need to consider a way to add it externally to the model
     con1_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "target_epochs.fif")
@@ -82,34 +138,14 @@ def positivityFeature(path_to_exp):
     return winner, 0.01
 
 
-
-
-# def generateRandomExpAndBlock():
-#     expFoldersList = getEXPFoldersList(output_files)
-#     # get random EXP
-#     random_EXP_index = random.randrange(len(expFoldersList))
-#     # print(expFoldersList[random_index])
-#     test_set = expFoldersList[random_EXP_index]
-#     expFoldersList.remove(expFoldersList[random_EXP_index])
-#
-#     # after removal of test set
-#     train_set = expFoldersList
-#     return train_set, test_set
-
-
-
-
-
-
-
 def main():
+    """
+    Main function for performing cross-validation and testing.
 
-    # test_set_path = "EXP_21_05_2023 at 02_22_20_PM"
-    # train_set_path = getEXPFoldersList(output_files)
-    # train_set_path.remove(test_set_path)
+    Returns:
+        None: Displays prediction results and accuracy.
 
-    k = 0
-    total_accuracy = 0
+    """
     listOfCorrect = list()
 
     allFolder = getEXPFoldersList(output_files)
