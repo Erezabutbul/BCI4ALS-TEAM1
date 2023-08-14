@@ -68,7 +68,7 @@ After the meeting with the mentor, it was decided to change the stimuli to pictu
 
 Now the interface is adapted to the parameters of our mentor, when the stimuli appear on a blank screen and a sound is heard for each purpose. In the training mode, the target is shown on the screen of each block, and in the test mode, the stimulus on which one should focus on corresponds to each answer (yes/no). At the end of the test mode, the received answer is printed.
 
-<img src="images/arrows.png" alt="Possible Labels = {Left, Right, Idle}">
+<img src="images/petPictures.png" alt="Possible Labels = {chuckcha, chohava, unknown}">
 
 
 
@@ -137,7 +137,7 @@ Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
 Nofar yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
 
-Eden or - [edenzo@post.bgu.ac.il](edenzo@post.bgu.ac.il)
+Eden or - [edeo@post.bgu.ac.il](edeo@post.bgu.ac.il)
 
 
 Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/Erezabutbul/BCI4ALS-TEAM1)
@@ -147,8 +147,11 @@ Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
+Thank you to our mentor for keeping us motivated and being a crucial part of our team. 
 
-
+<p align="center">
+  <img src="images/brain_gif.gif" alt="Possible Labels = {good, brain}">
+</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
