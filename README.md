@@ -75,8 +75,8 @@ Now the interface is adapted to the parameters of our mentor, when the stimuli a
 ### Built With
 
 * [psychopy](https://www.psychopy.org/)
-* [MNE-features](https://mne.tools/mne-features)
-* [Keras](https://keras.io/)
+* [MNE](https://mne.tools/stable/overview/index.html)
+* [SciPy](https://docs.scipy.org/doc/scipy/)
 * [scikit-learn](https://scikit-learn.org/)
 
 
