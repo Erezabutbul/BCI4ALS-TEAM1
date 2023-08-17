@@ -1,11 +1,10 @@
-# import os
-# import pylsl
-# from pylsl import StreamInlet, resolve_stream, resolve_bypred
-# import pandas as pd
-# import parameters as p
 from parameters import *
-
+"""
+args:
+    keepRunning - boolian that indicate the lsl stream to stop
+"""
 def main(exp_path, keepRunning):
+
     # first resolve an EEG stream on the lab network
     print("looking for an EEG stream...")
     streams = pylsl.resolve_stream('type', 'EEG')
@@ -44,11 +43,10 @@ def main(exp_path, keepRunning):
         list_res.append(data)
 
 
-    ###########################################################
     # save to "EXP_{date}" directory
     EEG_dir = exp_path + "EEG_Recordings"
     os.makedirs(EEG_dir, exist_ok=True)
-    #########################################################
+    
     file = pd.DataFrame(list_res)
     file.to_csv(EEG_dir + "/" + EEG_file_name, index=True, index_label="index", encoding="utf_8_sig")
 

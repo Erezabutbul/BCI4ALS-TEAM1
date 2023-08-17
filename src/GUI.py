@@ -12,20 +12,21 @@ class Timer:
     def getTime(self):
         return pylsl.local_clock()
 
-
+"""
+shows experiment
+args:
+    keepRunning - boolian that changes to false after GUI finishes to indicate the lsl stream to stop
+    gui_mode - TRAIN or TEST
+    gui_trials - number of trials per block
+    gui_blocks - number of blocks
+"""
 def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
+
     from psychopy import logging, core, visual, sound
-    # interTime = interTime  # take from parameters
-    # StimOnset = StimOnset
-    # faces = faces
-    # stimulusType = stimulusType
     win = visual.Window(fullscr=True, autoLog=False)
 
-    ###########################################################
-    # save to "EXP_{date}" directory
     markers_dir = exp_path + markers_psycho_folder_path
     os.makedirs(markers_dir, exist_ok=True)
-    ###########################################################
 
     fileName = markers_dir + "/" + markers_psycho_file_name
     logfile = open(fileName, 'w')
@@ -52,12 +53,8 @@ def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
         baseline = 0
         target, distractor = random.sample(range(1, 3), 2)
 
-        # sounds
-        # baseline_sound = sound.Sound('A', octave=5, sampleRate=44100, secs=0.1, bits=8)
-        # target_sound = sound.Sound('B', octave=6, sampleRate=44100, secs=0.1, bits=8)
-        # distractor_sound = sound.Sound('C', octave=7, sampleRate=44100, secs=0.1, bits=8)
 
-        # baseline_sound = sound.Sound(sounds[baseline])
+        # baseline_sound = sound.Sound(sounds[baseline])  -  activate if a sound for baseline is wanted
         target_sound = sound.Sound(sounds[target])
         distractor_sound = sound.Sound(sounds[distractor])
 

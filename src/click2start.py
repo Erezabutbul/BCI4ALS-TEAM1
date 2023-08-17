@@ -1,7 +1,4 @@
 import multiprocessing
-# import os
-# with contextlib.redirect_stdout(None):
-    # import pygame
 from datetime import datetime
 from lsl_Record_data import main as lsl_main
 from GUI import showExperiment
@@ -13,14 +10,16 @@ from parameters import *
 from starting_gui import main as startingGui
 import os
 
+
+"""
+create file folder according to the given mode
+"""
 def createFile(mode):
 
     # if output_files doesn't exist - create it
     os.makedirs(output_files, exist_ok=True)
-
     # date & time
     date = datetime.now().strftime("%d_%m_%Y at %I_%M_%S_%p")
-
     # Create the "EXP_{date}" directory
     if mode == "TRAIN":
         exp_dir = f"output_files/EXP_{date}/"
@@ -31,8 +30,16 @@ def createFile(mode):
     os.makedirs(exp_dir, exist_ok=True)
     return exp_dir
 
-
+"""
+1. takes arguments from user (mode, num of trials, num of blocks)
+2. starts lsl stream
+3. starts gui 
+4. arranging markers
+5. pre processing
+6. trains model / shows prediction (according to mode)
+"""
 def main():
+    
     # show starting gui. choose the parameters.
     params = []
     startingGui(params)

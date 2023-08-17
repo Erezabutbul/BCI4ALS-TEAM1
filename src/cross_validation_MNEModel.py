@@ -62,8 +62,8 @@ def concatFeatures(condition_set_path):
 def positivityFeature(path_to_exp):
     path_to_exp += "/"
     # need to consider a way to add it externally to the model
-    con1_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "target_epochs.fif")
-    con2_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "distractor_epochs.fif")
+    con1_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "target_epochs-epo.fif")
+    con2_epochs = mne.read_epochs(path_to_exp + filtered_EEG_folder_path + "distractor_epochs-epo.fif")
 
     AVG_con1 = con1_epochs.average()
     AVG_con2 = con2_epochs.average()

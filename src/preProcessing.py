@@ -213,8 +213,8 @@ def main(exp_path):
     os.makedirs(filtered_EEG_dir, exist_ok=True)
     #########################################################
     filtered_eeg_df.to_csv(filtered_EEG_dir + Filtered_EEG_file_name, index=False)
-    epoch_target.save(filtered_EEG_dir + "target_epochs.fif", overwrite=True)
-    epoch_distractor.save(filtered_EEG_dir + "distractor_epochs.fif", overwrite=True)
+    epoch_target.save(filtered_EEG_dir + "target_epochs-epo.fif", overwrite=True)
+    epoch_distractor.save(filtered_EEG_dir + "distractor_epochs-epo.fif", overwrite=True)
     return epoch_target, epoch_distractor, epoch_baseLine, epoch_target_df, epoch_distractor_df, epoch_baseLine_df
 
 if __name__ == '__main__':

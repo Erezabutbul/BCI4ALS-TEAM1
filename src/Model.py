@@ -20,14 +20,22 @@ from tkinter import filedialog
 from parameters import *
 from Vote import main as vote
 
+
+"""
+get all the experiment folders
+"""
 def getEXPFoldersList(main_folder):
-    # get all the experiment folders
+
     exp_folders = [f for f in os.listdir(main_folder) if
                    os.path.isdir(os.path.join(main_folder, f)) and f.startswith('EXP')]
     return exp_folders
 
 
-
+"""
+concat the features according to the experiments
+args:
+    condition_set_path - list of experiments 
+"""
 def concatFeatures(condition_set_path):
     listOfEXP = condition_set_path
     if type(listOfEXP) == str:
@@ -58,7 +66,12 @@ def concatFeatures(condition_set_path):
 
     return outputDf_features, outputDf_labels, endOfcon1
 
-
+"""
+TRAIN mode:
+    trains models and saves them
+TEST mode:
+    asks to choose a model to predict from, and predicts
+"""
 def main(gui_mode , exp_path=None):
     if gui_mode == "TRAIN":
 
@@ -82,11 +95,16 @@ def main(gui_mode , exp_path=None):
         # load "featuresMatrix.csv" and "labels.csv"
         model_exp_path = output_files + featuresAndModel_folder_name + train_features_folder_name
         X = outputDf_features
+        X = X.dropna(axis=1)
+
         y = outputDf_labels
+        y = y.values.ravel()
+        print(type(X))
 
         # separate to training and learning sets: X is the data by feature, y is the class vector(target, distractor, baseline)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=100)
-
+        X_train = X_train.dropna(axis=1)
+        print(type(X_train))
         # SVC (sklearn Support Vector Classification)
         model = LinearSVC()
         model.fit(X_train, y_train)
