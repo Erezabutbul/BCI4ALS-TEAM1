@@ -7,9 +7,26 @@ import random
 import keyboard
 from shutil import move
 
+"""
+GUI.py - Script for presenting visual and auditory stimuli during the experiment.
+
+This script utilizes the Psychopy library to create a graphical user interface for presenting stimuli
+during the EEG experiment. It displays images and plays sounds according to the experiment's conditions.
+
+Usage:
+    Run the script directly to present stimuli during the experiment.
+
+"""
 
 class Timer:
     def getTime(self):
+        """
+        Get the current local clock time.
+        synchronize with lsl_Record_data.py.
+        Returns:
+            float: Current local clock time.
+
+        """
         return pylsl.local_clock()
 
 """
@@ -23,6 +40,23 @@ args:
 def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
 
     from psychopy import logging, core, visual, sound
+<<<<<<< HEAD
+=======
+    """
+    Show experiment stimuli using the Psychopy library.
+
+    Args:
+        exp_path (str): Path to the experiment directory.
+        keepRunning (multiprocessing.Value): Value indicating whether the experiment should continue running.
+        gui_mode (str): Experiment mode (TRAIN or TEST).
+        gui_trials (int): Number of trials.
+        gui_blocks (int): Number of blocks.
+
+    Returns:
+        None
+
+    """
+>>>>>>> de28c9e0c2cbc7ac277595341334410e218dbd90
     win = visual.Window(fullscr=True, autoLog=False)
 
     markers_dir = exp_path + markers_psycho_folder_path
@@ -138,8 +172,6 @@ def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
     logfile.close()
     # end the recording
     keepRunning.value = False
-    # win.close()
-    # core.quit()
 
 
 if __name__ == '__main__':

@@ -1,8 +1,18 @@
 from parameters import *
 
 """
+<<<<<<< HEAD
 purse the psychopy output file into a readable csv file
 """
+=======
+Parse psychopy output markers into a readable CSV file.
+
+This script parses the output markers from a psychopy experiment file and creates a readable CSV file
+containing the timestamps and descriptions of the markers.
+
+"""
+# purse the psychopy output file into a readable csv file
+>>>>>>> de28c9e0c2cbc7ac277595341334410e218dbd90
 def main(exp_path):
     completePath = exp_path + markers_psycho_folder_path + markers_psycho_file_name
     ex = pd.read_csv(completePath)

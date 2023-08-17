@@ -21,74 +21,30 @@
   <a href="https://github.com/Erezabutbul/BCI4ALS-TEAM1">
     <img src="images/logo.png" alt="Logo" width="360" height="360">
   </a>
-
-  <h3 align="center">BCI - 4 - ALS</h3>
-
-  <p align="center">
-    A BCI Classification project
-    <br />
-    <a href="https://github.com/evyatarluv/BCI-4-ALS/blob/master/Project%20Report.pdf"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/evyatarluv/BCI-4-ALS">View Demo</a>
-    ·
-    <a href="https://github.com/evyatarluv/BCI-4-ALS">Report Bug</a>
-    ·
-    <a href="https://github.com/evyatarluv/BCI-4-ALS">Request Feature</a>
-  </p>
+ 
 </p>
-
-
-
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
-
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+In the previous years of the course, other paradigms were used together with the BCI system, paradigms more active than the P300. Although, for our mentor the main need has always been communication. The need to communicate even in the later stages of the disease was the main motivation for our current product - a BCI system for predicting yes or no answers.
 
-BCI's measure brain activity, process it, and produce control signals that reflect
-the user's intent. We aim to detect and classify patterns of activity in the
-ongoing brain signals that are associated with specific tasks or events.
+The P300 paradigm can be constructed from one, two or three stimuli. Because we wanted the ability to distinguish between answering yes and no questions, we used a three-stimulus paradigm. So that one stimulus will be the base, and the other two stimuli will help distinguish between yes and no.
 
-A common mental strategy is called motor imagery. In our implementation,
-we aim to tell if the users are thinking of moving your left hand, right hand, or not moving (idle).
+After the meeting with the mentor, it was decided to change the stimuli to pictures of their pets. They also expressed to us the difficulty of concentrating for a long time on the screen and requested that there be additional non-visual stimulation. Therefore, we added an auditory stimulus that matches the visual stimuli (dog and cat sounds for the different targets, when the baseline is soundless).
 
-<img src="images/arrows.png" alt="Possible Labels = {Left, Right, Idle}">
+Now the interface is adapted to the parameters of our mentor, when the stimuli appear on a blank screen and a sound is heard for each purpose. In the training mode, the target is shown on the screen of each block, and in the test mode, the stimulus on which one should focus on corresponds to each answer (yes/no). At the end of the test mode, the received answer is printed.
+
+<img src="images/petPictures.png" alt="Possible Labels = {chuckcha, chohava, unknown}">
 
 
 
 ### Built With
 
-* [psychopy](https://www.psychopy.org/)
-* [MNE-features](https://mne.tools/mne-features)
-* [Keras](https://keras.io/)
+* [PsychoPy](https://www.psychopy.org/)
+* [MNE](https://mne.tools/stable/overview/index.html)
+* [SciPy](https://docs.scipy.org/doc/scipy/)
 * [scikit-learn](https://scikit-learn.org/)
 
 
@@ -143,13 +99,13 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Erez abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
+Erez Abutbul - [abuerez@post.bgu.ac.il ](mailto:abuerez@post.bgu.ac.il )
 
 Nadav Dvir - [nadavdv@post.bgu.ac.il](mailto:nadavdv@post.bgu.ac.il)
 
-Nofar yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
+Nofar Yarimi - [nofarya@post.bgu.ac.il](mailto:nofarya@post.bgu.ac.il)
 
-Eden or - [edenzo@post.bgu.ac.il](edenzo@post.bgu.ac.il)
+Eden Or - [edeo@post.bgu.ac.il](edeo@post.bgu.ac.il)
 
 
 Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/Erezabutbul/BCI4ALS-TEAM1)
@@ -159,8 +115,12 @@ Project Link: [https://github.com/Erezabutbul/BCI4ALS-TEAM1](https://github.com/
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
+Thank you to our mentor for keeping us motivated and for being a crucial part of our team, in all aspects. 
+Another thank you to the BCI4ALS course staff for the on-going help and support.
 
-
+<p align="center">
+  <img src="images/brain_gif.gif" alt="Possible Labels = {good, brain}">
+</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->

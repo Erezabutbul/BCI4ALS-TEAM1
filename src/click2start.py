@@ -12,10 +12,33 @@ import os
 
 
 """
+click2start.py - Script to initiate and control the experimental pipeline.
+
+This script orchestrates the execution of various modules and functions involved in
+the experimental pipeline, including data recording, presentation of experiments,
+data preprocessing, feature extraction, and model training/testing.
+
+Usage:
+    Run the script directly to start the experimental pipeline.
+
+"""
+
+
+
+"""
 create file folder according to the given mode
 """
 def createFile(mode):
+    """
+    Create a new experiment directory and return its path.
 
+    Args:
+        mode (str): Mode of operation ("TRAIN" or "TEST").
+
+    Returns:
+        str: Path to the newly created experiment directory.
+
+    """
     # if output_files doesn't exist - create it
     os.makedirs(output_files, exist_ok=True)
     # date & time
@@ -40,6 +63,17 @@ def createFile(mode):
 """
 def main():
     
+    """
+    Main function to initiate the experimental pipeline.
+
+    This function initializes the pipeline, including data recording, experiment presentation,
+    data preprocessing, feature extraction, and model training/testing.
+
+    Returns:
+        None
+
+    """
+
     # show starting gui. choose the parameters.
     params = []
     startingGui(params)

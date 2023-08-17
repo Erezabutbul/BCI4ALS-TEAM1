@@ -3,8 +3,28 @@
 from parameters import *
 
 
+"""
+Vote.py - Voting and decision-making functions based on EEG predictions.
+
+This script defines functions for making decisions based on EEG predictions using voting methods. It includes functions
+for voting based on a majority of ones, probabilistic voting, and calculating average percentage.
+
+"""
 
 def voteONES(firstTrial, lastTrial, test_predicted):
+    """
+    Perform voting based on the majority of ones in the predicted outcomes.
+
+    Args:
+        firstTrial (int): Index of the first trial.
+        lastTrial (int): Index of the last trial.
+        test_predicted (numpy.ndarray): Predicted outcomes of the trials.
+
+    Returns:
+        float: Percentage of ones (target prediction) in the voted outcomes.
+        list: List of voted outcomes (0 or 1).
+
+    """
     voting_zeros = list()  # Initialize an empty list to store voting results
     voting_ones = list()  # Initialize an empty list to store voting results
     voting_results = list()
@@ -53,6 +73,21 @@ def voteONES(firstTrial, lastTrial, test_predicted):
 
 
 def probaVote(firstTrial, lastTrial, test_predicted):
+    """
+    Perform probabilistic voting based on the predicted outcomes' probabilities.
+
+    Args:
+        firstTrial (int): Index of the first trial.
+        lastTrial (int): Index of the last trial.
+        test_predicted (numpy.ndarray): Predicted outcomes of the trials.
+
+    Returns:
+        list: List of voted target probabilities.
+        list: List of voted distractor probabilities.
+        list: List of voted outcomes (0 or 1).
+        float: Percentage of target predictions.
+
+    """
     voting_proba_TARGET_results = list()
     voting_proba_DISTRACTOR_results = list()
     voting_results_vec = list()
@@ -92,6 +127,16 @@ def probaVote(firstTrial, lastTrial, test_predicted):
 
 
 def calculate_average_percentage(voting_result):
+    """
+    Calculate the average percentage of a voting result.
+
+    Args:
+        voting_result (list): List of voting results (0 or 1).
+
+    Returns:
+        float: Average percentage of target predictions.
+
+    """
     if len(voting_result) == 0:
         return 0
     else:
@@ -101,14 +146,23 @@ def calculate_average_percentage(voting_result):
 #           "None mode": when using vote for cross validation purpose
 def main(prediction, endOfCondition1, exp_path=None, state=None):
 
-    # condition_1_voting_proba_result, condition_1_voting_results_vec, precentageTOBETarget_condition1 = probaVote(0, endOfCondition1, prediction)  # correlates to target
-    # condition_2_voting_proba_result, condition_2_voting_results_vec, precentageTOBETarget_condition2 = probaVote(endOfCondition1, len(prediction), prediction)  # correlates to distractor
+    """
+    Main function for making decisions based on EEG predictions.
+
+    Args:
+        prediction (numpy.ndarray): Predicted outcomes of all trials.
+        endOfCondition1 (int): Index of the last trial of condition 1.
+
+    Returns:
+        float: Average percentage of target predictions for condition 1.
+        float: Average percentage of target predictions for condition 2.
+        list: List of voted outcomes for condition 1 (0 or 1).
+        list: List of voted outcomes for condition 2 (0 or 1).
+
+    """
+
     condition_1_voting_TARGET_proba_result, condition_1_voting_DISTRACTOR_proba_result, condition_1_voting_results_vec, precentageTOBETarget_condition1 = probaVote(0, endOfCondition1, prediction)  # correlates to target
     condition_2_voting_TARGET_proba_result, condition_2_voting_DISTRACTOR_proba_result, condition_2_voting_results_vec, precentageTOBETarget_condition2 = probaVote(endOfCondition1, len(prediction), prediction)  # correlates to distractor
-
-
-    # condition_1_AVG_proba_precentage = sum(condition_1_voting_proba_result) / len(condition_1_voting_proba_result)
-    # condition_2_AVG_proba_precentage = sum(condition_2_voting_proba_result) / len(condition_2_voting_proba_result)
 
     print("condition_1_voting_TARGET_proba_result", condition_1_voting_TARGET_proba_result)
     print("condition_1_voting_DISTRACTOR_proba_result", condition_1_voting_DISTRACTOR_proba_result)
@@ -125,29 +179,9 @@ def main(prediction, endOfCondition1, exp_path=None, state=None):
     print("condition_2_AVG_TARGET_proba_precentage", condition_2_AVG_TARGET_proba_precentage)
     print("condition_2_AVG_DISTRACTOR_proba_precentage", condition_2_AVG_DISTRACTOR_proba_precentage)
 
-    condition_1_AVG_proba_precentage = condition_1_AVG_TARGET_proba_precentage - condition_1_AVG_DISTRACTOR_proba_precentage
-    condition_2_AVG_proba_precentage = condition_2_AVG_TARGET_proba_precentage - condition_2_AVG_DISTRACTOR_proba_precentage
+    # condition_1_AVG_proba_precentage = condition_1_AVG_TARGET_proba_precentage - condition_1_AVG_DISTRACTOR_proba_precentage # for testing
+    # condition_2_AVG_proba_precentage = condition_2_AVG_TARGET_proba_precentage - condition_2_AVG_DISTRACTOR_proba_precentage # for testing
     return condition_1_AVG_TARGET_proba_precentage, condition_2_AVG_TARGET_proba_precentage, condition_1_voting_results_vec, condition_2_voting_results_vec
-
-
-
-    # if state is not None:
-    #     file = open(exp_path + "/pics_allocation.txt", "r")
-    #     lines_list = file.readlines()
-    #     # TODO - sanity check with nadav
-    #     cond2num = {1: lines_list[1], 0: lines_list[3]}
-    #     print("The selected is: ")
-    #     if condition_1_AVG_proba_precentage > condition_2_AVG_proba_precentage:
-    #         print("prediction is ", cond2num[1])
-    #         print("which means: YES")
-    #         print("precentage of confidence: ", condition_1_AVG_proba_precentage)
-    #     elif condition_1_AVG_proba_precentage < condition_2_AVG_proba_precentage:
-    #         print("prediction is ", cond2num[0])
-    #         print("which means: NO")
-    #         print("precentage of confidence: ", condition_2_AVG_proba_precentage)
-    #
-    # else:
-    #     return condition_1_AVG_proba_precentage, condition_2_AVG_proba_precentage, condition_1_voting_results_vec, condition_2_voting_results_vec
 
 
 
