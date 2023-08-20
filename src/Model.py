@@ -29,11 +29,6 @@ def getEXPFoldersList(main_folder):
     return exp_folders
 
 
-"""
-concat the features according to the experiments
-args:
-    condition_set_path - list of experiments 
-"""
 def concatFeatures(condition_set_path):
     """
     Concatenate features and labels from multiple experiment folders.
@@ -76,12 +71,7 @@ def concatFeatures(condition_set_path):
 
     return outputDf_features, outputDf_labels, endOfcon1
 
-"""
-TRAIN mode:
-    trains models and saves them
-TEST mode:
-    asks to choose a model to predict from, and predicts
-"""
+
 def main(gui_mode , exp_path=None):
     """
     Main function for model training and testing.

@@ -29,19 +29,10 @@ class Timer:
         """
         return pylsl.local_clock()
 
-"""
-shows experiment
-args:
-    keepRunning - boolian that changes to false after GUI finishes to indicate the lsl stream to stop
-    gui_mode - TRAIN or TEST
-    gui_trials - number of trials per block
-    gui_blocks - number of blocks
-"""
 def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
 
     from psychopy import logging, core, visual, sound
-<<<<<<< HEAD
-=======
+
     """
     Show experiment stimuli using the Psychopy library.
 
@@ -56,7 +47,6 @@ def showExperiment(exp_path, keepRunning, gui_mode, gui_trials, gui_blocks):
         None
 
     """
->>>>>>> de28c9e0c2cbc7ac277595341334410e218dbd90
     win = visual.Window(fullscr=True, autoLog=False)
 
     markers_dir = exp_path + markers_psycho_folder_path

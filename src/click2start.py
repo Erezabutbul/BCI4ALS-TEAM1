@@ -24,10 +24,6 @@ Usage:
 """
 
 
-
-"""
-create file folder according to the given mode
-"""
 def createFile(mode):
     """
     Create a new experiment directory and return its path.
@@ -53,14 +49,7 @@ def createFile(mode):
     os.makedirs(exp_dir, exist_ok=True)
     return exp_dir
 
-"""
-1. takes arguments from user (mode, num of trials, num of blocks)
-2. starts lsl stream
-3. starts gui 
-4. arranging markers
-5. pre processing
-6. trains model / shows prediction (according to mode)
-"""
+
 def main():
     
     """
