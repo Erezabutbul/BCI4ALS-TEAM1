@@ -234,7 +234,7 @@ def main(exp_path):
     annotations = set_annotations_from_event_table(event_table, filtered_data_eeg, offset)
     filtered_data_eeg.set_annotations(annotations)
     epochs = create_epoch(filtered_data_eeg, durationBeforeStimuli, durationAfterStimuli, baseline_min, baseline_max)
-    # epochs.drop_bad(reject=reject_criteria)
+    epochs.drop_bad(reject=reject_criteria)
 
     # find bad channel automatically by mark them as bad for percentage drop of above x percent
     my_tuple = epochs.drop_log
@@ -254,7 +254,7 @@ def main(exp_path):
 
     # redo epoches
     epochs = create_epoch(filtered_data_eeg, durationBeforeStimuli, durationAfterStimuli, baseline_min, baseline_max)
-    # epochs.drop_bad(reject=reject_criteria)
+    epochs.drop_bad(reject=reject_criteria)
 
     # save the filtered file in the original form
     filtered_eeg_df = filtered_data_eeg.to_data_frame()
